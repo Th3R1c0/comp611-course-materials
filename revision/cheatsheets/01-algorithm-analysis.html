@@ -67,7 +67,7 @@ a { color: var(--accent); }
 </style>
 <div class="wrap">
 <header>
-  <div class="eyebrow">COMP611 cheatsheet · Week 1 · version 4</div>
+  <div class="eyebrow">COMP611 cheatsheet · Week 1 · version 5</div>
   <h1>Algorithm analysis &amp; growth rates</h1>
   <div class="meta"><span class="pill">5 exam questions</span><span class="pill">12 marks</span><span class="pill">6 topics, same as the practice questions</span></div>
   <div class="modes" role="radiogroup" aria-label="View">
@@ -77,7 +77,7 @@ a { color: var(--accent); }
   </div>
   <p class="how" id="modeHelp"></p>
   <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
-  <div class="vers"><span>Older versions:</span><a href="https://claude.ai/artifact/VM9RLwExehawNbWTNKuRj1" target="_blank" rel="noopener">Version 3</a><a href="https://claude.ai/artifact/FGxRNgwQuBN8KkzEpEf2gY" target="_blank" rel="noopener">Version 2 (expandable, shorthand)</a><span>Version 1 (plain text) is in the repo at revision/cheatsheets/versions/</span></div>
+  <div class="vers"><span>Older versions:</span><a href="https://claude.ai/artifact/XKCWmvyzaWshiSg58eSESH" target="_blank" rel="noopener">Version 4</a><a href="https://claude.ai/artifact/VM9RLwExehawNbWTNKuRj1" target="_blank" rel="noopener">Version 3</a><a href="https://claude.ai/artifact/FGxRNgwQuBN8KkzEpEf2gY" target="_blank" rel="noopener">Version 2 (expandable, shorthand)</a><span>Version 1 (plain text) is in the repo at revision/cheatsheets/versions/</span></div>
 </header>
 <div class="topic">Start here: words and symbols</div>
 <section id="AA-0"><h2><span class="id">[AA-0]</span> Glossary: every word used on this sheet</h2>
@@ -169,22 +169,22 @@ a { color: var(--accent); }
 <div class="topic">Topic 4 · Growth order and timing tables</div>
 <section id="AA-10"><h2><span class="id">[AA-10]</span> Growth order, slowest to fastest</h2>
 <details open><summary>1 &lt; log n &lt; n &lt; n log n &lt; n² &lt; n³ &lt; 2ⁿ &lt; n!</summary><div class="plain"><p>For n = 1,000: log n ≈ 10, n log n ≈ 10,000, n² = 1,000,000, n³ = 1,000,000,000, and 2ⁿ is too big to write. n! ("n factorial") is 1 × 2 × 3 × … × n.</p></div></details>
-<details open><summary>For very large n, the faster-growing rate always wins, whatever numbers are in front.</summary><div class="plain"><p>0.001n² eventually takes more steps than 100 n log n, even though 0.001 is tiny. That's why we compare growth rates, not constants.</p></div></details>
+<details open><summary><b>"Which is faster for very large n?"</b> Cross out the numbers in front, find both on the growth order, and the one further <b>left</b> (slower growing) takes fewer steps.</summary><div class="plain"><p>A = 0.001n² vs B = 100 n log n → n² vs n log n. n log n is further left, so <b>B</b> takes fewer steps for big n, even though 100 looks bigger than 0.001. The numbers only matter for small n.</p></div></details>
 </section>
 <section id="AA-11"><h2><span class="id">[AA-11]</span> Reading a timing table</h2>
-<details open><summary>When n doubles, divide each time by the one before. A ratio of <b>about 1 → log n, 2 → n, a bit over 2 → n log n, 4 → n², 8 → n³</b>.</summary><div class="plain"><p>Why: if work is n², doubling n gives (2n)² = 4 × n², so 4 times as long. For n³ it's 2 × 2 × 2 = 8.</p></div></details>
-<details open><summary>For log n, doubling n only <b>adds</b> a small fixed amount of time.</summary><div class="plain"><p>Doubling n adds just one more halving. So 1.0 s → 1.1 s → 1.2 s is log n.</p></div></details>
-<details open><summary>When n is multiplied by k, an n² algorithm takes k × k times as long, and an n³ algorithm takes k × k × k times as long.</summary><div class="plain"><p>n² taking 2 s at n = 1,000 takes 2 × 3 × 3 = 18 s at n = 3,000.</p></div></details>
+<details open><summary><b>Step 1:</b> check the n values double (500 → 1,000 → 2,000). <b>Step 2:</b> divide each <b>time</b> by the time before it. <b>Do not divide the n values.</b></summary><div class="plain"><p>Dividing the n values (1,000 ÷ 500 = 2) only confirms that n doubled. The answer is in the <b>times</b>: 2 s, 16 s, 128 s → 16 ÷ 2 = 8, 128 ÷ 16 = 8.</p></div></details>
+<details open><summary><b>Step 3:</b> match the time ratio. <b>About 1 (adds a little) → log n · 2 → n · a bit over 2 → n log n · 4 → n² · 8 → n³</b>.</summary><div class="plain"><p><b>Why:</b> if work is n², doubling n gives 2 × 2 = 4 times the work. For n³ it's 2 × 2 × 2 = 8. So a ratio of 8 means n³.</p></div></details>
+<details open><summary>For log n, doubling n only <b>adds</b> a small fixed amount: 1.0 s → 1.1 s → 1.2 s.</summary><div class="plain"><p>Doubling n adds just one more halving step.</p></div></details>
+<details open><summary><b>"n gets k times bigger. How long now?"</b> k = new n ÷ old n. Then <b>look at the brackets</b>: multiply the time by <b>k for n, k × k for n², k × k × k for n³</b>.</summary><div class="plain"><p>Θ(n²) takes 1 s at n = 10,000. At 30,000: k = 3, and it's n², so 3 × 3 = 9, giving <b>9 s</b>. (3 s would only be right for Θ(n).)</p></div></details>
 <details open><summary>For 2ⁿ, adding just 1 to n doubles the time.</summary><div class="plain"><p>That's why exponential algorithms become hopeless so quickly.</p></div></details>
 </section>
 <div class="topic">Topic 5 · Counting steps from pseudocode</div>
 <section id="AA-12"><h2><span class="id">[AA-12]</span> How to count</h2>
-<details open><summary>Find the line inside the deepest loop, count how many times it runs, then simplify with [AA-7].</summary><div class="plain"><p>That line runs most often, so it decides the growth rate.</p></div></details>
-<details open><summary><span class=m>for i = 1 to n</span> repeats its body n times. Its header line (the test) runs n + 1 times, because it checks one extra time to stop.</summary><div class="plain"><p>Only matters when a question asks for an exact count and states this convention.</p></div></details>
-<details open><summary>A loop inside a loop multiplies: two loops each to n give n × n = n² runs. Three give n³.</summary><div class="plain"><p>For each of the n outer turns, the inner loop does all n of its turns.</p></div></details>
-<details open><summary>If the inner loop starts after the outer one (<span class=m>for j = i + 1 to n</span>), the inner line runs n(n − 1)/2 times, which is still Θ(n²).</summary><div class="plain"><p>It checks each pair once. For n = 5: 4 + 3 + 2 + 1 = 10, and 5 × 4 ÷ 2 = 10. It's half of n², and halving doesn't change the growth rate.</p></div></details>
-<details open><summary>A loop that halves something (<span class=m>i = i / 2</span>) or doubles it (<span class=m>j = j * 2</span>) runs log n times.</summary><div class="plain"><p>That's what log means ([AA-0s]). Put it inside a normal loop of n and the total is n × log n.</p></div></details>
-<details open><summary>Exact count: add up how many times each line runs.</summary><div class="plain"><p>Example: <span class=m>x = 0</span> (1) · <span class=m>for i = 1 to n</span> (n + 1) · <span class=m>x = x + i</span> (n) · <span class=m>return x</span> (1). Total = 2n + 3, which is Θ(n).</p></div></details>
+<details open><summary><span class=m>for i = 1 to n</span> means i takes the values <b>1, 2, 3, … up to n</b>, so the loop goes round <b>n times</b>.</summary><div class="plain"><p>"for i = 1 to 4" runs with i = 1, 2, 3, 4: four rounds.</p></div></details>
+<details open><summary><b>Counting lines:</b> a line <b>outside</b> every loop runs <b>1</b> time. A line <b>inside</b> the loop runs <b>n</b> times. The <b>for line itself</b> runs <b>n + 1</b> times.</summary><div class="plain"><p>The for line checks "is i still ≤ n?" before every round (n times) plus one extra time when the answer is no and it stops. You can tell a line is inside the loop because it's indented under it.</p></div></details>
+<details open><summary>Example: <span class=m>1 x = 0 · 2 for i = 1 to n · 3 &nbsp;&nbsp;x = x + A[i] · 4 return x</span> → 1 + (n + 1) + n + 1 = <b>2n + 3</b>, which is Θ(n).</summary><div class="plain"><p>Line 1 is outside (1), line 2 is the for line (n + 1), line 3 is inside (n), and line 4 is outside (1).</p></div></details>
+<details open><summary>For growth only, find the line inside the <b>deepest</b> loop and count how often it runs. <b>Nested</b> loops (one inside another) <b>multiply</b>. Loops one <b>after</b> another <b>add</b>.</summary><div class="plain"><p>Two separate loops to n: n + n = 2n, which is Θ(n). One loop to n inside another: n × n = Θ(n²).</p></div></details>
+<details open><summary><b>Pattern table</b>, matching the loop shape:<div class="tbl"><table><tr><th>Loop shape</th><th>Times</th><th>Growth</th></tr><tr><td><code>for i = 1 to n</code></td><td>n</td><td>Θ(n)</td></tr><tr><td><code>for i…n</code> with <code>for j = 1 to n</code> inside</td><td>n × n</td><td>Θ(n²)</td></tr><tr><td><code>for i…n</code> with <code>for j = i+1 to n</code> inside</td><td>n(n−1)/2</td><td>Θ(n²)</td></tr><tr><td><code>for i…n</code> with <code>for j = 1 to i</code> inside</td><td>n(n+1)/2</td><td>Θ(n²)</td></tr><tr><td>three nested loops to n</td><td>n × n × n</td><td>Θ(n³)</td></tr><tr><td><code>i = i / 2</code> or <code>j = j * 2</code> loop</td><td>log n</td><td>Θ(log n)</td></tr><tr><td>halving loop inside a loop to n</td><td>n × log n</td><td>Θ(n log n)</td></tr><tr><td>loop to n, then a separate loop to n</td><td>2n</td><td>Θ(n)</td></tr></table></div></summary><div class="plain"><p><span class=m>j = i + 1 to n</span> checks each pair once. For n = 5: 4 + 3 + 2 + 1 = 10, and 5 × 4 ÷ 2 = 10. Half of n² is still Θ(n²), because the number in front is dropped. A loop that halves runs log n times, because log n is how many halvings it takes to reach 1 ([AA-0s]).</p></div></details>
 <details open><summary>Shortcut: 1 + 2 + 3 + … + n = n(n + 1)/2.</summary><div class="plain"><p>Pair the first with the last: 1 + n, 2 + (n − 1), and so on. Each pair adds to n + 1, and there are n/2 pairs. 1 + … + 10 = 10 × 11 ÷ 2 = 55.</p></div></details>
 </section>
 <div class="topic">Topic 6 · Best and worst cases of known algorithms, and Fibonacci</div>
@@ -193,6 +193,7 @@ a { color: var(--accent); }
 <details open><summary><b>Insertion sort</b> takes each item and slides it left into place, like sorting cards in your hand.</summary><div class="plain"><p>Each slide of one item by one place is called a <b>shift</b>.</p></div></details>
 <details open><summary>Insertion sort best case: the list is already sorted, so there are 0 shifts, but it is still Θ(n), not Θ(1).</summary><div class="plain"><p>It still has to look at each of the n items once to check it's in place.</p></div></details>
 <details open><summary>Insertion sort worst case: the list is in reverse order, so there are 1 + 2 + … + (n − 1) = n(n − 1)/2 shifts, Θ(n²).</summary><div class="plain"><p>For a reversed list of 5: 4 × 5 ÷ 2 = 10 shifts.</p></div></details>
+<details open><summary>For any list, insertion sort's shifts = the number of pairs in the wrong order (a bigger number before a smaller one).</summary><div class="plain"><p>[3, 1, 2]: (3,1) wrong, (3,2) wrong, (1,2) fine, so 2 shifts.</p></div></details>
 <details open><summary><b>Merge sort</b> is Θ(n log n) on every input, so its best and worst cases are the same.</summary><div class="plain"><p>It always splits and merges in exactly the same way, so the order of the input doesn't matter.</p></div></details>
 <details open><summary><b>Binary search</b> needs a sorted list. It looks at the middle and throws away the half that can't contain the target. Worst case Θ(log n).</summary><div class="plain"><p>Halving each time means log n steps ([AA-0s]).</p></div></details>
 <details open><summary>If a loop can <b>stop early</b> (an early return), there's no single Θ for all inputs. Say O(worst) and Ω(best).</summary><div class="plain"><p>The time then depends on the actual values, not just n. Without the early return the loop always runs to the end and one Θ works.</p></div></details>
@@ -202,7 +203,7 @@ a { color: var(--accent); }
 <details open><summary>Naive recursion is <b>exponential</b> (about 1.618ⁿ, written O(2ⁿ)) because it recalculates the same smaller numbers again and again.</summary><div class="plain"><p>Recursion itself isn't the problem. Binary search is recursive and only takes log n steps.</p></div></details>
 <details open><summary>Storing answers (<b>memoisation</b>) or using a simple loop takes O(n). Matrix exponentiation takes O(log n).</summary><div class="plain"><p>Memoisation means writing each answer down the first time so you never work it out twice.</p></div></details>
 </section>
-<footer>Sources: Lecture 1B Asymptotic Analysis (Week 1), Week 1 Lab solutions. Version 4, 2 November 2026: topic 2 and 3 rewritten after recap 1–3.</footer>
+<footer>Sources: Lecture 1B Asymptotic Analysis (Week 1), Week 1 Lab solutions. Version 5, 2 November 2026: topics 4 and 5 rewritten after practice (v4 rewrote topics 2 and 3).</footer>
 </div>
 <script>
 const help = {

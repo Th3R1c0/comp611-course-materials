@@ -47,3 +47,10 @@ Weakest: topic 3 recall. Redo R2.2, R3.1, R3.3, R3.4 before topic 4.
 | 5.3 | correct (log n) | – |
 | 5.5 | didn't know how to count lines | concept: inside loop = n, outside = 1, header = n+1 |
 | 5.1, 5.4 | skipped | – |
+
+### Sheet edits after topics 4–5 practice → version 5
+- [AA-10] added "which is faster for very large n" steps (fixes 4.5).
+- [AA-11] rewritten: divide the TIMES not the n values (fixes 4.2); "n gets k times bigger" uses the growth in the brackets: ×k, ×k², ×k³ (fixes 4.3).
+- [AA-12] rewritten: what "for i = 1 to n" means; outside = 1, inside = n, for line = n + 1 (fixes 5.5); nested multiply / sequential add; pattern table on the sheet line itself (fixes 5.2).
+- [AA-13] added insertion sort shifts = pairs in the wrong order.
+- v4 kept at revision/cheatsheets/versions/01-algorithm-analysis-v4.html.
