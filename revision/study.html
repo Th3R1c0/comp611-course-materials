@@ -41,6 +41,10 @@ main.vertical{flex-direction:column}
 .phead{display:flex;align-items:center;gap:4px;padding:4px 8px;border-bottom:1px solid var(--line);background:var(--side);flex-wrap:wrap}
 .phead select{flex:1;min-width:120px;font-weight:500}
 .kinds{display:flex;gap:2px}
+.etools{display:flex;align-items:center;gap:2px;padding:3px 8px;border-bottom:1px solid var(--line);background:var(--amber-soft);flex-wrap:wrap}
+.etools.hidden{display:none}
+.estatus{font-size:12px;color:var(--muted);margin-right:6px}
+.estatus.dirty{color:var(--red)}
 .zoom{font-variant-numeric:tabular-nums;color:var(--faint);font-size:12px;min-width:38px;text-align:center}
 .frame-wrap{flex:1;position:relative;min-height:0}
 iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--bg)}
@@ -181,14 +185,31 @@ function renderPane(id){
       <button class="btn" data-z="-10" title="Smaller text">A−</button>
       <span class="zoom">${st.zoom}%</span>
       <button class="btn" data-z="10" title="Bigger text">A+</button>
+      ${canEdit(st)?`<button class="btn ${st.edit?"on":""}" data-edit title="Edit this page (E)">✎ Edit</button>`:""}
       <button class="btn" data-open title="Open in new tab">↗</button>
     </div>
+    <div class="etools ${st.edit&&canEdit(st)?"":"hidden"}">
+      <button class="btn" data-cmd="bold" title="Bold (⌘B)"><b>B</b></button>
+      <button class="btn" data-cmd="italic" title="Italic (⌘I)"><i>I</i></button>
+      <button class="btn" data-line="add" title="Add a new line below the one you're in">＋ Line</button>
+      <button class="btn" data-line="dup" title="Duplicate the line you're in">⧉ Duplicate</button>
+      <button class="btn" data-line="del" title="Delete the line you're in">− Line</button>
+      <button class="btn" data-cmd="undo" title="Undo (⌘Z)">↶</button>
+      <button class="btn" data-cmd="redo" title="Redo (⇧⌘Z)">↷</button>
+      <span class="grow"></span>
+      <span class="estatus"></span>
+      <button class="btn" data-save title="Save (⌘S)">Save</button>
+    </div>
     <div class="frame-wrap">${st.src ? `<iframe title="${id}" src="${st.src}"></iframe>` : `<div class="empty">Nothing of this type for Week ${S.week} yet.</div>`}</div>`;
-  el.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{ if(b.disabled) return; st.kind=b.dataset.k; st.src=null; save(); renderPane(id); });
-  el.querySelector("select").onchange = e=>{ st.src = e.target.value; save(); renderPane(id); };
+  el.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{ if(b.disabled||!confirmLeave(id)) return; st.kind=b.dataset.k; st.src=null; save(); renderPane(id); });
+  el.querySelector("select").onchange = e=>{ if(!confirmLeave(id)){ e.target.value=st.src; return; } st.src = e.target.value; save(); renderPane(id); };
+  const eb=el.querySelector("[data-edit]"); if(eb) eb.onclick = ()=>toggleEdit(id);
+  el.querySelectorAll("[data-cmd]").forEach(b=>b.onmousedown=e=>{ e.preventDefault(); const d=doc(id); if(d){ d.execCommand(b.dataset.cmd); markDirty(id); } });
+  el.querySelectorAll("[data-line]").forEach(b=>b.onmousedown=e=>{ e.preventDefault(); lineOp(id,b.dataset.line); });
+  el.querySelector("[data-save]").onclick = ()=>saveEdits(id);
   el.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{ st.zoom = Math.min(200, Math.max(50, st.zoom + +b.dataset.z)); save(); applyZoom(id); el.querySelector(".zoom").textContent = st.zoom+"%"; });
   el.querySelector("[data-open]").onclick = ()=>{ if(st.src) window.open(st.src, "_blank"); };
-  const f = el.querySelector("iframe"); if(f) f.onload = ()=>{ applyZoom(id); applyThemeTo(f); };
+  const f = el.querySelector("iframe"); if(f) f.onload = ()=>{ applyZoom(id); applyThemeTo(f); dirty[id]=false; if(st.edit&&canEdit(st)&&SERVED) startEdit(id); };
   applyZoom(id);
 }
 function applyZoom(id){
@@ -340,12 +361,86 @@ function setView(v){
 function renderAll(){ renderProgress(); if(document.body.classList.contains("v-review")) renderReview(); }
 $("vStudy").onclick=()=>setView("study"); $("vReview").onclick=()=>setView("review");
 
+
+/* ================= Edit mode ================= */
+const canEdit = st => (st.kind==="lesson"||st.kind==="cheatsheet") && !!st.src;
+const SERVED = location.protocol.startsWith("http");
+const dirty = {A:false,B:false};
+const doc = id => { const f=$("pane"+id).querySelector("iframe"); try{ return f && f.contentDocument; }catch(e){ return null; } };
+function setStatusText(id,t,cls){ const e=$("pane"+id).querySelector(".estatus"); if(e){ e.textContent=t; e.className="estatus "+(cls||""); } }
+function markDirty(id){ dirty[id]=true; setStatusText(id,"Unsaved changes","dirty"); }
+function confirmLeave(id){ return !dirty[id] || confirm("You have unsaved edits on this page. Leave without saving?"); }
+window.addEventListener("beforeunload", e=>{ if(dirty.A||dirty.B){ e.preventDefault(); e.returnValue=""; } });
+function toggleEdit(id){
+  if(!SERVED){ alert("To edit, open the Study Desk with the launcher:\n\nDouble-click “Study Desk.command” in the revision folder\n(or run: python3 revision/serve.py)\n\nIt opens at http://localhost:8611/study.html and saves your edits to the files."); return; }
+  const st=S[id];
+  if(st.edit && !confirmLeave(id)) return;
+  st.edit=!st.edit; save();
+  if(!st.edit && dirty[id]){ dirty[id]=false; }
+  renderPane(id);
+}
+function startEdit(id){
+  const d=doc(id); if(!d) return;
+  d.body.contentEditable="true"; d.body.spellcheck=true;
+  d.documentElement.setAttribute("data-sd-editing","");
+  const st=d.createElement("style"); st.id="sd-edit-style";
+  st.textContent="[data-sd-editing] body{outline:none} [data-sd-editing] *:focus{outline:none} [data-sd-editing] summary{cursor:text} [data-sd-editing] [data-sd-cur]{box-shadow:inset 3px 0 0 #e9b949}";
+  d.head.appendChild(st);
+  // don't collapse <details> while clicking to type in a summary
+  d.addEventListener("click", e=>{ if(e.target.closest("summary")) e.preventDefault(); }, true);
+  d.addEventListener("input", ()=>markDirty(id));
+  d.addEventListener("keydown", e=>{ if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="s"){ e.preventDefault(); saveEdits(id); } });
+  d.addEventListener("selectionchange", ()=>{ d.querySelectorAll("[data-sd-cur]").forEach(x=>x.removeAttribute("data-sd-cur")); const l=curLine(id); if(l) l.setAttribute("data-sd-cur",""); });
+  setStatusText(id,"Editing: click any text to change it");
+}
+const LINE_SEL="details,li,tr,p,h1,h2,h3,h4,pre,blockquote,section>div";
+function curLine(id){ const d=doc(id); if(!d) return null; const s=d.getSelection(); if(!s||!s.rangeCount) return null;
+  let n=s.anchorNode; if(n&&n.nodeType===3) n=n.parentElement; return n&&n.closest?n.closest(LINE_SEL):null; }
+function lineOp(id,op){
+  const d=doc(id), l=curLine(id); if(!d) return;
+  if(!l){ alert("Click inside a line first."); return; }
+  if(op==="del"){ if(confirm("Delete this line?")) l.remove(); }
+  else { const c=l.cloneNode(true); c.removeAttribute("data-sd-cur");
+    if(op==="add"){ // keep the structure (e.g. a cheatsheet row with its explanation), blank the text
+      const walk=d.createTreeWalker(c,NodeFilter.SHOW_TEXT); const ts=[]; while(walk.nextNode()) ts.push(walk.currentNode);
+      ts.forEach((t,i)=>{ if(t.textContent.trim()) t.textContent = i===ts.findIndex(x=>x.textContent.trim()) ? "New line" : ""; });
+      c.querySelectorAll("img,svg").forEach(x=>x.remove()); }
+    l.after(c);
+    const r=d.createRange(); r.selectNodeContents(c); const s=d.getSelection(); s.removeAllRanges(); s.addRange(r); }
+  markDirty(id);
+}
+async function saveEdits(id){
+  const d=doc(id), src=S[id].src; if(!d||!src) return;
+  const root=d.documentElement.cloneNode(true);
+  // drop anything a browser extension injected (e.g. dark-mode styles): keep only <head> nodes the file really has
+  try{ const orig=new DOMParser().parseFromString(await (await fetch(src,{cache:"no-store"})).text(),"text/html");
+    const keep=new Set([...orig.head.children].map(n=>n.outerHTML));
+    [...root.querySelector("head").children].forEach(n=>{ if(!keep.has(n.outerHTML)) n.remove(); });
+    const ob=new Set([...orig.body.children].map(n=>n.tagName+"#"+n.id));
+    [...root.querySelector("body").children].forEach(n=>{ if(n.id && !ob.has(n.tagName+"#"+n.id) && /dark|extension|grammarly|translate/i.test(n.id+n.className)) n.remove(); });
+  }catch(e){}
+  root.querySelectorAll('[id^="dark-mode"],[class*="darkreader"],grammarly-desktop-integration').forEach(x=>x.remove());
+  root.removeAttribute("data-sd-editing"); root.style.removeProperty("zoom"); if(!root.getAttribute("style")) root.removeAttribute("style");
+  if(S.theme!=="system"||root.getAttribute("data-theme")===S.theme) root.removeAttribute("data-theme");
+  root.querySelectorAll("#sd-edit-style").forEach(x=>x.remove());
+  root.querySelectorAll("[data-sd-cur]").forEach(x=>x.removeAttribute("data-sd-cur"));
+  const b=root.querySelector("body"); b.removeAttribute("contenteditable"); b.removeAttribute("spellcheck");
+  const html="<!doctype html>\n"+root.outerHTML;
+  setStatusText(id,"Saving…");
+  try{ const r=await fetch(src,{method:"PUT",headers:{"Content-Type":"text/html"},body:html});
+    if(!r.ok) throw new Error(r.status+" "+(await r.text()).slice(0,200));
+    dirty[id]=false; setStatusText(id,"Saved "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}));
+    const other=id==="A"?"B":"A"; if(S[other].src===src && !dirty[other]) renderPane(other);
+  }catch(e){ setStatusText(id,"Save failed","dirty"); alert("Couldn't save: "+e.message); }
+}
+
 /* ---- keyboard ---- */
 document.addEventListener("keydown", e=>{
   if(e.metaKey||e.ctrlKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
   const k=e.key.toLowerCase();
   if(k==="l") $("layoutBtn").click(); else if(k==="s") $("swapBtn").click();
   else if(k==="f") $("focusBtn").click(); else if(k==="t") $("themeBtn").click();
+  else if(k==="e"){ if(canEdit(S.A)) toggleEdit("A"); else if(canEdit(S.B)) toggleEdit("B"); }
   else if(k==="r") setView(document.body.classList.contains("v-review")?"study":"review");
 });
 
