@@ -20,6 +20,7 @@ Status: **applied in trial** = done by hand in the test thread, not yet written 
 | 13 | 2026-11-02 | **Stop and fix when the sheet fails**: pause the questions, fix the sheet, re-teach, then resume. | applied in trial |
 | 14 | 2026-11-02 | **Keep every previous version of each cheatsheet** so the student can go back (revision/cheatsheets/versions/, older HTML versions published separately). | applied in trial (v1, v2 kept) |
 | 15 | 2026-11-02 | **Three view modes built into the study sheet**: Paper (just the lines, like the printed exam sheet, to get used to no toggles), Everything shown (lines + explanations, no tapping), Tap to explain (toggles). Default: Paper. | applied in trial (Week 1 v3) |
+| 16 | 2026-11-02 | **Cumulative recap after every topic (mini spaced repetition)**: after finishing topic k, give new questions covering every question type from topics 1..k; student answers out loud, Claude corrects all, then move on. After the last topic, recap everything, then do everything once more to finish. | applied in trial (recap 1–3) |
 
 ## Suggested SKILL.md edits (draft)
 - Teach step: "Assume the student knows no mathematical notation unless they say otherwise. Introduce each symbol in plain words with a numeric example, and add a symbol-key entry at the top of each sheet."

@@ -1,0 +1,114 @@
+<title>Week 1 Recap 1-3</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+</style>
+<style>
+.q { border-top: 1px solid var(--rule); padding: 12px 0; display: flex; flex-direction: column; gap: 8px; }
+.q:first-of-type { border-top: 0; }
+.qn { font-family: var(--mono); font-weight: 600; color: var(--accent); margin-right: 6px; }
+pre { font-family: var(--mono); font-size: 13.5px; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; margin: 0; overflow-x: auto; }
+.opts { display: flex; flex-direction: column; gap: 4px; }
+.opts label { display: flex; gap: 8px; align-items: flex-start; padding: 6px 8px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; }
+.opts label:hover { border-color: var(--rule); }
+.opts input { margin-top: 4px; }
+.opts .L { font-family: var(--mono); font-weight: 600; }
+.opts label.right { background: var(--note); border-color: var(--note-edge); }
+.opts label.wrong { background: var(--bad-soft); border-color: var(--bad); }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.verdict { font-weight: 700; }
+.verdict.ok { color: var(--note-edge); } .verdict.no { color: var(--bad); }
+.score { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 14px; }
+a { color: var(--accent); }
+:root { --bad: #b3412e; --bad-soft: #f8e9e6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bad: #e38672; --bad-soft: #2b1c19; } }
+:root[data-theme="dark"] { --bad: #e38672; --bad-soft: #2b1c19; }
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 · Week 1 · recap after topic 3</div>
+  <h1>Recap: topics 1 to 3</h1>
+  <div class="meta"><span class="pill">13 new questions</span><span class="pill">exam-style, 4 options</span><span class="pill" id="total">0 / 13 checked</span></div>
+  <p class="how"><b>Mini spaced repetition.</b> Go through each one out loud in the chat, for example "R2.3: C, because…", and you'll get a correction on everything. <b>Tip:</b> keep the <a href="https://claude.ai/artifact/VjWWa68VQuJ1YfZGxszFjE" target="_blank" rel="noopener">Week 1 cheatsheet</a> open, and answer in the chat thinking out loud, for example "2.3: D, because I looked at [AA-4]…". You'll get a correction that points to the sheet. If you want to self-check here instead, pick an option and press Check.</p>
+</header>
+<div id="topics" style="display:flex;flex-direction:column;gap:22px"></div>
+<footer>Written from Lecture 1B and the Week 1 lab. New questions covering every question type from topics 1 to 3, not repeats.</footer>
+</div>
+<script>
+const DATA = [{"name": "RAM model & what an algorithm is", "refs": "[AA-1] to [AA-5]", "qs": [{"id": "R1.1", "p": "Under the RAM model, which of these costs exactly one step?", "code": null, "opts": ["Sorting an array", "Comparing two numbers", "Finding the largest number in an array", "Copying an array of n items"], "ans": 1, "ex": "Comparing is one basic action. The others all grow with n.", "refs": "[AA-3]"}, {"id": "R1.2", "p": "An algorithm creates a new array of size n to hold a copy of its input. What is its auxiliary (extra) space?", "code": null, "opts": ["Θ(log n)", "Θ(n²)", "Θ(1)", "Θ(n)"], "ans": 3, "ex": "Auxiliary = extra memory created. A new array of n items grows with n.", "refs": "[AA-5]"}, {"id": "R1.3", "p": "\"The algorithm must stop after a limited number of steps.\" Which property is this?", "code": null, "opts": ["Definiteness", "Effectiveness", "Well-defined input", "Finiteness"], "ans": 3, "ex": "Finite = it ends.", "refs": "[AA-1]"}, {"id": "R1.4", "p": "What is the best case of an algorithm?", "code": null, "opts": ["The input of size n that needs the most steps", "The smallest possible input size", "The input of size n that needs the fewest steps", "The average over all inputs"], "ans": 2, "ex": "Best = fastest input of a given size, not the smallest size.", "refs": "[AA-4]"}]}, {"name": "Big-O, Big-Ω and Big-Θ", "refs": "[AA-6] [AA-7] [AA-8]", "qs": [{"id": "R2.1", "p": "What is the tight bound of 3n³ + 100n² + 7?", "code": null, "opts": ["Θ(n³)", "Θ(100n²)", "Θ(n⁵)", "Θ(n²)"], "ans": 0, "ex": "Fastest term is n³ (furthest right in the growth order). Drop the 3.", "refs": "[AA-7] [AA-10]"}, {"id": "R2.2", "p": "Which statement is TRUE?", "code": null, "opts": ["10n = Θ(n)", "n = Ω(n²)", "n² = O(n log n)", "n³ = O(n²)"], "ans": 0, "ex": "10n grows exactly like n (drop the 10). The others put a slower thing as a ceiling, or a faster thing as a floor.", "refs": "[AA-6] [AA-8]"}, {"id": "R2.3", "p": "Is 7n + 2 = O(n³) true?", "code": null, "opts": ["False: 7 is bigger than 3", "False: its tight bound is Θ(n)", "True: O only needs a ceiling, and n³ is above n", "True: 7n + 2 and n³ grow at the same rate"], "ans": 2, "ex": "O means 'at most'. A high ceiling is allowed.", "refs": "[AA-6] [AA-8]"}, {"id": "R2.4", "p": "You know f(n) is O(n²) and Ω(n). What can you conclude?", "code": null, "opts": ["f(n) is Θ(n)", "f(n) is O(n)", "f(n) is Θ(n²)", "No single Θ follows from this, since the ceiling and floor are different"], "ans": 3, "ex": "Θ needs the ceiling and the floor to be the same shape. n² ≠ n.", "refs": "[AA-6]"}]}, {"name": "Proving bounds with c and n₀", "refs": "[AA-9]", "qs": [{"id": "R3.1", "p": "f(n) = 6n² + 3n + 2. Which (c, n₀) proves f(n) = O(n²)?", "code": null, "opts": ["c = 11, n₀ = 1", "c = 6, n₀ = 1", "c = 5, n₀ = 10", "c = 8, n₀ = 1"], "ans": 0, "ex": "Recipe: 6 + 3 + 2 = 11. Check n = 1: 11 ≤ 11 ✓. c = 8 at n = 1: 11 ≤ 8 ✗. c = 5 at n = 10: 632 ≤ 500 ✗.", "refs": "[AA-9]"}, {"id": "R3.2", "p": "f(n) = 4n² + n + 9. Which (c, n₀) proves f(n) = Ω(n²)?", "code": null, "opts": ["c = 4, n₀ = 1", "c = 5, n₀ = 1", "c = 14, n₀ = 1", "No such constants exist"], "ans": 0, "ex": "Floor recipe: the front number of 4n² is 4. c = 14 and c = 5 pass at n = 1 but fail at n = 100 (40,109 isn't ≥ 50,000).", "refs": "[AA-9]"}, {"id": "R3.3", "p": "Why can no constants prove 5n = O(1)?", "code": null, "opts": ["You'd need 5n ≤ c for every n, but n keeps growing and c is fixed", "They can: c = 5, n₀ = 1 works", "Because 5 is bigger than 1", "Because n₀ must be 0"], "ans": 0, "ex": "Unpack: 5n ≤ c × 1. The brackets (1) are slower than n, so it's impossible.", "refs": "[AA-9]"}, {"id": "R3.4", "p": "What is the smallest n₀ (from 2, 5, 10, 20) so that n² − 10n ≥ n²/2?", "code": null, "opts": ["10", "20", "5", "2"], "ans": 1, "ex": "Smallest first. n = 10: 0 ≥ 50 ✗. n = 20: 400 − 200 = 200, and 400 ÷ 2 = 200, so 200 ≥ 200 ✓.", "refs": "[AA-9]"}, {"id": "R3.5", "p": "Which pair does NOT prove 2n + 6 = O(n)?", "code": null, "opts": ["c = 3, n₀ = 6", "c = 4, n₀ = 3", "c = 8, n₀ = 1", "c = 2, n₀ = 50"], "ans": 3, "ex": "c = 2 at n = 50: 106 ≤ 100 ✗. The others: 8 ≤ 8 ✓, 18 ≤ 18 ✓, 12 ≤ 12 ✓.", "refs": "[AA-9]"}]}];
+const root = document.getElementById('topics'); let checked = 0;
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+DATA.forEach((t, ti) => {
+  const s = document.createElement('section');
+  s.innerHTML = `<h2><span class="id">Topic ${ti+1}</span> ${esc(t.name)} <span class="score" id="sc${ti}"></span></h2><div class="score">Sheet: ${t.refs}</div>`;
+  let right = 0, done = 0;
+  t.qs.forEach(q => {
+    const d = document.createElement('div'); d.className = 'q';
+    const name = 'q' + q.id.replace('.', '_');
+    d.innerHTML = `<div><span class="qn">${q.id}</span>${esc(q.p)}</div>` + (q.code ? `<pre>${esc(q.code)}</pre>` : '') +
+      `<div class="opts">` + q.opts.map((o, i) => `<label><input type="radio" name="${name}" id="${name}_${i}" value="${i}"><span class="L">${'ABCD'[i]}.</span><span>${esc(o)}</span></label>`).join('') + `</div>` +
+      `<div class="row"><button type="button">Check</button><span class="verdict"></span></div><div class="plain" hidden></div>`;
+    const btn = d.querySelector('button'), v = d.querySelector('.verdict'), ex = d.querySelector('.plain');
+    btn.addEventListener('click', () => {
+      const sel = d.querySelector('input:checked');
+      if (!sel) { v.className = 'verdict'; v.textContent = 'Pick an option first.'; return; }
+      const labels = d.querySelectorAll('.opts label'); labels.forEach(l => l.classList.remove('right', 'wrong'));
+      const ok = +sel.value === q.ans;
+      labels[q.ans].classList.add('right'); if (!ok) labels[+sel.value].classList.add('wrong');
+      v.className = 'verdict ' + (ok ? 'ok' : 'no'); v.textContent = ok ? 'Correct' : 'Not quite: the answer is ' + 'ABCD'[q.ans];
+      ex.innerHTML = `<p>${esc(q.ex)}</p><p class="score">See ${q.refs}</p>`; ex.hidden = false;
+      if (!btn.dataset.done) { btn.dataset.done = 1; done++; checked++; if (ok) right++;
+        document.getElementById('sc' + ti).textContent = `${right}/${done}`;
+        document.getElementById('total').textContent = `${checked} / 13 checked`; }
+    });
+    s.appendChild(d);
+  });
+  root.appendChild(s);
+});
+</script>
