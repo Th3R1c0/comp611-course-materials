@@ -1,0 +1,17 @@
+digraph G {
+  graph [rankdir=TB, nodesep=0.25, ranksep=0.45, fontname="Helvetica", bgcolor="white"];
+  node [shape=box, style="rounded,filled", fillcolor="#cfe3f5", fontname="Helvetica", fontsize=13, width=0.5, height=0.35];
+  edge [color="#555555", arrowsize=0.6];
+  r [label="size 8\ncost 8"];
+  a1 [label="size 4\ncost 4"]; a2 [label="size 4\ncost 4"];
+  b1 [label="size 2\ncost 2"]; b2 [label="size 2\ncost 2"]; b3 [label="size 2\ncost 2"]; b4 [label="size 2\ncost 2"];
+  node [fillcolor="#fff2a8"];
+  c1 [label="1"]; c2 [label="1"]; c3 [label="1"]; c4 [label="1"]; c5 [label="1"]; c6 [label="1"]; c7 [label="1"]; c8 [label="1"];
+  r -> {a1 a2}; a1 -> {b1 b2}; a2 -> {b3 b4};
+  b1 -> {c1 c2}; b2 -> {c3 c4}; b3 -> {c5 c6}; b4 -> {c7 c8};
+  node [shape=plaintext, style="", fillcolor="white", fontsize=13];
+  l0 [label="level 0:  1 × 8 = 8"]; l1 [label="level 1:  2 × 4 = 8"]; l2 [label="level 2:  4 × 2 = 8"]; l3 [label="level 3:  8 leaves (base cases)"];
+  {rank=same; r; l0} {rank=same; a1; a2; l1} {rank=same; b1; b2; b3; b4; l2} {rank=same; c1; c2; c3; c4; c5; c6; c7; c8; l3}
+  c8 -> l3 [style=invis]; b4 -> l2 [style=invis]; a2 -> l1 [style=invis]; r -> l0 [style=invis];
+  l0 -> l1 -> l2 -> l3 [style=invis];
+}

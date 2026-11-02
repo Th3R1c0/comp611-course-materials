@@ -1,0 +1,7 @@
+digraph G {
+  graph [rankdir=LR, nodesep=0.3, fontname="Helvetica", bgcolor="white"];
+  node [shape=box, style="rounded,filled", fillcolor="#cfe3f5", fontname="Helvetica", fontsize=13];
+  edge [color="#555555", arrowsize=0.6, fontname="Helvetica", fontsize=11];
+  a [label="size 16\n1 compare"]; b [label="size 8\n1 compare"]; c [label="size 4\n1 compare"]; d [label="size 2\n1 compare"]; e [label="size 1\n1 compare", fillcolor="#fff2a8"];
+  a -> b [label="halve"]; b -> c [label="halve"]; c -> d [label="halve"]; d -> e [label="halve"];
+}

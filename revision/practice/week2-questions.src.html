@@ -1,0 +1,114 @@
+<title>Week 2 Practice Questions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+</style>
+<style>
+.q { border-top: 1px solid var(--rule); padding: 12px 0; display: flex; flex-direction: column; gap: 8px; }
+.q:first-of-type { border-top: 0; }
+.qn { font-family: var(--mono); font-weight: 600; color: var(--accent); margin-right: 6px; }
+pre { font-family: var(--mono); font-size: 13.5px; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; margin: 0; overflow-x: auto; }
+.opts { display: flex; flex-direction: column; gap: 4px; }
+.opts label { display: flex; gap: 8px; align-items: flex-start; padding: 6px 8px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; }
+.opts label:hover { border-color: var(--rule); }
+.opts input { margin-top: 4px; }
+.opts .L { font-family: var(--mono); font-weight: 600; }
+.opts label.right { background: var(--note); border-color: var(--note-edge); }
+.opts label.wrong { background: var(--bad-soft); border-color: var(--bad); }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.verdict { font-weight: 700; }
+.verdict.ok { color: var(--note-edge); } .verdict.no { color: var(--bad); }
+.score { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 14px; }
+a { color: var(--accent); }
+:root { --bad: #b3412e; --bad-soft: #f8e9e6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bad: #e38672; --bad-soft: #2b1c19; } }
+:root[data-theme="dark"] { --bad: #e38672; --bad-soft: #2b1c19; }
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 · Week 2 · practice questions</div>
+  <h1>Divide and conquer drill</h1>
+  <div class="meta"><span class="pill">3 sections, 20 questions</span><span class="pill">exam-style, 4 options</span><span class="pill" id="total">0 / 20 checked</span></div>
+  <p class="how"><b>Best way to use this:</b> keep the <a href="{{SHEET}}" target="_blank" rel="noopener">Week 2 cheatsheet</a> open, and answer in the chat thinking out loud, for example "2.3: B, because I looked at [DC-5]…". You'll get a correction that points to the sheet. If you want to self-check here instead, pick an option and press Check.</p>
+</header>
+<div id="topics" style="display:flex;flex-direction:column;gap:22px"></div>
+<footer>Written from Lecture 2 Divide and Conquer, the class Master Theorem solutions and the Week 2 lab. These are new questions, not the practice quiz.</footer>
+</div>
+<script>
+const DATA = [{"label": "Section 1", "name": "The idea and the three algorithms", "refs": "[DC-1] to [DC-4]", "qs": [{"id": "1.1", "p": "In merge sort, which step is the 'combine' step?", "code": null, "opts": ["Splitting the array into two halves", "Merging two sorted halves into one sorted list", "Returning an array of one element unchanged", "Choosing the middle index mid = ⌊n/2⌋"], "ans": 1, "ex": "Combine joins the subproblem answers. In merge sort that is MERGE. Splitting is divide, and returning a 1-element array is the base case.", "refs": "[DC-1]"}, {"id": "1.2", "p": "Binary search (mid = ⌊(low + high)/2⌋) looks for 23 in the sorted array below, positions 0 to 9. Which values A[mid] are compared with 23, in order?", "code": "A = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91]", "opts": ["16, 38, 23", "12, 56, 23", "16, 56, 23", "16, 23"], "ans": 2, "ex": "low=0, high=9: mid=4, A[4]=16, 23 is bigger → low=5. low=5, high=9: mid=7, A[7]=56, 23 is smaller → high=6. low=5, high=6: mid=⌊11/2⌋=5, A[5]=23, found.", "refs": "[DC-2]"}, {"id": "1.3", "p": "MERGE combines L = [1, 4, 9] and R = [2, 3, 10]. How many comparisons L[i] ≤ R[j] does it make?", "code": null, "opts": ["3", "4", "5", "6"], "ans": 2, "ex": "1v2 take 1, 4v2 take 2, 4v3 take 3, 4v10 take 4, 9v10 take 9. Now L is empty, so 10 is copied with no comparison. That's 5.", "refs": "[DC-3]"}, {"id": "1.4", "p": "POWER(2, 10) is called. Which sequence of n values do the calls receive, from the first call down to the base case?", "code": null, "opts": ["10, 5, 2, 1, 0", "10, 5, 3, 2, 1, 0", "10, 8, 4, 2, 1", "10, 5, 2, 1"], "ans": 0, "ex": "Each call uses ⌊n/2⌋: 10 → 5 → ⌊2.5⌋=2 → 1 → ⌊0.5⌋=0. The base case is n = 0, so 0 is included.", "refs": "[DC-4]"}, {"id": "1.5", "p": "In fast exponentiation, y = POWER(x, ⌊n/2⌋). What does POWER(x, n) return when n is odd?", "code": null, "opts": ["y × y", "x × y", "x × y × y", "y × y × y"], "ans": 2, "ex": "For odd n, halving rounds down and loses one x, so it gets multiplied back in: x × y × y. Example: 3¹³ = 3 × 3⁶ × 3⁶.", "refs": "[DC-4]"}]}, {"label": "Section 2a", "name": "Write the recurrence from code", "refs": "[DC-5]", "qs": [{"id": "2.1", "p": "Which recurrence describes the running time of PRINTALL? Assume printing one item takes Θ(1).", "code": "PRINTALL(A, lo, hi)\n1  if lo ≥ hi: return\n2  mid = ⌊(lo + hi) / 2⌋\n3  PRINTALL(A, lo, mid)\n4  PRINTALL(A, mid + 1, hi)\n5  for i = lo to hi:\n6      print A[i]", "opts": ["T(n) = T(n/2) + Θ(1)", "T(n) = 2T(n/2) + Θ(1)", "T(n) = T(n/2) + Θ(n)", "T(n) = 2T(n/2) + Θ(n)"], "ans": 3, "ex": "Two calls both run (lines 3 and 4), each on half → 2T(n/2). Outside the calls, the loop on lines 5–6 goes over all n items → Θ(n).", "refs": "[DC-5]"}, {"id": "2.2", "p": "Which recurrence describes the running time of FINDMAX?", "code": "FINDMAX(A, lo, hi)\n1  if lo == hi: return A[lo]\n2  mid = ⌊(lo + hi) / 2⌋\n3  x = FINDMAX(A, lo, mid)\n4  y = FINDMAX(A, mid + 1, hi)\n5  if x > y: return x\n6  else: return y", "opts": ["T(n) = 2T(n/2) + Θ(1)", "T(n) = 2T(n/2) + Θ(n)", "T(n) = T(n/2) + Θ(1)", "T(n) = T(n/2) + Θ(n)"], "ans": 0, "ex": "Both calls run (lines 3 and 4) on halves → 2T(n/2). Outside them there's only one comparison and a return, with no loop → Θ(1). (The if/else on lines 5–6 has no recursive calls in it, so it's not the binary search trap.)", "refs": "[DC-5]"}, {"id": "2.3", "p": "Which recurrence describes the running time of SEARCH?", "code": "SEARCH(A, lo, hi, t)\n1  if lo > hi: return -1\n2  mid = ⌊(lo + hi) / 2⌋\n3  if A[mid] == t: return mid\n4  if t < A[mid]:\n5      return SEARCH(A, lo, mid - 1, t)\n6  else:\n7      return SEARCH(A, mid + 1, hi, t)", "opts": ["T(n) = 2T(n/2) + Θ(1)", "T(n) = T(n/2) + Θ(1)", "T(n) = 2T(n/2) + Θ(n)", "T(n) = T(n/2) + Θ(n)"], "ans": 1, "ex": "This is binary search. Two calls are written, but they're in if / else, so only ONE runs → T(n/2). The rest is a few comparisons → Θ(1).", "refs": "[DC-5] trap line"}, {"id": "2.4", "p": "Which recurrence describes the running time of THIRDS? Each recursive call gets one third of the n items.", "code": "THIRDS(A, n)\n1  if n ≤ 1: return\n2  for i = 1 to n:\n3      for j = 1 to n:\n4          x = x + 1\n5  THIRDS(first third of A, n/3)\n6  THIRDS(second third of A, n/3)\n7  THIRDS(last third of A, n/3)", "opts": ["T(n) = 3T(n/3) + Θ(n)", "T(n) = T(n/3) + Θ(n²)", "T(n) = 3T(n/3) + Θ(n²)", "T(n) = 9T(n/3) + Θ(n)"], "ans": 2, "ex": "Three calls all run (lines 5–7), each on n/3 → 3T(n/3). The work outside is a loop inside a loop over n → Θ(n²).", "refs": "[DC-5]"}, {"id": "2.5", "p": "An algorithm makes 4 recursive calls, each on an input half the original size, and then combines the results in linear time. Which recurrence describes it?", "code": null, "opts": ["T(n) = 2T(n/4) + Θ(n)", "T(n) = 4T(n/4) + Θ(n)", "T(n) = T(n/2) + Θ(4n)", "T(n) = 4T(n/2) + Θ(n)"], "ans": 3, "ex": "a = number of calls = 4. Each input is half → n/2. Linear time → Θ(n). So 4T(n/2) + Θ(n), the school multiplication recurrence.", "refs": "[DC-5]"}]}, {"label": "Section 2b", "name": "Recursion trees and the three methods", "refs": "[DC-6], [DC-7]", "qs": [{"id": "3.1", "p": "In the recursion tree of T(n) = 3T(n/4) + n², with the root at level 0, how many nodes are at level 2, and what input size does each have?", "code": null, "opts": ["6 nodes, size n/8", "9 nodes, size n/16", "9 nodes, size n/8", "8 nodes, size n/16"], "ans": 1, "ex": "Nodes at level i = aⁱ = 3² = 9. Size at level i = n ÷ bⁱ = n ÷ 4² = n/16.", "refs": "[DC-6]"}, {"id": "3.2", "p": "For the recursion tree of T(n) = 2T(n/2) + n, which statement is correct?", "code": null, "opts": ["Every level costs n in total, there are about log₂ n levels, so T(n) = Θ(n log n)", "The levels cost n, n/2, n/4, …, so T(n) = Θ(n)", "The root costs n and the leaves dominate, so T(n) = Θ(n²)", "There are n levels each costing log n, so T(n) = Θ(n log n)"], "ans": 0, "ex": "Level i has 2ⁱ nodes of size n/2ⁱ, so 2ⁱ × n/2ⁱ = n per level. Same every level → n × number of levels (log₂ n).", "refs": "[DC-6]"}, {"id": "3.3", "p": "In the recursion tree of T(n) = T(n/2) + n, the level costs are n, n/2, n/4, n/8, … What is T(n)?", "code": null, "opts": ["Θ(log n)", "Θ(n log n)", "Θ(n)", "Θ(n²)"], "ans": 2, "ex": "The level costs shrink (each is half the one above), so the top level wins. n + n/2 + n/4 + … is less than 2n → Θ(n).", "refs": "[DC-6]"}, {"id": "3.4", "p": "Which method for solving recurrences works by guessing the form of the answer and then proving it by mathematical induction?", "code": null, "opts": ["The Master Theorem", "The recursion tree method", "The brute-force method", "The substitution method"], "ans": 3, "ex": "Substitution = guess, then prove by induction. The recursion tree is often used to make the guess.", "refs": "[DC-7]"}, {"id": "3.5", "p": "How many leaves does the recursion tree of T(n) = 4T(n/2) + n have?", "code": null, "opts": ["n", "n log n", "4n", "n²"], "ans": 3, "ex": "Leaves = n^(log_b a) = n^(log₂ 4) = n². Check with n = 8: log₂ 8 = 3 levels of splitting, 4 × 4 × 4 = 64 = 8².", "refs": "[DC-6]"}]}, {"label": "Section 3", "name": "The Master Theorem", "refs": "[DC-8] to [DC-10]", "qs": [{"id": "4.1", "p": "Apply the Master Theorem to T(n) = 4T(n/2) + n². Which case applies, and what is T(n)?", "code": null, "opts": ["Case 1, T(n) = Θ(n²)", "Case 2, T(n) = Θ(n² log n)", "Case 3, T(n) = Θ(n²)", "The Master Theorem does not apply"], "ans": 1, "ex": "a = 4, b = 2, p = log₂ 4 = 2. The power of f(n) = n² is 2, equal to p → Case 2 → Θ(n² log n).", "refs": "[DC-8]"}, {"id": "4.2", "p": "Apply the Master Theorem to T(n) = 8T(n/2) + n. Which case applies, and what is T(n)?", "code": null, "opts": ["Case 3, T(n) = Θ(n)", "Case 2, T(n) = Θ(n log n)", "Case 1, T(n) = Θ(n³)", "Case 1, T(n) = Θ(n⁸)"], "ans": 2, "ex": "p = log₂ 8 = 3. The power of f(n) = n is 1, smaller than 3 → Case 1 → Θ(n³). (Not n⁸: the power is log₂ 8, not 8.)", "refs": "[DC-8]"}, {"id": "4.3", "p": "Apply the Master Theorem to T(n) = 2T(n/4) + n. Which case applies, and what is T(n)?", "code": null, "opts": ["Case 1, T(n) = Θ(√n)", "Case 2, T(n) = Θ(n log n)", "The Master Theorem does not apply", "Case 3, T(n) = Θ(n)"], "ans": 3, "ex": "p = log₄ 2 = 0.5. The power of f(n) = n is 1, bigger → Case 3. Regularity: a ÷ bᵏ = 2 ÷ 4¹ = 0.5, less than 1 ✓. So Θ(f(n)) = Θ(n).", "refs": "[DC-8]"}, {"id": "4.4", "p": "What does the Master Theorem give for T(n) = 4T(n/2) + n² / log n?", "code": null, "opts": ["The Master Theorem does not apply", "Case 1, T(n) = Θ(n²)", "Case 2, T(n) = Θ(n² log n)", "Case 3, T(n) = Θ(n² / log n)"], "ans": 0, "ex": "p = log₂ 4 = 2. f(n) = n² ÷ log n is smaller than n² by only a log, not by a power of n. That's the gap between Case 1 and Case 2, so the theorem does not apply.", "refs": "[DC-9]"}, {"id": "4.5", "p": "School multiplication is T(n) = 4T(n/2) + Θ(n) and Karatsuba is T(n) = 3T(n/2) + Θ(n). Which statement is correct?", "code": null, "opts": ["Both are Θ(n²), because the combine work is the same", "Karatsuba is Case 2, giving Θ(n log n)", "Both are Case 1: school is Θ(n²) and Karatsuba is Θ(n^(log₂ 3)) ≈ Θ(n^1.585)", "Karatsuba is Case 3, giving Θ(n)"], "ans": 2, "ex": "School: p = log₂ 4 = 2 > 1 → Case 1 → Θ(n²). Karatsuba: p = log₂ 3 ≈ 1.585 > 1 → Case 1 → Θ(n^1.585). Fewer subproblems → smaller p.", "refs": "[DC-10]"}]}];
+const root = document.getElementById('topics'); let checked = 0;
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+DATA.forEach((t, ti) => {
+  const s = document.createElement('section');
+  s.innerHTML = `<h2><span class="id">${t.label}</span> ${esc(t.name)} <span class="score" id="sc${ti}"></span></h2><div class="score">Sheet: ${t.refs}</div>`;
+  let right = 0, done = 0;
+  t.qs.forEach(q => {
+    const d = document.createElement('div'); d.className = 'q';
+    const name = 'q' + q.id.replace('.', '_');
+    d.innerHTML = `<div><span class="qn">${q.id}</span>${esc(q.p)}</div>` + (q.code ? `<pre>${esc(q.code)}</pre>` : '') +
+      `<div class="opts">` + q.opts.map((o, i) => `<label><input type="radio" name="${name}" id="${name}_${i}" value="${i}"><span class="L">${'ABCD'[i]}.</span><span>${esc(o)}</span></label>`).join('') + `</div>` +
+      `<div class="row"><button type="button">Check</button><span class="verdict"></span></div><div class="plain" hidden></div>`;
+    const btn = d.querySelector('button'), v = d.querySelector('.verdict'), ex = d.querySelector('.plain');
+    btn.addEventListener('click', () => {
+      const sel = d.querySelector('input:checked');
+      if (!sel) { v.className = 'verdict'; v.textContent = 'Pick an option first.'; return; }
+      const labels = d.querySelectorAll('.opts label'); labels.forEach(l => l.classList.remove('right', 'wrong'));
+      const ok = +sel.value === q.ans;
+      labels[q.ans].classList.add('right'); if (!ok) labels[+sel.value].classList.add('wrong');
+      v.className = 'verdict ' + (ok ? 'ok' : 'no'); v.textContent = ok ? 'Correct' : 'Not quite: the answer is ' + 'ABCD'[q.ans];
+      ex.innerHTML = `<p>${esc(q.ex)}</p><p class="score">See ${q.refs}</p>`; ex.hidden = false;
+      if (!btn.dataset.done) { btn.dataset.done = 1; done++; checked++; if (ok) right++;
+        document.getElementById('sc' + ti).textContent = `${right}/${done}`;
+        document.getElementById('total').textContent = `${checked} / 20 checked`; }
+    });
+    s.appendChild(d);
+  });
+  root.appendChild(s);
+});
+</script>

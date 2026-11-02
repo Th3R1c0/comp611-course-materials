@@ -54,3 +54,8 @@ Weakest: topic 3 recall. Redo R2.2, R3.1, R3.3, R3.4 before topic 4.
 - [AA-12] rewritten: what "for i = 1 to n" means; outside = 1, inside = n, for line = n + 1 (fixes 5.5); nested multiply / sequential add; pattern table on the sheet line itself (fixes 5.2).
 - [AA-13] added insertion sort shifts = pairs in the wrong order.
 - v4 kept at revision/cheatsheets/versions/01-algorithm-analysis-v4.html.
+
+## 02 Divide and conquer (started 2026-11-02)
+
+Sheet v1: revision/cheatsheets/02-divide-and-conquer.html (condensed from the three section lessons). Question bank: revision/practice/week2-questions.html (20 Qs), key week2-answer-key.json. Coverage check done: every question is tagged with the [DC-…] entry that answers it.
+Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).

@@ -1,0 +1,91 @@
+<title>Week 2 Master Theorem Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 · Week 2 · Section 3 of 3</div>
+  <h1>The Master Theorem: fast steps</h1>
+  <p class="how">For each question type: what it means in plain English, the fast steps, and worked examples. The cheatsheet ([DC-…] entries) is this same page, condensed.</p>
+  <div class="meta"><span class="pill">4 exam questions</span><span class="pill">about 10 marks</span></div>
+</header>
+
+<div class="topic" style="font-family:var(--display);font-size:22px;margin-top:12px">Topic 4 · The Master Theorem (sheet [DC-8] to [DC-10])</div>
+<section><h2><span class="id">4A</span> Fast steps: "Which case applies, and what is T(n)?"</h2>
+<ol class="steps">
+<li><b>Read off a, b and f(n)</b> from T(n) = a T(n/b) + f(n). a = number of calls (at least 1), b = how much smaller (more than 1), f(n) = the extra work.</li>
+<li><b>Work out p = log_b a</b> ("what power of b gives a?"). Use the table below, or on the calculator: log(a) ÷ log(b).</li>
+<li><b>Find the power of f(n)</b>: n² → 2, n → 1, √n → 0.5, 1 (a constant) → 0.</li>
+<li><b>Compare the power of f with p:</b>
+<br><b>f's power smaller than p → Case 1 → T(n) = Θ(n^p)</b> (the leaves win)
+<br><b>equal → Case 2 → T(n) = Θ(n^p × log n)</b> (every level costs the same)
+<br><b>f's power bigger than p → Case 3 → T(n) = Θ(f(n))</b> (the top wins)</li>
+<li><b>Case 3 only:</b> also check the "regularity condition": a × f(n/b) must be at most c × f(n) with c less than 1. For f = n^k this is a ÷ bᵏ, so just check that a ÷ bᵏ is less than 1. (For ordinary powers of n it always is in Case 3.)</li>
+<li><b>Why:</b> n^p is the total work of all the leaves at the bottom of the recursion tree, and f(n) is the work at the top. Whichever is bigger decides the answer. If they are equal, every level costs the same, so you multiply by the number of levels, log n.</li>
+</ol>
+<div class="tbl"><table><tr><th>log value</th><th>=</th><th>because</th></tr>
+<tr><td>log₂ 1, log₃ 1 (any log of 1)</td><td>0</td><td>anything to the power 0 is 1</td></tr>
+<tr><td>log₂ 2, log₃ 3 (log_b of b)</td><td>1</td><td>b¹ = b</td></tr>
+<tr><td>log₂ 4</td><td>2</td><td>2 × 2 = 4</td></tr>
+<tr><td>log₂ 8</td><td>3</td><td>2 × 2 × 2 = 8</td></tr>
+<tr><td>log₂ 16</td><td>4</td><td>2⁴ = 16</td></tr>
+<tr><td>log₃ 9</td><td>2</td><td>3 × 3 = 9</td></tr>
+<tr><td>log₃ 27</td><td>3</td><td>3³ = 27</td></tr>
+<tr><td>log₄ 2</td><td>0.5</td><td>square root of 4 is 2</td></tr>
+<tr><td>log₄ 16</td><td>2</td><td>4 × 4 = 16</td></tr>
+<tr><td>log₂ 3</td><td>≈ 1.585</td><td>between log₂2 = 1 and log₂4 = 2</td></tr>
+<tr><td>log₂ 7</td><td>≈ 2.807</td><td>between 2 and 3</td></tr>
+<tr><td>log₅ 3</td><td>≈ 0.682</td><td>calculator: log 3 ÷ log 5</td></tr></table></div>
+</section>
+
+<section><h2><span class="id">4B</span> Worked examples, one per case</h2>
+<div class="ex"><h3>Case 1: T(n) = 8T(n/2) + n² (lecture example 1)</h3>
+<div class="calc">a = 8, b = 2, f(n) = n²
+p = log₂ 8 = 3
+power of f = 2, which is smaller than 3 → Case 1</div>
+<p class="ans">T(n) = Θ(n³)</p></div>
+<div class="ex"><h3>Case 2: T(n) = 2T(n/2) + n (merge sort)</h3>
+<div class="calc">a = 2, b = 2, f(n) = n
+p = log₂ 2 = 1
+power of f = 1, equal to 1 → Case 2</div>
+<p class="ans">T(n) = Θ(n¹ × log n) = Θ(n log n)</p></div>
+<div class="ex"><h3>Case 2 with p = 0: T(n) = T(n/2) + 1 (binary search)</h3>
+<div class="calc">a = 1, b = 2, f(n) = 1
+p = log₂ 1 = 0
+power of f = 0 (a constant is n⁰), equal → Case 2</div>
+<p class="ans">T(n) = Θ(n⁰ × log n) = Θ(log n)</p></div>
+<div class="ex"><h3>Case 3: T(n) = 7T(n/2) + n³ (lab 2)</h3>
+<div class="calc">a = 7, b = 2, f(n) = n³
+p = log₂ 7 ≈ 2.807
+power of f = 3, bigger → Case 3
+regularity: a ÷ bᵏ = 7 ÷ 2³ = 7/8, less than 1 ✓</div>
+<p class="ans">T(n) = Θ(n³)</p></div>
+<div class="ex"><h3>Decimal p: T(n) = 3T(n/2) + n (Karatsuba)</h3>
+<div class="calc">a = 3, b = 2, f(n) = n
+p = log₂ 3 ≈ 1.585
+power of f = 1, smaller → Case 1</div>
+<p class="ans">T(n) = Θ(n^1.585), written Θ(n^(log₂ 3))</p></div>
+</section>
+
+<section><h2><span class="id">4C</span> When the Master Theorem does NOT apply</h2>
+<ol class="steps">
+<li><b>f(n) is only a log away from n^p</b>, for example f(n) = n log n or n ÷ log n when p = 1. A log is too small a difference: the cases need a whole power of n (or a decimal power) between them. This is a "gap" between the cases.</li>
+<li>The shape is wrong: a is less than 1, b is not more than 1, the number of calls depends on n, or f(n) is negative.</li>
+<li>Case 3 looks right but the regularity condition fails.</li>
+<li><b>Course answers:</b> the lecture and class examples say T(n) = 2T(n/2) + n log n → "Master Theorem does not apply". If a question mentions the <b>extended</b> Case 2 (the logᵏ n version), its answer is Θ(n log² n). The lab solution gives both.</li>
+<li><b>Trap:</b> f(n) = log² n (log n times log n) with p = 0.682 (lab 2 (e)) <b>does</b> apply: any log grows slower than any power, so it counts as smaller → Case 1 → Θ(n^0.682).</li>
+</ol>
+</section>
+
+<section><h2><span class="id">4D</span> Karatsuba: why fewer subproblems is faster</h2>
+<ol class="steps">
+<li>Multiplying two n-digit numbers the school way is like splitting each number in half and doing <b>4</b> half-size multiplications: T(n) = 4T(n/2) + Θ(n) → p = log₂ 4 = 2 → Case 1 → <b>Θ(n²)</b>.</li>
+<li>Karatsuba uses an algebra trick to need only <b>3</b>: T(n) = 3T(n/2) + Θ(n) → p = log₂ 3 ≈ 1.585 → Case 1 → <b>Θ(n^1.585)</b>.</li>
+<li><b>Why one fewer call matters so much:</b> the saving happens at every level, so the number of leaves drops from n² to n^1.585. Fewer subproblems → smaller p → smaller answer.</li>
+<li><b>Speed-up estimate:</b> divide the two step counts. For n = 10,000: n² = 100,000,000 and 10,000^1.585 ≈ 2,190,000, so Karatsuba is about 46 times faster.</li>
+<li>Here n is the number of <b>digits (or bits)</b>, not the size of the number.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer <b>4.1 to 4.5</b> on the <a href="{{QLINK}}" target="_blank" rel="noopener">week 2 practice questions page</a> out loud in the chat, using only the cheatsheet.</p></section>
+<footer>Built from Lecture 2 Divide and Conquer (Week 2), the Class Master Theorem Example Solutions, and the Week 2 Lab and its answers. 2 November 2026.</footer>
+</div>
