@@ -59,3 +59,9 @@ Weakest: topic 3 recall. Redo R2.2, R3.1, R3.3, R3.4 before topic 4.
 
 Sheet v1: revision/cheatsheets/02-divide-and-conquer.html (condensed from the three section lessons). Question bank: revision/practice/week2-questions.html (20 Qs), key week2-answer-key.json. Coverage check done: every question is tagged with the [DC-…] entry that answers it.
 Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).
+
+### Week 2 answers (2026-11-02)
+| Q | Result | Cause | Sheet edits |
+|---|---|---|---|
+| 1.4, 1.5 | blank, asked for powers explained | concept gap: what a power is; [DC-4] had no "build back up" shortcut (sheet unclear) | explained in chat (halve-to-0 list, then work up from 1: even square, odd square × x); consider adding to [DC-4] |
+| 2.1 | correct (D) | read 2T(n/2) as "2n": T notation (concept gap) | none yet; [DC-0] defines T |
