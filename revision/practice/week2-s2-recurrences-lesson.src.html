@@ -13,11 +13,11 @@
 <section><h2><span class="id">2A</span> Fast steps: turn code into T(n) = a T(n/b) + f(n)</h2>
 <ol class="steps">
 <li><b>a = how many recursive calls actually run</b> in one go of the function. Count the lines where the function calls itself. <b>Trap:</b> if the two calls are in an if / else, only one of them runs, so a = 1 (binary search).</li>
-<li><b>n/b = the size of each call's input.</b> Half the list → n/2 (b = 2). A third → n/3 (b = 3).</li>
+<li><b>n/b = the size of each call's input.</b> If each call gets half the list, write n/2 (b = 2). If each gets a third, write n/3 (b = 3).</li>
 <li><b>f(n) = the work done outside the recursive calls</b>, read with week 1's loop rules ([AA-12]):
-<br>only simple lines (compare, add, return, max of two) → <b>Θ(1)</b>
-<br>one loop over the n items (merge, count, copy, print) → <b>Θ(n)</b>
-<br>a loop inside a loop over n → <b>Θ(n²)</b></li>
+<br>only simple lines (compare, add, return, max of two) give <b>Θ(1)</b>
+<br>one loop over the n items (merge, count, copy, print) gives <b>Θ(n)</b>
+<br>a loop inside a loop over n gives <b>Θ(n²)</b></li>
 <li>Write it: T(n) = a T(n/b) + f(n).</li>
 <li><b>Why:</b> the total time is the time of the smaller jobs (a of them, each T(n/b)) plus the extra work this call does itself.</li>
 </ol>
@@ -63,9 +63,9 @@
 <li><b>Height</b> (number of levels of splitting) = log_b n, because you divide by b until you reach 1.</li>
 <li><b>Number of leaves</b> = a^(log_b n), which is the same as <b>n^(log_b a)</b>. Example: 4T(n/2) has n^(log₂4) = n² leaves.</li>
 <li>Then look at how the level totals change as you go down:
-<br><b>same every level</b> → total = one level × number of levels (e.g. n × log n)
-<br><b>shrinking</b> (each level a fraction of the one above) → the top level wins: total = Θ(f(n))
-<br><b>growing</b> → the leaves win: total = Θ(number of leaves) = Θ(n^(log_b a))</li>
+<br>if every level does the <b>same</b> work, the total is one level times the number of levels (for example n times log n)
+<br>if the levels <b>shrink</b> (each level is a fraction of the one above), the top level wins, so the total is Θ(f(n))
+<br>if the levels <b>grow</b>, the leaves win, so the total is Θ(number of leaves), which is Θ(n^(log_b a))</li>
 </ol>
 <div class="ex"><h3>Example: T(n) = 3T(n/4) + n² (from the lecture)</h3>
 <div class="calc">level 0: 1 node,  size n,    cost n²         total n²
@@ -74,7 +74,7 @@ level 2: 9 nodes, size n/16, cost n²/256 each total 9/256 n²</div>
 <p>Each level is 3/16 of the one above, so it shrinks. The top level wins.</p>
 <p class="ans">T(n) = Θ(n²)</p></div>
 <div class="ex"><h3>Example: T(n) = T(n/2) + n</h3>
-<div class="calc">levels cost n, n/2, n/4, n/8 … → adds up to less than 2n</div>
+<div class="calc">levels cost n, n/2, n/4, n/8 and so on, which adds up to less than 2n</div>
 <p>Shrinking, so the top level wins.</p>
 <p class="ans">T(n) = Θ(n)</p></div>
 </section>

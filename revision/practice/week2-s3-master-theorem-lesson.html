@@ -73,11 +73,11 @@ a { color: var(--accent); }
 <ol class="steps">
 <li><b>Read off a, b and f(n)</b> from T(n) = a T(n/b) + f(n). a = number of calls (at least 1), b = how much smaller (more than 1), f(n) = the extra work.</li>
 <li><b>Work out p = log_b a</b> ("what power of b gives a?"). Use the table below, or on the calculator: log(a) ÷ log(b).</li>
-<li><b>Find the power of f(n)</b>: n² → 2, n → 1, √n → 0.5, 1 (a constant) → 0.</li>
+<li><b>Find the power of f(n)</b>. The power of n² is 2, the power of n is 1, the power of the square root of n is 0.5, and a constant like 1 has power 0.</li>
 <li><b>Compare the power of f with p:</b>
-<br><b>f's power smaller than p → Case 1 → T(n) = Θ(n^p)</b> (the leaves win)
-<br><b>equal → Case 2 → T(n) = Θ(n^p × log n)</b> (every level costs the same)
-<br><b>f's power bigger than p → Case 3 → T(n) = Θ(f(n))</b> (the top wins)</li>
+<br><b>If f's power is smaller than p, it is Case 1 and T(n) = Θ(n^p)</b> (the leaves win)
+<br><b>If they are equal, it is Case 2 and T(n) = Θ(n^p × log n)</b> (every level costs the same)
+<br><b>If f's power is bigger than p, it is Case 3 and T(n) = Θ(f(n))</b> (the top wins)</li>
 <li><b>Case 3 only:</b> also check the "regularity condition": a × f(n/b) must be at most c × f(n) with c less than 1. For f = n^k this is a ÷ bᵏ, so just check that a ÷ bᵏ is less than 1. (For ordinary powers of n it always is in Case 3.)</li>
 <li><b>Why:</b> n^p is the total work of all the leaves at the bottom of the recursion tree, and f(n) is the work at the top. Whichever is bigger decides the answer. If they are equal, every level costs the same, so you multiply by the number of levels, log n.</li>
 </ol>
@@ -100,28 +100,28 @@ a { color: var(--accent); }
 <div class="ex"><h3>Case 1: T(n) = 8T(n/2) + n² (lecture example 1)</h3>
 <div class="calc">a = 8, b = 2, f(n) = n²
 p = log₂ 8 = 3
-power of f = 2, which is smaller than 3 → Case 1</div>
+power of f = 2, which is smaller than 3, so Case 1</div>
 <p class="ans">T(n) = Θ(n³)</p></div>
 <div class="ex"><h3>Case 2: T(n) = 2T(n/2) + n (merge sort)</h3>
 <div class="calc">a = 2, b = 2, f(n) = n
 p = log₂ 2 = 1
-power of f = 1, equal to 1 → Case 2</div>
+power of f = 1, equal to 1, so Case 2</div>
 <p class="ans">T(n) = Θ(n¹ × log n) = Θ(n log n)</p></div>
 <div class="ex"><h3>Case 2 with p = 0: T(n) = T(n/2) + 1 (binary search)</h3>
 <div class="calc">a = 1, b = 2, f(n) = 1
 p = log₂ 1 = 0
-power of f = 0 (a constant is n⁰), equal → Case 2</div>
+power of f = 0 (a constant is n⁰), equal, so Case 2</div>
 <p class="ans">T(n) = Θ(n⁰ × log n) = Θ(log n)</p></div>
 <div class="ex"><h3>Case 3: T(n) = 7T(n/2) + n³ (lab 2)</h3>
 <div class="calc">a = 7, b = 2, f(n) = n³
 p = log₂ 7 ≈ 2.807
-power of f = 3, bigger → Case 3
+power of f = 3, bigger, so Case 3
 regularity: a ÷ bᵏ = 7 ÷ 2³ = 7/8, less than 1 ✓</div>
 <p class="ans">T(n) = Θ(n³)</p></div>
 <div class="ex"><h3>Decimal p: T(n) = 3T(n/2) + n (Karatsuba)</h3>
 <div class="calc">a = 3, b = 2, f(n) = n
 p = log₂ 3 ≈ 1.585
-power of f = 1, smaller → Case 1</div>
+power of f = 1, smaller, so Case 1</div>
 <p class="ans">T(n) = Θ(n^1.585), written Θ(n^(log₂ 3))</p></div>
 </section>
 
@@ -130,16 +130,16 @@ power of f = 1, smaller → Case 1</div>
 <li><b>f(n) is only a log away from n^p</b>, for example f(n) = n log n or n ÷ log n when p = 1. A log is too small a difference: the cases need a whole power of n (or a decimal power) between them. This is a "gap" between the cases.</li>
 <li>The shape is wrong: a is less than 1, b is not more than 1, the number of calls depends on n, or f(n) is negative.</li>
 <li>Case 3 looks right but the regularity condition fails.</li>
-<li><b>Course answers:</b> the lecture and class examples say T(n) = 2T(n/2) + n log n → "Master Theorem does not apply". If a question mentions the <b>extended</b> Case 2 (the logᵏ n version), its answer is Θ(n log² n). The lab solution gives both.</li>
-<li><b>Trap:</b> f(n) = log² n (log n times log n) with p = 0.682 (lab 2 (e)) <b>does</b> apply: any log grows slower than any power, so it counts as smaller → Case 1 → Θ(n^0.682).</li>
+<li><b>Course answers:</b> the lecture and class examples say T(n) = 2T(n/2) + n log n as "Master Theorem does not apply". If a question mentions the <b>extended</b> Case 2 (the logᵏ n version), its answer is Θ(n log² n). The lab solution gives both.</li>
+<li><b>Trap:</b> f(n) = log² n (log n times log n) with p = 0.682 (lab 2 (e)) <b>does</b> apply: any log grows slower than any power, so it counts as smaller. That makes it Case 1, so the answer is Θ(n^0.682).</li>
 </ol>
 </section>
 
 <section><h2><span class="id">4D</span> Karatsuba: why fewer subproblems is faster</h2>
 <ol class="steps">
-<li>Multiplying two n-digit numbers the school way is like splitting each number in half and doing <b>4</b> half-size multiplications: T(n) = 4T(n/2) + Θ(n) → p = log₂ 4 = 2 → Case 1 → <b>Θ(n²)</b>.</li>
-<li>Karatsuba uses an algebra trick to need only <b>3</b>: T(n) = 3T(n/2) + Θ(n) → p = log₂ 3 ≈ 1.585 → Case 1 → <b>Θ(n^1.585)</b>.</li>
-<li><b>Why one fewer call matters so much:</b> the saving happens at every level, so the number of leaves drops from n² to n^1.585. Fewer subproblems → smaller p → smaller answer.</li>
+<li>Multiplying two n-digit numbers the school way is like splitting each number in half and doing <b>4</b> half-size multiplications: T(n) = 4T(n/2) + Θ(n). p = log₂ 4 = 2, so it is Case 1 and the answer is <b>Θ(n²)</b>.</li>
+<li>Karatsuba uses an algebra trick to need only <b>3</b>: T(n) = 3T(n/2) + Θ(n). p = log₂ 3, about 1.585, so it is Case 1 and the answer is <b>Θ(n^1.585)</b>.</li>
+<li><b>Why one fewer call matters so much:</b> the saving happens at every level, so the number of leaves drops from n² to n^1.585. Fewer subproblems give a smaller p, which gives a smaller answer.</li>
 <li><b>Speed-up estimate:</b> divide the two step counts. For n = 10,000: n² = 100,000,000 and 10,000^1.585 ≈ 2,190,000, so Karatsuba is about 46 times faster.</li>
 <li>Here n is the number of <b>digits (or bits)</b>, not the size of the number.</li>
 </ol>

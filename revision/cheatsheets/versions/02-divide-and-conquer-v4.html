@@ -1,0 +1,189 @@
+<title>Week 2 D&amp;C Sheet v4</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+.id { white-space: nowrap; }
+[hidden] { display: none !important; }
+.modes { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; align-self: flex-start; }
+.modes button { border: 0; border-radius: 0; background: var(--card); }
+.modes button + button { border-left: 1px solid var(--rule); }
+.modes button[aria-checked="true"] { background: var(--accent); color: var(--card); font-weight: 700; }
+body.paper .plain, body.paper details:not([open]) .plain { display: none; }
+body.paper summary, body.full summary { cursor: default; }
+body.paper summary::before { content: "•"; }
+body.full summary::before { content: "•"; }
+body.paper section { gap: 0; }
+body.paper summary { padding-block: 4px; }
+body.paper .topic { font-size: 18px; }
+.topic { font-family: var(--display); font-size: 21px; margin-top: 10px; text-wrap: balance; }
+.vers { display:flex; flex-wrap:wrap; gap:8px 14px; font-size:14px; }
+a { color: var(--accent); }
+</style>
+
+<style>.sx { display: block; font-family: var(--mono); font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.45; }</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 cheatsheet · Week 2 · version 4</div>
+  <h1>Divide and conquer &amp; recurrences</h1>
+  <div class="meta"><span class="pill">4 exam questions</span><span class="pill">about 10 marks</span><span class="pill">same content as the fast lesson, condensed</span></div>
+  <div class="modes" role="radiogroup" aria-label="View">
+    <button type="button" role="radio" data-mode="paper" id="m-paper">Paper</button>
+    <button type="button" role="radio" data-mode="full" id="m-full">Everything shown</button>
+    <button type="button" role="radio" data-mode="toggle" id="m-toggle">Tap to explain</button>
+  </div>
+  <p class="how" id="modeHelp"></p>
+  <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
+  <div class="vers"><span>Older versions:</span><a href="https://claude.ai/artifact/GtdLF5abFsWJkf1UfZMGzc" target="_blank" rel="noopener">Version 3</a><a href="https://claude.ai/artifact/YU7DmisYGRPr8xyny7jquY" target="_blank" rel="noopener">Version 2</a><a href="https://claude.ai/artifact/PupMTBnDLgRqbXXE8DSw3v" target="_blank" rel="noopener">Version 1</a></div>
+</header>
+
+<div class="topic">Start here: words and symbols</div>
+<section id="DC-0"><h2><span class="id">[DC-0]</span> Glossary</h2>
+<details open><summary><b>Recursive</b> = a function that calls itself on a smaller piece. Each smaller piece is a <b>subproblem</b>.</summary><div class="plain"><p>Sorting the left half of a list is a subproblem of sorting the whole list, and the function sorts it by calling itself.</p></div></details>
+<details open><summary><b>Base case</b> = the size where it stops splitting and answers directly.</summary><div class="plain"><p>A list of 1 item is already sorted, so merge sort just returns it. Without a base case the function would call itself forever.</p></div></details>
+<details open><summary><b>T(n)</b> = steps for input size n. <b>T(n/2)</b> = steps for half the size. <b>Recurrence</b> = T(n) written using a smaller T.</summary><div class="plain"><p>Read T(n) = 2T(n/2) + n as "the time for n is two half-size jobs plus n extra steps".</p></div></details>
+<details open><summary><b>⌊x⌋</b> = round down. <b>log_b a</b> = what power of b gives a. <b>log₂ n</b> = how many halvings from n to 1.</summary><div class="plain"><p>⌊3.5⌋ = 3. log₃ 9 = 2 because 3 × 3 = 9. log₂ 8 = 3 because 8 → 4 → 2 → 1 is three halvings.</p></div></details>
+<details open><summary><b>Powers:</b> n⁰ = 1 (constant), n¹ = n, n^0.5 = √n, n^1.58 is between n and n².</summary><div class="plain"><p>The bigger the power, the faster it grows. A constant counts as power 0, which matters in the Master Theorem ([DC-8] step 3).</p></div></details>
+</section>
+
+<div class="topic">Section 1: the idea and the three algorithms</div>
+<section id="DC-1"><h2><span class="id">[DC-1]</span> Divide, conquer, combine</h2>
+<details open><summary><b>Divide</b> into smaller subproblems of the same kind. <b>Conquer</b> each by recursion (base case: solve directly). <b>Combine</b> the answers.</summary><div class="plain"><p>Why it helps: small problems are easy, and if splitting and joining are cheap, the total is much less than the obvious method.</p></div></details>
+<details open><summary>"Base case" question → pick "the size at which it stops dividing and solves directly". Not the combine step.</summary><div class="plain"><p>Wrong options usually describe combining, or say it is "checked after the recursive calls return". The base case is checked first, before any recursion.</p></div></details>
+<details open><summary><div class="tbl"><table><tr><th>Algorithm</th><th>Divide</th><th>Conquer</th><th>Combine</th></tr>
+<tr><td>Binary search</td><td>look at middle</td><td><b>one</b> half</td><td>none</td></tr>
+<tr><td>Merge sort</td><td>split in halves</td><td><b>both</b> halves</td><td>MERGE</td></tr>
+<tr><td>Fast power</td><td>halve n</td><td>x^⌊n/2⌋</td><td>square (×x if odd)</td></tr></table></div></summary><div class="plain"><p>Binary search has no combine step: the answer of the one recursive call is the answer.</p></div></details>
+</section>
+
+<section id="DC-2"><h2><span class="id">[DC-2]</span> Binary search trace (list must be sorted)</h2>
+<details open><summary>mid = ⌊(low + high) ÷ 2⌋. Found if A[mid] = target. Smaller → high = mid − 1. Bigger → low = mid + 1. low &gt; high → not found.<span class="sx">e.g. [3,7,11,15,19,24,30] find 24: mid 3 → 15, bigger, low = 4 · mid 5 → 24 ✓</span></summary><div class="plain"><p>Write the positions (starting at 0 unless told otherwise) under the values first.</p><p class="eg">[3,7,11,15,19,24,30], target 24: mid=3 → 15, bigger → low=4; mid=5 → 24 found.</p></div></details>
+<details open><summary>Each look throws away half → about log₂ n looks → <b>Θ(log n)</b>. T(n) = T(n/2) + Θ(1).</summary><div class="plain"><p>For 16 items: sizes 16, 8, 4, 2, 1 = 5 looks = log₂ 16 + 1. For 1,000 items about 10 looks.</p></div></details>
+</section>
+
+<section id="DC-3"><h2><span class="id">[DC-3]</span> MERGE trace (combine step of merge sort)</h2>
+<details open><summary>Compare the two front items, take the smaller (tie → take L's) = 1 comparison. When one list is empty, copy the rest with no comparisons.<span class="sx">e.g. L=[2,5,8] R=[3,7]: 2v3, 5v3, 5v7, 8v7, copy 8 → 4 comparisons</span></summary><div class="plain"><p>Both lists must already be sorted.</p><p class="eg">L=[2,5,8], R=[3,7]: 2v3, 5v3, 5v7, 8v7, then copy 8 → 4 comparisons, [2,3,5,7,8].</p></div></details>
+<details open><summary>Merge sort: T(n) = 2T(n/2) + Θ(n) → <b>Θ(n log n)</b> in every case.</summary><div class="plain"><p>Why: merging costs about n at each level, and there are log₂ n levels of halving.</p></div></details>
+</section>
+
+<section id="DC-4"><h2><span class="id">[DC-4]</span> Fast exponentiation POWER(x, n)</h2>
+<details open><summary>n = 0 → return 1. Else y = POWER(x, ⌊n/2⌋). Even n → y × y. Odd n → x × y × y.<span class="sx">Shortcut: halve and round down to 0 = the calls. Then work up from 1: even → square, odd → square × x.</span><span class="sx">e.g. POWER(2,9): 9, 4, 2, 1, 0 (5 calls). Up: 1 → n1 odd 2·1·1 = 2 → n2 even 2·2 = 4 → n4 even 4·4 = 16 → n9 odd 2·16·16 = 512</span></summary><div class="plain"><p>The n values go down by halving (rounded down) until 0.</p><p class="eg">POWER(3,13): calls 13 → 6 → 3 → 1 → 0 (5 calls). Back up: 3, 27, 729, 3 × 729 × 729.</p></div></details>
+<details open><summary>Naive: n − 1 multiplications, Θ(n). Fast: T(n) = T(n/2) + Θ(1) → <b>Θ(log n)</b>.</summary><div class="plain"><p>For n = 1,000: 999 multiplications the naive way, about 10 calls the fast way.</p></div></details>
+</section>
+
+<div class="topic">Section 2: recurrences (from code, and recursion trees)</div>
+<section id="DC-5"><h2><span class="id">[DC-5]</span> Write T(n) = a T(n/b) + f(n) from code</h2>
+<details open><summary><b>a</b> = recursive calls that actually run. <b>Trap:</b> calls inside if / else → only one runs → a = 1.</summary><div class="plain"><p>Count the lines where the function calls itself. Binary search has two such lines, but only one runs each time, so T(n) = T(n/2) + Θ(1), not 2T(n/2).</p></div></details>
+<details open><summary><b>n/b</b> = size of each call's input (half → n/2, third → n/3).</summary><div class="plain"><p>Look at the range passed in: (lo, mid) is half the range (lo, hi).</p></div></details>
+<details open><summary><b>f(n)</b> = work outside the calls: simple lines → Θ(1); one loop over n → Θ(n); loop in a loop → Θ(n²).<span class="sx">e.g. 2 calls on halves + 1 loop → 2T(n/2) + Θ(n) · calls in if/else + compare → T(n/2) + Θ(1) · 3 calls on thirds + loop in loop → 3T(n/3) + Θ(n²)</span></summary><div class="plain"><p>Same loop rules as week 1 [AA-12]. "Return the max of two", one comparison or one addition is Θ(1). Merging, counting, copying or printing all n items is Θ(n). Doing a Θ(n) loop twice is still Θ(n).</p><p class="eg">MAJORITY: 2 calls on halves + counting loop → 2T(n/2) + Θ(n).</p></div></details>
+<details open><summary><div class="tbl"><table><tr><th>Algorithm</th><th>Recurrence</th><th>Answer</th></tr>
+<tr><td>Binary search, fast power</td><td>T(n/2) + Θ(1)</td><td>Θ(log n)</td></tr>
+<tr><td>Merge sort, majority</td><td>2T(n/2) + Θ(n)</td><td>Θ(n log n)</td></tr>
+<tr><td>Max by halves</td><td>2T(n/2) + Θ(1)</td><td>Θ(n)</td></tr>
+<tr><td>School multiply</td><td>4T(n/2) + Θ(n)</td><td>Θ(n²)</td></tr>
+<tr><td>Karatsuba</td><td>3T(n/2) + Θ(n)</td><td>Θ(n^1.585)</td></tr></table></div></summary><div class="plain"><p>Every row is solved with the Master Theorem in [DC-8]. Memorise the first two rows: they come up the most.</p></div></details>
+</section>
+
+
+<section id="DC-6"><h2><span class="id">[DC-6]</span> Recursion tree</h2>
+<details open><summary><b>Draw it:</b> 1 box at the top (level 0, size n). Under every box draw <b>a</b> boxes. Each level down, divide the size by <b>b</b> again.<span class="sx">e.g. 2T(n/3), n = 27: level 0 one box 27 · level 1 two boxes 9 · level 2 four boxes 3 · level 3 eight boxes 1 (stop)</span></summary><div class="plain"><p>Think of each box as a worker with a job. The recurrence says how many smaller jobs each worker hands out (a) and how much smaller each one is (÷ b). The + f(n) part is only the worker's own effort, so you don't need it to count boxes or sizes.</p></div></details>
+<details open><summary>Level i: <b>aⁱ nodes</b>, each of <b>size n/bⁱ</b>, each costing <b>f(size)</b>. Level total = nodes × cost.<span class="sx">e.g. 3T(n/4) + n², level 2: nodes aⁱ = 3² = 9 · size n ÷ bⁱ = n ÷ 4² = n/16</span></summary><div class="plain"><p>Level 0 is the first call. For 3T(n/4) + n²: level 2 has 3 × 3 = 9 nodes of size n/16, each costing (n/16)² = n²/256.</p></div></details>
+<details open><summary><b>Height</b> = log_b n levels. <b>Leaves</b> = n^(log_b a): look up a and b in the match table [DC-M].<span class="sx">e.g. 4T(n/2): leaves n^(log₂4) = n²</span></summary><div class="plain"><p>You divide by b until you reach 1, which takes log_b n steps. 4T(n/2) has n^(log₂4) = n² leaves: for n = 8, 3 levels and 4 × 4 × 4 = 64 = 8² leaves.</p></div></details>
+<details open><summary><b>To get T(n) from the tree:</b> compare how much work one whole level does with the level below it.<span class="sx" style="font-family:var(--body);font-size:14px;color:var(--ink)">• If every level does the <b>same</b> amount of work, the total is one level's work times the number of levels (log n).<br>• If each level does <b>less</b> work than the one above, the top level is most of the work, so T(n) = Θ(f(n)).<br>• If each level does <b>more</b> work than the one above, the bottom row (the leaves) is most of the work, so T(n) = Θ(n^(log_b a)).</span><span class="sx" style="font-family:var(--body);font-size:14px;color:var(--ink)"><b>Quick check</b> when f(n) is a power of n (n, n², n³…; call the power k): work out a ÷ bᵏ. If it is exactly 1, every level does the same work. If it is less than 1, the levels shrink. If it is more than 1, the levels grow.</span><span class="sx">e.g. 2T(n/2) + n²: a = 2, b = 2, k = 2, so 2 ÷ 2² = 2 ÷ 4 = ½. Less than 1 → levels shrink → top wins → Θ(n²).</span><span class="sx">e.g. 4T(n/2) + n: a = 4, b = 2, k = 1, so 4 ÷ 2 = 2. More than 1 → levels grow → leaves win → Θ(n^(log₂4)) = Θ(n²).</span><span class="sx">e.g. 2T(n/2) + n: 2 ÷ 2 = 1 → every level does n work, log n levels → Θ(n log n).</span></summary><div class="plain"><p>Why: the total time is all the levels added up. If they keep getting smaller, the first one is bigger than all the rest put together (like n + n/2 + n/4 + … which never reaches 2n). If they keep getting bigger, the last row is the biggest. If they're all equal, you just multiply.</p><p class="eg">a ÷ bᵏ is what level 1 costs compared with level 0: level 1 has a boxes, each doing (n/b)ᵏ work, which is a ÷ bᵏ times the root's nᵏ.</p></div></details>
+</section>
+<section id="DC-7"><h2><span class="id">[DC-7]</span> Three methods for recurrences</h2>
+<details open><summary><b>Substitution</b> = guess the answer, prove it by induction. <b>Recursion tree</b> = add each level, add the levels (makes the guess). <b>Master</b> = formula for aT(n/b) + f(n).</summary><div class="plain"><p>Induction means: show it works for small sizes, and show that if it works for the smaller sizes it works for n. Substitution is the most general; Master is the fastest when it applies.</p></div></details>
+</section>
+
+<section id="DC-M"><h2><span class="id">[DC-M]</span> Match table: look up a and b, read off the answer</h2>
+<details open><summary>Find the row with your <b>a</b> (number in front of T) and <b>b</b> (number n is divided by). <b>p</b> = log_b a. <b>Leaves</b> = n^p, which is also the Case 1 answer in the Master Theorem.<div class="tbl"><table><tr><th>a</th><th>b</th><th>p = log_b a</th><th>leaves = n^p</th></tr><tr><td>1</td><td>any</td><td>0</td><td>1 (constant)</td></tr><tr><td>2</td><td>2</td><td>1</td><td>n</td></tr><tr><td>3</td><td>2</td><td>≈1.585</td><td>n^1.585</td></tr><tr><td>4</td><td>2</td><td>2</td><td>n²</td></tr><tr><td>5</td><td>2</td><td>≈2.32</td><td>n^2.32</td></tr><tr><td>7</td><td>2</td><td>≈2.807</td><td>n^2.807</td></tr><tr><td>8</td><td>2</td><td>3</td><td>n³</td></tr><tr><td>16</td><td>2</td><td>4</td><td>n⁴</td></tr><tr><td>2</td><td>3</td><td>≈0.63</td><td>n^0.63</td></tr><tr><td>3</td><td>3</td><td>1</td><td>n</td></tr><tr><td>9</td><td>3</td><td>2</td><td>n²</td></tr><tr><td>27</td><td>3</td><td>3</td><td>n³</td></tr><tr><td>2</td><td>4</td><td>0.5</td><td>√n</td></tr><tr><td>3</td><td>4</td><td>≈0.79</td><td>n^0.79</td></tr><tr><td>4</td><td>4</td><td>1</td><td>n</td></tr><tr><td>16</td><td>4</td><td>2</td><td>n²</td></tr><tr><td>3</td><td>5</td><td>≈0.682</td><td>n^0.682</td></tr><tr><td>5</td><td>5</td><td>1</td><td>n</td></tr><tr><td>25</td><td>5</td><td>2</td><td>n²</td></tr></table></div><span class="sx">Not in the table? If a = b, p = 1. Otherwise count how many times you divide a by b to reach 1, or on the calculator: log a ÷ log b.</span><span class="sx">e.g. 4T(n/2) + n: a = 4, b = 2 → p = 2 → leaves n² · 9T(n/3) + n: a = 9, b = 3 → p = 2</span></summary><div class="plain"><p>log_b a means "how many times do I divide a by b to get to 1?" For 4 and 2: 4 → 2 → 1 is 2 steps, so p = 2. When it doesn't land exactly on 1 (like 3 and 2), the answer is a decimal, which is why the table gives it.</p><p>These rows cover every recurrence in the lecture, the class examples, the lab and the practice questions, plus the common neighbours.</p></div></details>
+</section>
+
+<div class="topic">Section 3: the Master Theorem</div>
+<section id="DC-8"><h2><span class="id">[DC-8]</span> Master Theorem fast steps</h2>
+<details open><summary>1. Read a (calls, at least 1), b (shrink, more than 1), f(n). 2. <b>p = log_b a</b>: look it up in the match table [DC-M]. 3. Power of f: n² → 2, n → 1, √n → 0.5, constant → 0.</summary><div class="plain"><p>p is the power of n that the leaves of the recursion tree add up to ([DC-6]).</p></div></details>
+<details open><summary>f's power <b>smaller</b> than p → <b>Case 1: Θ(n^p)</b>. <b>Equal</b> → <b>Case 2: Θ(n^p log n)</b>. <b>Bigger</b> → <b>Case 3: Θ(f(n))</b>.<span class="sx">e.g. 8T(n/2)+n²: p = log₂8 = 3; 2 &lt; 3 → Case 1 Θ(n³) · 2T(n/2)+n: p = 1, equal → Case 2 Θ(n log n)</span></summary><div class="plain"><p>Why: n^p is the work at the leaves and f(n) is the work at the top. The bigger one wins. If equal, every level costs the same, so multiply by the log n levels.</p><p class="eg">8T(n/2)+n²: p=3, 2&lt;3 → Θ(n³). 2T(n/2)+n: p=1, equal → Θ(n log n). T(n/2)+1: p=0, equal → Θ(log n). 7T(n/2)+n³: p≈2.807, 3 bigger → Θ(n³).</p></div></details>
+<details open><summary>Case 3 also needs <b>regularity</b>: a·f(n/b) ≤ c·f(n), c &lt; 1. For f = nᵏ: check a ÷ bᵏ &lt; 1.</summary><div class="plain"><p>It means the work must shrink as you go down the tree. 7T(n/2)+n³: 7 ÷ 2³ = 7/8, less than 1, so it holds. For plain powers of n it always holds in Case 3.</p></div></details>
+</section>
+
+<section id="DC-9"><h2><span class="id">[DC-9]</span> When the Master Theorem does NOT apply</h2>
+<details open><summary>f differs from n^p by <b>only a log</b> (n log n or n/log n when p = 1) → does not apply (gap between cases).</summary><div class="plain"><p>The cases need a whole or decimal power of n between f and n^p. A log is smaller than any power, so it falls in the gap.</p><p class="eg">Course answer: 2T(n/2) + n log n → "does not apply". Only if the question says "extended Case 2" (logᵏ n): Θ(n log² n).</p></div></details>
+<details open><summary>Also not: a &lt; 1, b ≤ 1, number of calls depends on n, f negative, or Case 3 regularity fails.</summary><div class="plain"><p>The theorem only covers the exact shape aT(n/b) + f(n) with fixed numbers a ≥ 1 and b &gt; 1.</p></div></details>
+<details open><summary><b>Trap:</b> f = log n or log² n with p &gt; 0 <b>does</b> apply → Case 1.</summary><div class="plain"><p>Any log grows slower than any power of n, so it counts as smaller. Lab 2 (e): 3T(n/5) + log² n → p ≈ 0.682 → Θ(n^0.682).</p></div></details>
+</section>
+
+<section id="DC-10"><h2><span class="id">[DC-10]</span> Karatsuba vs school multiplication</h2>
+<details open><summary>School: 4T(n/2) + Θ(n) → p = 2 → Case 1 → Θ(n²). Karatsuba: 3T(n/2) + Θ(n) → p ≈ 1.585 → Case 1 → Θ(n^1.585).</summary><div class="plain"><p>Karatsuba uses an algebra trick so it needs 3 half-size multiplications instead of 4. n is the number of digits or bits, not the size of the number.</p></div></details>
+<details open><summary>Fewer subproblems → smaller p → faster. Speed-up = n² ÷ n^1.585 (n = 10,000: about 46×).</summary><div class="plain"><p>The saving happens at every level, so the number of leaves drops from n² to n^1.585.</p><p class="eg">10,000² = 100,000,000. 10,000^1.585 ≈ 2,190,000. Divide: ≈ 46.</p></div></details>
+</section>
+
+<footer>Sources: Lecture 2 Divide and Conquer (Week 2), Class Master Theorem Example Solutions, Week 2 Lab and model answers. Version 4, 2 November 2026: new match table [DC-M] (a, b → p → leaves) replaces the log table, so you look up instead of working out logs. v3: [DC-6] "levels same / shrink / grow" rewritten in full sentences with three worked examples (Misty couldn't read the shorthand). v2 added worked examples under the most-asked lines. Older versions are in versions/.</footer>
+</div>
+<script>
+const help = {
+  paper: "Paper view: just the lines, exactly what the printed sheet will show. Practise with this one for the exam.",
+  full: "Everything shown: every line with its plain-English explanation, reason and example underneath. Nothing to tap.",
+  toggle: "Tap to explain: just the lines, and tapping a line opens its explanation."
+};
+const all = () => document.querySelectorAll('details');
+function setMode(m) {
+  document.body.classList.remove('paper', 'full', 'toggle'); document.body.classList.add(m);
+  document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-checked', b.dataset.mode === m));
+  document.getElementById('modeHelp').textContent = help[m];
+  document.getElementById('toggleTools').hidden = m !== 'toggle';
+  all().forEach(d => d.open = (m !== 'toggle'));
+  try { localStorage.setItem('dc-mode', m); } catch (e) {}
+}
+document.querySelectorAll('summary').forEach(s => s.addEventListener('click', e => { if (!document.body.classList.contains('toggle')) e.preventDefault(); }));
+document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+document.getElementById('openAll').addEventListener('click', () => all().forEach(d => d.open = true));
+document.getElementById('closeAll').addEventListener('click', () => all().forEach(d => d.open = false));
+let start = 'paper'; try { start = localStorage.getItem('dc-mode') || 'paper'; } catch (e) {}
+setMode(help[start] ? start : 'paper');
+</script>
+
