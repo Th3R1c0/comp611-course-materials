@@ -1,16 +1,29 @@
 <title>Week 2 Recurrences Lesson</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 {{STYLE}}
+<style>
+:root { --ca:#1f5fa8; --cb:#b35400; --ck:#2e7d32; --cp:#7b3fa6; --ci:#b3412e; --cyb:#e8f1e4; --cnb:#eceff2; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ca:#7fb0ea; --cb:#f0a35e; --ck:#86c98a; --cp:#c49be0; --ci:#ec8a77; --cyb:#1d2a1e; --cnb:#232a32; } }
+:root[data-theme="dark"] { --ca:#7fb0ea; --cb:#f0a35e; --ck:#86c98a; --cp:#c49be0; --ci:#ec8a77; --cyb:#1d2a1e; --cnb:#232a32; }
+.va,.vb,.vk,.vp,.vi { font-weight:700; }
+.va{color:var(--ca)} .vb{color:var(--cb)} .vk{color:var(--ck)} .vp{color:var(--cp)} .vi{color:var(--ci)}
+.cy,.cn { display:inline-block; font-size:12px; font-weight:700; padding:1px 7px; border-radius:4px; margin-right:4px; font-family:var(--body); }
+.cy { background:var(--cyb); color:var(--ck); } .cn { background:var(--cnb); color:var(--muted); }
+.key { font-size:14px; color:var(--muted); }
+.calc { white-space: pre-wrap; }
+</style>
 <div class="wrap">
 <header>
   <div class="eyebrow">COMP611 · Week 2 · Section 2 of 3</div>
   <h1>Recurrences: from code, and recursion trees: fast steps</h1>
   <p class="how">For each question type: what it means in plain English, the fast steps, and worked examples. The cheatsheet ([DC-…] entries) is this same page, condensed.</p>
   <div class="meta"><span class="pill">4 exam questions</span><span class="pill">about 10 marks</span></div>
+<p class="key">Colour key: <span class="va">a</span> = number of calls, <span class="vb">b</span> = what n is divided by, <span class="vk">k</span> = power of f(n), <span class="vp">p</span> = log_b a, <span class="vi">i</span> = level number.</p>
 </header>
 
 <div class="topic" style="font-family:var(--display);font-size:22px;margin-top:12px">Topic 2 · Write the recurrence from pseudocode (sheet [DC-5])</div>
-<section><h2><span class="id">2A</span> Fast steps: turn code into T(n) = a T(n/b) + f(n)</h2>
+<section><h2><span class="id">2A</span> Fast steps: turn code into T(n) = <span class="va">a</span>T(n/<span class="vb">b</span>) + f(n)</h2>
+<p><span class="cn">No calculator needed</span></p>
 <ol class="steps">
 <li><b>a = how many recursive calls actually run</b> in one go of the function. Count the lines where the function calls itself. <b>Trap:</b> if the two calls are in an if / else, only one of them runs, so a = 1 (binary search).</li>
 <li><b>n/b = the size of each call's input.</b> If each call gets half the list, write n/2 (b = 2). If each gets a third, write n/3 (b = 3).</li>
@@ -37,8 +50,8 @@
   right = MAJORITY(A, mid+1, hi)      ← call 2, half size
   for each cand in {left, right}:
      count cand in A[lo..hi]          ← a loop over n, twice = still Θ(n)</div>
-<p>a = 2 calls, each n/2, so b = 2. Outside the calls: counting is a loop over the n items, so f(n) = Θ(n).</p>
-<p class="ans">T(n) = 2T(n/2) + Θ(n)</p></div>
+<p>Step 1: <span class="va">a</span> = <span class="va">2</span> calls. Step 2: each gets n/2, so <span class="vb">b</span> = <span class="vb">2</span>. Step 3: outside the calls, counting is a loop over the n items, so f(n) = Θ(n).</p>
+<p class="ans">T(n) = <span class="va">2</span>T(n/<span class="vb">2</span>) + Θ(n)</p></div>
 <div class="ex"><h3>Example: binary search (the trap)</h3>
 <p>The code has two recursive lines, but they're in "if target &lt; A[mid] … else …", so only one runs. Outside the call: one comparison, so Θ(1).</p>
 <p class="ans">T(n) = T(n/2) + Θ(1), not 2T(n/2)</p></div>
@@ -55,27 +68,30 @@
 </section>
 
 <section><h2><span class="id">3B</span> Fast steps: any recursion tree question</h2>
+<p><span class="cy">Calculator: yes</span> The calculator does every power for you: type the number, then ^, then the power.</p>
 <ol class="steps">
-<li><b>Nodes at level i</b> = a × a × … (i times) = aⁱ. Level 0 has 1, level 1 has a, level 2 has a².</li>
-<li><b>Size at level i</b> = n ÷ bⁱ. Level 1: n/b, level 2: n/b².</li>
-<li><b>Cost of one node</b> = f of its size. If f(n) = n² and the size is n/4, one node costs (n/4)² = n²/16.</li>
-<li><b>Level total</b> = nodes × cost of one node.</li>
-<li><b>Height</b> (number of levels of splitting) = log_b n, because you divide by b until you reach 1.</li>
-<li><b>Number of leaves</b> = a^(log_b n), which is the same as <b>n^(log_b a)</b>. Example: 4T(n/2) has n^(log₂4) = n² leaves.</li>
-<li>Then look at how the level totals change as you go down:
-<br>if every level does the <b>same</b> work, the total is one level times the number of levels (for example n times log n)
-<br>if the levels <b>shrink</b> (each level is a fraction of the one above), the top level wins, so the total is Θ(f(n))
-<br>if the levels <b>grow</b>, the leaves win, so the total is Θ(number of leaves), which is Θ(n^(log_b a))</li>
+<li><b>Step 1:</b> read off <span class="va">a</span> (number of calls) and <span class="vb">b</span> (what n is divided by) from T(n) = <span class="va">a</span>T(n/<span class="vb">b</span>) + f(n).</li>
+<li><b>Boxes at level <span class="vi">i</span>:</b> type <span class="va">a</span>^<span class="vi">i</span>. Level 0 has 1, level 1 has <span class="va">a</span>, level 2 has <span class="va">a</span>×<span class="va">a</span>.</li>
+<li><b>Size at level <span class="vi">i</span>:</b> type <span class="vb">b</span>^<span class="vi">i</span>, and the size is n divided by that answer.</li>
+<li><b>Cost of one box</b> = f of its size. If f(n) = n² and the size is n/4, one box costs (n/4)² = n²/16.</li>
+<li><b>Level total</b> = number of boxes times the cost of one box.</li>
+<li><b>Height</b> (number of levels of splitting) = log_<span class="vb">b</span> n, because you divide by <span class="vb">b</span> until you reach 1.</li>
+<li><b>Number of leaves</b> = n to the power <span class="vp">p</span>. Type log <span class="va">a</span> ÷ log <span class="vb">b</span> to get <span class="vp">p</span>. Example: 4T(n/2) gives log <span class="va">4</span> ÷ log <span class="vb">2</span> = <span class="vp">2</span>, so n² leaves.</li>
+<li><b>Same, shrink or grow?</b> When f(n) is a power of n, call the power <span class="vk">k</span> and type <span class="va">a</span> ÷ <span class="vb">b</span>^<span class="vk">k</span>.
+<br>If the answer is exactly 1, every level does the same work, so the total is one level times log n.
+<br>If it is less than 1, the levels shrink and the top level wins, so the total is Θ(f(n)).
+<br>If it is more than 1, the levels grow and the leaves win, so the total is Θ(n^<span class="vp">p</span>).</li>
 </ol>
-<div class="ex"><h3>Example: T(n) = 3T(n/4) + n² (from the lecture)</h3>
-<div class="calc">level 0: 1 node,  size n,    cost n²         total n²
-level 1: 3 nodes, size n/4,  cost n²/16 each total 3/16 n²
-level 2: 9 nodes, size n/16, cost n²/256 each total 9/256 n²</div>
-<p>Each level is 3/16 of the one above, so it shrinks. The top level wins.</p>
+<div class="ex"><h3>Example: T(n) = 3T(n/4) + n² (from the lecture)</h3><p><span class="cy">Calculator: yes</span></p>
+<div class="calc">Step 1  a = <span class="va">3</span>, b = <span class="vb">4</span>, k = <span class="vk">2</span>
+Step 2  level <span class="vi">2</span>: boxes = <span class="va">3</span>^<span class="vi">2</span> = 9, size = n ÷ (<span class="vb">4</span>^<span class="vi">2</span>) = n/16
+Step 3  same, shrink or grow: <span class="va">3</span> ÷ <span class="vb">4</span>^<span class="vk">2</span> = 3 ÷ 16 = 0.1875
+Step 4  less than 1, so the levels shrink and the top wins</div>
 <p class="ans">T(n) = Θ(n²)</p></div>
-<div class="ex"><h3>Example: T(n) = T(n/2) + n</h3>
-<div class="calc">levels cost n, n/2, n/4, n/8 and so on, which adds up to less than 2n</div>
-<p>Shrinking, so the top level wins.</p>
+<div class="ex"><h3>Example: T(n) = T(n/2) + n</h3><p><span class="cy">Calculator: yes</span></p>
+<div class="calc">Step 1  a = <span class="va">1</span>, b = <span class="vb">2</span>, k = <span class="vk">1</span>
+Step 2  <span class="va">1</span> ÷ <span class="vb">2</span>^<span class="vk">1</span> = 0.5
+Step 3  less than 1, so the levels shrink (n, n/2, n/4 and so on, less than 2n)</div>
 <p class="ans">T(n) = Θ(n)</p></div>
 </section>
 
