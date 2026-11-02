@@ -16,3 +16,5 @@ Status: **applied in trial** = done by hand in the test thread, not yet written 
 - Cheatsheet step: "Write the study sheet as `revision/cheatsheets/<NN>-<slug>.html`. Each sheet line is a `<details>` row: the summary is the exact line for the printed sheet, the body is a plain-English explanation from first principles."
 - Final assembly: "Build `cheatsheet-final.pdf` from the summary lines only (no explanations), within the one-A4-single-sided limit."
 - Sections: "Order sections by course week unless the student asks otherwise."
+
+| 6 | 2026-11-02 | **Practice questions as a bank: 5 questions per topic inside each week**, covering all of that week, from course content (not one question at a time). | applied in trial (Week 1: 30 Qs) |

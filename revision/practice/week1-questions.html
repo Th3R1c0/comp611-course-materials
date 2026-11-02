@@ -1,0 +1,114 @@
+<title>Week 1 Practice Questions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+</style>
+<style>
+.q { border-top: 1px solid var(--rule); padding: 12px 0; display: flex; flex-direction: column; gap: 8px; }
+.q:first-of-type { border-top: 0; }
+.qn { font-family: var(--mono); font-weight: 600; color: var(--accent); margin-right: 6px; }
+pre { font-family: var(--mono); font-size: 13.5px; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; margin: 0; overflow-x: auto; }
+.opts { display: flex; flex-direction: column; gap: 4px; }
+.opts label { display: flex; gap: 8px; align-items: flex-start; padding: 6px 8px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; }
+.opts label:hover { border-color: var(--rule); }
+.opts input { margin-top: 4px; }
+.opts .L { font-family: var(--mono); font-weight: 600; }
+.opts label.right { background: var(--note); border-color: var(--note-edge); }
+.opts label.wrong { background: var(--bad-soft); border-color: var(--bad); }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.verdict { font-weight: 700; }
+.verdict.ok { color: var(--note-edge); } .verdict.no { color: var(--bad); }
+.score { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 14px; }
+a { color: var(--accent); }
+:root { --bad: #b3412e; --bad-soft: #f8e9e6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bad: #e38672; --bad-soft: #2b1c19; } }
+:root[data-theme="dark"] { --bad: #e38672; --bad-soft: #2b1c19; }
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 · Week 1 · practice questions</div>
+  <h1>Algorithm analysis drill</h1>
+  <div class="meta"><span class="pill">6 topics × 5 questions</span><span class="pill">exam-style, 4 options</span><span class="pill" id="total">0 / 30 checked</span></div>
+  <p class="how"><b>Best way to use this:</b> keep the <a href="https://claude.ai/artifact/VjWWa68VQuJ1YfZGxszFjE" target="_blank" rel="noopener">Week 1 cheatsheet</a> open, and answer in the chat thinking out loud, for example "2.3: D, because I looked at [AA-4]…". You'll get a correction that points to the sheet. If you want to self-check here instead, pick an option and press Check.</p>
+</header>
+<div id="topics" style="display:flex;flex-direction:column;gap:22px"></div>
+<footer>Written from Lecture 1B and the Week 1 lab. These are new questions, not the practice quiz.</footer>
+</div>
+<script>
+const DATA = [{"name": "RAM model & what an algorithm is", "refs": "[AA-1] [AA-9]", "qs": [{"id": "1.1", "p": "Under the RAM model, which of these is NOT an elementary operation (one that costs 1 step)?", "code": null, "opts": ["Comparing two integers", "Sorting an array of n elements", "Reading the value A[i]", "Assigning a value to a primitive variable"], "ans": 1, "ex": "Sorting a whole list takes many steps, and the number grows with n. The other three are single basic actions, so each costs 1.", "refs": "[AA-1]"}, {"id": "1.2", "p": "Why does the course measure running time by counting elementary operations instead of seconds?", "code": null, "opts": ["Seconds are impossible to measure accurately", "The count doesn't depend on the machine or language, so it describes the algorithm itself", "RAM machines don't have a clock", "The count is always smaller than the time in seconds"], "ans": 1, "ex": "Seconds change from laptop to laptop. The step count is the same everywhere, so it's a fair way to compare algorithms.", "refs": "[AA-1] [AA-9]"}, {"id": "1.3", "p": "What is the worst-case time complexity of an algorithm?", "code": null, "opts": ["The running time on the smallest possible input", "The average running time over all inputs", "A function that gives, for each n, the longest running time over every input of size n", "The running time on one randomly chosen input"], "ans": 2, "ex": "Worst case = the slowest input of that size. Average is a different measure.", "refs": "[AA-1]"}, {"id": "1.4", "p": "An algorithm receives an array of n numbers and only creates three counter variables i, j and k. What is its auxiliary (extra) space?", "code": null, "opts": ["Θ(3n)", "Θ(n + 3)", "Θ(1)", "Θ(n)"], "ans": 2, "ex": "We only count extra memory, not the input. Three counters is a fixed amount whatever n is, so it's constant: Θ(1).", "refs": "[AA-1]"}, {"id": "1.5", "p": "Which property of an algorithm says that every step must be clear and unambiguous?", "code": null, "opts": ["Finiteness", "Effectiveness", "Well-defined output", "Definiteness"], "ans": 3, "ex": "Finiteness = it stops. Effectiveness = each step is simple enough to do. Definiteness = each step is precise.", "refs": "[AA-9]"}]}, {"name": "Big-O, Big-Ω and Big-Θ", "refs": "[AA-2] [AA-4]", "qs": [{"id": "2.1", "p": "Which statement is FALSE?", "code": null, "opts": ["5n + 3 = Θ(n)", "5n + 3 = O(n²)", "5n + 3 = Ω(1)", "5n + 3 = Θ(n²)"], "ans": 3, "ex": "5n + 3 grows like n. A ceiling of n² is allowed (O), and a floor of 1 is allowed (Ω), but Θ must be exact, and it's n, not n².", "refs": "[AA-2] [AA-4]"}, {"id": "2.2", "p": "You know a function f(n) is both O(n³) and Ω(n³). What can you conclude?", "code": null, "opts": ["Nothing more can be concluded", "f(n) is Θ(n³)", "f(n) is Θ(n)", "f(n) is O(n²)"], "ans": 1, "ex": "Ceiling and floor are the same shape, so the growth is pinned down exactly: Θ(n³).", "refs": "[AA-2]"}, {"id": "2.3", "p": "What is the tight bound of f(n) = 4n² + 9n log n + 100?", "code": null, "opts": ["Θ(n log n)", "Θ(n² log n)", "Θ(1)", "Θ(n²)"], "ans": 3, "ex": "Keep the biggest term. n² grows faster than n log n ([AA-5]), and the 4 in front is dropped.", "refs": "[AA-4] [AA-5]"}, {"id": "2.4", "p": "Which statement is TRUE?", "code": null, "opts": ["2ⁿ = O(n³)", "n² = O(n)", "n log n = Ω(n²)", "log₁₀ n = Θ(log₂ n)"], "ans": 3, "ex": "Changing the log base only multiplies by a fixed number, so all logs grow the same way. The other three put a faster-growing function under a slower one.", "refs": "[AA-4]"}, {"id": "2.5", "p": "A student says: \"If an algorithm is O(n²), it takes quadratic time on every input.\" Which response is right?", "code": null, "opts": ["True, but only for sorting algorithms", "True: O gives the exact running time", "False: O is a lower bound, not an upper bound", "False: O is only an upper bound. Insertion sort is O(n²) but linear on a sorted list"], "ans": 3, "ex": "O is a ceiling, and a ceiling doesn't say every input reaches it.", "refs": "[AA-9] [AA-2]"}]}, {"name": "Proving bounds with c and n₀", "refs": "[AA-3]", "qs": [{"id": "3.1", "p": "f(n) = 5n² + 2n + 7. Which pair (c, n₀) proves that f(n) ≤ c·n² for every n ≥ n₀?", "code": null, "opts": ["c = 14, n₀ = 1", "c = 5, n₀ = 1", "c = 7, n₀ = 1", "c = 4, n₀ = 10"], "ans": 0, "ex": "Recipe: add the positive numbers: 5 + 2 + 7 = 14, with n₀ = 1. Check: f(1) = 14 ≤ 14×1 ✓. c = 7 fails at n = 1 (14 > 7). c = 4 or 5 is too small for big n.", "refs": "[AA-3]"}, {"id": "3.2", "p": "f(n) = 3n² + 8n + 1. Which pair proves that f(n) is Ω(n²), meaning f(n) ≥ c·n² for every n ≥ n₀?", "code": null, "opts": ["No such constants exist", "c = 3, n₀ = 1", "c = 4, n₀ = 1", "c = 12, n₀ = 1"], "ans": 1, "ex": "Recipe for a floor: c = the number in front of the biggest term. Dropping 8n + 1 only makes it smaller, so f(n) ≥ 3n². c = 4 fails once n ≥ 9.", "refs": "[AA-3]"}, {"id": "3.3", "p": "Why can no constants c and n₀ prove that 2n² = O(n)?", "code": null, "opts": ["Because n₀ would have to be 0", "They can: c = 2, n₀ = 1 works", "You'd need 2n ≤ c for all large n, but n keeps growing and c is fixed", "Because 2 is bigger than 1"], "ans": 2, "ex": "Divide both sides of 2n² ≤ c·n by n: you need 2n ≤ c. No fixed c stays above 2n forever.", "refs": "[AA-3] [AA-2]"}, {"id": "3.4", "p": "To show n²/2 − 4n ≥ (1/4)·n², what is the smallest n₀ that works?", "code": null, "opts": ["8", "16", "1", "32"], "ans": 1, "ex": "You need n²/2 − n²/4 ≥ 4n, so n²/4 ≥ 4n, so n ≥ 16. Check: n = 16 gives 128 − 64 = 64 and 256/4 = 64 ✓. 32 also works but isn't the smallest.", "refs": "[AA-3]"}, {"id": "3.5", "p": "Which pair does NOT prove that 3n + 10 = O(n)?", "code": null, "opts": ["c = 5, n₀ = 5", "c = 4, n₀ = 10", "c = 3, n₀ = 100", "c = 13, n₀ = 1"], "ans": 2, "ex": "With c = 3 you'd need 3n + 10 ≤ 3n, which is never true. c has to be bigger than 3 to leave room for the +10.", "refs": "[AA-3]"}]}, {"name": "Growth order & timing tables", "refs": "[AA-5]", "qs": [{"id": "4.1", "p": "Which list goes from slowest growing to fastest growing?", "code": null, "opts": ["log n, n log n, n, 2ⁿ, n²", "log n, n, n log n, n², 2ⁿ", "n log n, n, log n, n², 2ⁿ", "n, log n, n², n log n, 2ⁿ"], "ans": 1, "ex": "The order to memorise is 1 < log n < n < n log n < n² < n³ < 2ⁿ.", "refs": "[AA-5]"}, {"id": "4.2", "p": "A program takes 2 s for n = 500, 16 s for n = 1,000 and 128 s for n = 2,000. Which growth fits best?", "code": null, "opts": ["Θ(2ⁿ)", "Θ(n)", "Θ(n²)", "Θ(n³)"], "ans": 3, "ex": "Each time n doubles, time × 8 (16/2 = 8, 128/16 = 8). Ratio 8 means n³.", "refs": "[AA-5]"}, {"id": "4.3", "p": "An algorithm is Θ(n²) and takes 1 second for n = 10,000. Roughly how long for n = 30,000?", "code": null, "opts": ["9 seconds", "6 seconds", "27 seconds", "3 seconds"], "ans": 0, "ex": "n got 3 times bigger. With n², time grows by 3 × 3 = 9.", "refs": "[AA-5]"}, {"id": "4.4", "p": "Times: n = 1,000 → 1.0 s, n = 2,000 → 1.1 s, n = 4,000 → 1.2 s. Which growth fits best?", "code": null, "opts": ["Θ(n²)", "Θ(n)", "Θ(n log n)", "Θ(log n)"], "ans": 3, "ex": "Each doubling only adds a fixed small amount (+0.1 s), and the ratio is about 1. That's log n: doubling n adds just one more halving step.", "refs": "[AA-5] [AA-0]"}, {"id": "4.5", "p": "Algorithm A takes 0.001·n² steps. Algorithm B takes 100·n·log₂ n steps. Which is faster for very large n?", "code": null, "opts": ["B, because n log n grows slower than n², whatever the numbers in front", "A, because 0.001 is smaller than 100", "They are always equal", "A, for every n"], "ans": 0, "ex": "For small n A can win, but growth rate decides for large n. This is the lecture's own example.", "refs": "[AA-5] [AA-4]"}]}, {"name": "Counting steps from pseudocode", "refs": "[AA-6]", "qs": [{"id": "5.1", "p": "What is the value of count at the end?", "code": "count = 0\nfor i = 1 to n\n    for j = 1 to n\n        count = count + 1", "opts": ["n(n−1)/2", "2n", "n²", "n"], "ans": 2, "ex": "Two loops each to n, one inside the other: n × n.", "refs": "[AA-6]"}, {"id": "5.2", "p": "How many times is the comparison on line 3 executed?", "code": "1 for i = 1 to n\n2     for j = i + 1 to n\n3         if A[i] == A[j] then count = count + 1", "opts": ["n − 1", "n(n+1)/2", "n²", "n(n−1)/2"], "ans": 3, "ex": "The inner loop starts after i, so it checks each pair once: (n−1) + (n−2) + … + 1 = n(n−1)/2.", "refs": "[AA-6]"}, {"id": "5.3", "p": "What is the running time of this loop?", "code": "i = n\nwhile i > 1\n    i = i / 2", "opts": ["Θ(n)", "Θ(1)", "Θ(log n)", "Θ(n/2)"], "ans": 2, "ex": "i is halved each time, and the number of halvings to reach 1 is log n.", "refs": "[AA-6] [AA-0]"}, {"id": "5.4", "p": "What is the running time?", "code": "for i = 1 to n\n    j = 1\n    while j < n\n        j = j * 2", "opts": ["Θ(n log n)", "Θ(n²)", "Θ(n)", "Θ(log n)"], "ans": 0, "ex": "The inner loop doubles j, so it runs log n times. It sits inside a loop of n: n × log n.", "refs": "[AA-6]"}, {"id": "5.5", "p": "Count each execution of a line as 1 step, with the loop header running n + 1 times. How many steps in total?", "code": "1 total = 0\n2 for i = 1 to n\n3     total = total + A[i]\n4 return total", "opts": ["n²", "2n + 3", "n + 2", "3n"], "ans": 1, "ex": "Line 1: 1. Line 2: n + 1. Line 3: n. Line 4: 1. Total = 1 + (n+1) + n + 1 = 2n + 3, which is Θ(n).", "refs": "[AA-6] [AA-1]"}]}, {"name": "Best & worst cases, Fibonacci", "refs": "[AA-7] [AA-8]", "qs": [{"id": "6.1", "p": "Insertion sort is run on [1, 2, 3, 4, 5, 6], which is already sorted. How many shifts happen, and what is the running time?", "code": null, "opts": ["0 shifts, Θ(1)", "15 shifts, Θ(n²)", "6 shifts, Θ(n)", "0 shifts, Θ(n)"], "ans": 3, "ex": "Already sorted is the best case: nothing slides, but it still looks at each item once, so Θ(n) not Θ(1).", "refs": "[AA-7]"}, {"id": "6.2", "p": "Insertion sort is run on [6, 5, 4, 3, 2, 1]. How many shifts happen?", "code": null, "opts": ["21", "15", "36", "6"], "ans": 1, "ex": "Reverse sorted is the worst case: 1 + 2 + 3 + 4 + 5 = 15, which is 6 × 5 ÷ 2.", "refs": "[AA-7] [AA-6]"}, {"id": "6.3", "p": "When does linear search have its worst case?", "code": null, "opts": ["The target is last, Θ(log n)", "The target is first, Θ(1)", "The target is not in the array, Θ(n)", "The target is in the middle, Θ(n/2)"], "ans": 2, "ex": "If it's missing, every item must be checked.", "refs": "[AA-7]"}, {"id": "6.4", "p": "Which algorithm has the same Θ for its best and worst case?", "code": null, "opts": ["Binary search", "Merge sort", "Linear search", "Insertion sort"], "ans": 1, "ex": "Merge sort always splits and merges the same way: Θ(n log n) on every input.", "refs": "[AA-7]"}, {"id": "6.5", "p": "Why is the naive recursive Fibonacci algorithm so slow?", "code": null, "opts": ["Its array uses too much memory", "It uses loops instead of recursion", "It recalculates the same smaller Fibonacci numbers again and again, giving exponential time", "Any recursive algorithm is exponential"], "ans": 2, "ex": "Storing answers (memoisation) or looping fixes it and gets O(n). Binary search is recursive and only log n, so recursion itself isn't the problem.", "refs": "[AA-8]"}]}];
+const root = document.getElementById('topics'); let checked = 0;
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+DATA.forEach((t, ti) => {
+  const s = document.createElement('section');
+  s.innerHTML = `<h2><span class="id">Topic ${ti+1}</span> ${esc(t.name)} <span class="score" id="sc${ti}"></span></h2><div class="score">Sheet: ${t.refs}</div>`;
+  let right = 0, done = 0;
+  t.qs.forEach(q => {
+    const d = document.createElement('div'); d.className = 'q';
+    const name = 'q' + q.id.replace('.', '_');
+    d.innerHTML = `<div><span class="qn">${q.id}</span>${esc(q.p)}</div>` + (q.code ? `<pre>${esc(q.code)}</pre>` : '') +
+      `<div class="opts">` + q.opts.map((o, i) => `<label><input type="radio" name="${name}" id="${name}_${i}" value="${i}"><span class="L">${'ABCD'[i]}.</span><span>${esc(o)}</span></label>`).join('') + `</div>` +
+      `<div class="row"><button type="button">Check</button><span class="verdict"></span></div><div class="plain" hidden></div>`;
+    const btn = d.querySelector('button'), v = d.querySelector('.verdict'), ex = d.querySelector('.plain');
+    btn.addEventListener('click', () => {
+      const sel = d.querySelector('input:checked');
+      if (!sel) { v.className = 'verdict'; v.textContent = 'Pick an option first.'; return; }
+      const labels = d.querySelectorAll('.opts label'); labels.forEach(l => l.classList.remove('right', 'wrong'));
+      const ok = +sel.value === q.ans;
+      labels[q.ans].classList.add('right'); if (!ok) labels[+sel.value].classList.add('wrong');
+      v.className = 'verdict ' + (ok ? 'ok' : 'no'); v.textContent = ok ? 'Correct' : 'Not quite: the answer is ' + 'ABCD'[q.ans];
+      ex.innerHTML = `<p>${esc(q.ex)}</p><p class="score">See ${q.refs}</p>`; ex.hidden = false;
+      if (!btn.dataset.done) { btn.dataset.done = 1; done++; checked++; if (ok) right++;
+        document.getElementById('sc' + ti).textContent = `${right}/${done}`;
+        document.getElementById('total').textContent = `${checked} / 30 checked`; }
+    });
+    s.appendChild(d);
+  });
+  root.appendChild(s);
+});
+</script>
