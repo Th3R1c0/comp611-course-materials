@@ -84,3 +84,6 @@ Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).
 
 ### Sheet edits → version 5 (2026-11-02)
 - Misty: "why do you always use arrows, use English". Every sheet line, all three lessons and the question explanations rewritten in plain English sentences, with no arrows, dots or "e.g." shorthand. Examples now start "Example:". v4 kept at versions/02-divide-and-conquer-v4.html.
+
+### Sheet edits → version 6 (2026-11-02)
+- Skill changes 31–32 (Misty): every substituted value is colour-coded (a blue, b orange, k green, p purple, level i red) with a colour key [DC-K]; numbered steps in worked examples; every entry labelled "Calculator: yes" or "No calculator needed"; calculator-first methods (log a ÷ log b for p, a ÷ b^k for level check and regularity, x^n to check POWER, n^2 ÷ n^1.585 for speed-up). v5 kept at versions/02-divide-and-conquer-v5.html.
