@@ -1,9 +1,10 @@
 <title>Week 2 Divide and Conquer Sheet</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 {{STYLE}}
+<style>.sx { display: block; font-family: var(--mono); font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.45; }</style>
 <div class="wrap">
 <header>
-  <div class="eyebrow">COMP611 cheatsheet · Week 2 · version 1</div>
+  <div class="eyebrow">COMP611 cheatsheet · Week 2 · version 2</div>
   <h1>Divide and conquer &amp; recurrences</h1>
   <div class="meta"><span class="pill">4 exam questions</span><span class="pill">about 10 marks</span><span class="pill">same content as the fast lesson, condensed</span></div>
   <div class="modes" role="radiogroup" aria-label="View">
@@ -13,7 +14,7 @@
   </div>
   <p class="how" id="modeHelp"></p>
   <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
-  <div class="vers"><span>Older versions: none yet (this is version 1).</span></div>
+  <div class="vers"><span>Older versions:</span><a href="https://claude.ai/artifact/{{V1}}" target="_blank" rel="noopener">Version 1</a></div>
 </header>
 
 <div class="topic">Start here: words and symbols</div>
@@ -36,17 +37,17 @@
 </section>
 
 <section id="DC-2"><h2><span class="id">[DC-2]</span> Binary search trace (list must be sorted)</h2>
-<details open><summary>mid = ⌊(low + high) ÷ 2⌋. Found if A[mid] = target. Smaller → high = mid − 1. Bigger → low = mid + 1. low &gt; high → not found.</summary><div class="plain"><p>Write the positions (starting at 0 unless told otherwise) under the values first.</p><p class="eg">[3,7,11,15,19,24,30], target 24: mid=3 → 15, bigger → low=4; mid=5 → 24 found.</p></div></details>
+<details open><summary>mid = ⌊(low + high) ÷ 2⌋. Found if A[mid] = target. Smaller → high = mid − 1. Bigger → low = mid + 1. low &gt; high → not found.<span class="sx">e.g. [3,7,11,15,19,24,30] find 24: mid 3 → 15, bigger, low = 4 · mid 5 → 24 ✓</span></summary><div class="plain"><p>Write the positions (starting at 0 unless told otherwise) under the values first.</p><p class="eg">[3,7,11,15,19,24,30], target 24: mid=3 → 15, bigger → low=4; mid=5 → 24 found.</p></div></details>
 <details open><summary>Each look throws away half → about log₂ n looks → <b>Θ(log n)</b>. T(n) = T(n/2) + Θ(1).</summary><div class="plain"><p>For 16 items: sizes 16, 8, 4, 2, 1 = 5 looks = log₂ 16 + 1. For 1,000 items about 10 looks.</p></div></details>
 </section>
 
 <section id="DC-3"><h2><span class="id">[DC-3]</span> MERGE trace (combine step of merge sort)</h2>
-<details open><summary>Compare the two front items, take the smaller (tie → take L's) = 1 comparison. When one list is empty, copy the rest with no comparisons.</summary><div class="plain"><p>Both lists must already be sorted.</p><p class="eg">L=[2,5,8], R=[3,7]: 2v3, 5v3, 5v7, 8v7, then copy 8 → 4 comparisons, [2,3,5,7,8].</p></div></details>
+<details open><summary>Compare the two front items, take the smaller (tie → take L's) = 1 comparison. When one list is empty, copy the rest with no comparisons.<span class="sx">e.g. L=[2,5,8] R=[3,7]: 2v3, 5v3, 5v7, 8v7, copy 8 → 4 comparisons</span></summary><div class="plain"><p>Both lists must already be sorted.</p><p class="eg">L=[2,5,8], R=[3,7]: 2v3, 5v3, 5v7, 8v7, then copy 8 → 4 comparisons, [2,3,5,7,8].</p></div></details>
 <details open><summary>Merge sort: T(n) = 2T(n/2) + Θ(n) → <b>Θ(n log n)</b> in every case.</summary><div class="plain"><p>Why: merging costs about n at each level, and there are log₂ n levels of halving.</p></div></details>
 </section>
 
 <section id="DC-4"><h2><span class="id">[DC-4]</span> Fast exponentiation POWER(x, n)</h2>
-<details open><summary>n = 0 → return 1. Else y = POWER(x, ⌊n/2⌋). Even n → y × y. Odd n → x × y × y.</summary><div class="plain"><p>The n values go down by halving (rounded down) until 0.</p><p class="eg">POWER(3,13): calls 13 → 6 → 3 → 1 → 0 (5 calls). Back up: 3, 27, 729, 3 × 729 × 729.</p></div></details>
+<details open><summary>n = 0 → return 1. Else y = POWER(x, ⌊n/2⌋). Even n → y × y. Odd n → x × y × y.<span class="sx">Shortcut: halve and round down to 0 = the calls. Then work up from 1: even → square, odd → square × x.</span><span class="sx">e.g. POWER(2,9): 9, 4, 2, 1, 0 (5 calls). Up: 1 → n1 odd 2·1·1 = 2 → n2 even 2·2 = 4 → n4 even 4·4 = 16 → n9 odd 2·16·16 = 512</span></summary><div class="plain"><p>The n values go down by halving (rounded down) until 0.</p><p class="eg">POWER(3,13): calls 13 → 6 → 3 → 1 → 0 (5 calls). Back up: 3, 27, 729, 3 × 729 × 729.</p></div></details>
 <details open><summary>Naive: n − 1 multiplications, Θ(n). Fast: T(n) = T(n/2) + Θ(1) → <b>Θ(log n)</b>.</summary><div class="plain"><p>For n = 1,000: 999 multiplications the naive way, about 10 calls the fast way.</p></div></details>
 </section>
 
@@ -54,7 +55,7 @@
 <section id="DC-5"><h2><span class="id">[DC-5]</span> Write T(n) = a T(n/b) + f(n) from code</h2>
 <details open><summary><b>a</b> = recursive calls that actually run. <b>Trap:</b> calls inside if / else → only one runs → a = 1.</summary><div class="plain"><p>Count the lines where the function calls itself. Binary search has two such lines, but only one runs each time, so T(n) = T(n/2) + Θ(1), not 2T(n/2).</p></div></details>
 <details open><summary><b>n/b</b> = size of each call's input (half → n/2, third → n/3).</summary><div class="plain"><p>Look at the range passed in: (lo, mid) is half the range (lo, hi).</p></div></details>
-<details open><summary><b>f(n)</b> = work outside the calls: simple lines → Θ(1); one loop over n → Θ(n); loop in a loop → Θ(n²).</summary><div class="plain"><p>Same loop rules as week 1 [AA-12]. "Return the max of two", one comparison or one addition is Θ(1). Merging, counting, copying or printing all n items is Θ(n). Doing a Θ(n) loop twice is still Θ(n).</p><p class="eg">MAJORITY: 2 calls on halves + counting loop → 2T(n/2) + Θ(n).</p></div></details>
+<details open><summary><b>f(n)</b> = work outside the calls: simple lines → Θ(1); one loop over n → Θ(n); loop in a loop → Θ(n²).<span class="sx">e.g. 2 calls on halves + 1 loop → 2T(n/2) + Θ(n) · calls in if/else + compare → T(n/2) + Θ(1) · 3 calls on thirds + loop in loop → 3T(n/3) + Θ(n²)</span></summary><div class="plain"><p>Same loop rules as week 1 [AA-12]. "Return the max of two", one comparison or one addition is Θ(1). Merging, counting, copying or printing all n items is Θ(n). Doing a Θ(n) loop twice is still Θ(n).</p><p class="eg">MAJORITY: 2 calls on halves + counting loop → 2T(n/2) + Θ(n).</p></div></details>
 <details open><summary><div class="tbl"><table><tr><th>Algorithm</th><th>Recurrence</th><th>Answer</th></tr>
 <tr><td>Binary search, fast power</td><td>T(n/2) + Θ(1)</td><td>Θ(log n)</td></tr>
 <tr><td>Merge sort, majority</td><td>2T(n/2) + Θ(n)</td><td>Θ(n log n)</td></tr>
@@ -65,9 +66,10 @@
 
 
 <section id="DC-6"><h2><span class="id">[DC-6]</span> Recursion tree</h2>
-<details open><summary>Level i: <b>aⁱ nodes</b>, each of <b>size n/bⁱ</b>, each costing <b>f(size)</b>. Level total = nodes × cost.</summary><div class="plain"><p>Level 0 is the first call. For 3T(n/4) + n²: level 2 has 3 × 3 = 9 nodes of size n/16, each costing (n/16)² = n²/256.</p></div></details>
-<details open><summary><b>Height</b> = log_b n levels. <b>Leaves</b> = n^(log_b a).</summary><div class="plain"><p>You divide by b until you reach 1, which takes log_b n steps. 4T(n/2) has n^(log₂4) = n² leaves: for n = 8, 3 levels and 4 × 4 × 4 = 64 = 8² leaves.</p></div></details>
-<details open><summary>Level totals <b>same</b> → one level × log n. <b>Shrinking</b> → top wins: Θ(f(n)). <b>Growing</b> → leaves win: Θ(n^(log_b a)).</summary><div class="plain"><p class="eg">2T(n/2)+n: n, n, n … → n log n. T(n/2)+n: n, n/2, n/4 … less than 2n → Θ(n). 3T(n/4)+n²: each level 3/16 of the one above → Θ(n²).</p></div></details>
+<details open><summary><b>Draw it:</b> 1 box at the top (level 0, size n). Under every box draw <b>a</b> boxes. Each level down, divide the size by <b>b</b> again.<span class="sx">e.g. 2T(n/3), n = 27: level 0 one box 27 · level 1 two boxes 9 · level 2 four boxes 3 · level 3 eight boxes 1 (stop)</span></summary><div class="plain"><p>Think of each box as a worker with a job. The recurrence says how many smaller jobs each worker hands out (a) and how much smaller each one is (÷ b). The + f(n) part is only the worker's own effort, so you don't need it to count boxes or sizes.</p></div></details>
+<details open><summary>Level i: <b>aⁱ nodes</b>, each of <b>size n/bⁱ</b>, each costing <b>f(size)</b>. Level total = nodes × cost.<span class="sx">e.g. 3T(n/4) + n², level 2: nodes aⁱ = 3² = 9 · size n ÷ bⁱ = n ÷ 4² = n/16</span></summary><div class="plain"><p>Level 0 is the first call. For 3T(n/4) + n²: level 2 has 3 × 3 = 9 nodes of size n/16, each costing (n/16)² = n²/256.</p></div></details>
+<details open><summary><b>Height</b> = log_b n levels. <b>Leaves</b> = n^(log_b a).<span class="sx">e.g. 4T(n/2): leaves n^(log₂4) = n²</span></summary><div class="plain"><p>You divide by b until you reach 1, which takes log_b n steps. 4T(n/2) has n^(log₂4) = n² leaves: for n = 8, 3 levels and 4 × 4 × 4 = 64 = 8² leaves.</p></div></details>
+<details open><summary>Level totals <b>same</b> → one level × log n. <b>Shrinking</b> → top wins: Θ(f(n)). <b>Growing</b> → leaves win: Θ(n^(log_b a)).<span class="sx">Shortcut (f = nᵏ): a ÷ bᵏ = 1 same · under 1 shrinks · over 1 grows</span><span class="sx"> </span><span class="sx">e.g. 2T(n/2)+n²: 2 ÷ 2² = ½ → shrinks → Θ(n²) · 4T(n/2)+n: 4 ÷ 2 = 2 → grows → Θ(n²) leaves</span></summary><div class="plain"><p class="eg">2T(n/2)+n: n, n, n … → n log n. T(n/2)+n: n, n/2, n/4 … less than 2n → Θ(n). 3T(n/4)+n²: each level 3/16 of the one above → Θ(n²).</p></div></details>
 </section>
 <section id="DC-7"><h2><span class="id">[DC-7]</span> Three methods for recurrences</h2>
 <details open><summary><b>Substitution</b> = guess the answer, prove it by induction. <b>Recursion tree</b> = add each level, add the levels (makes the guess). <b>Master</b> = formula for aT(n/b) + f(n).</summary><div class="plain"><p>Induction means: show it works for small sizes, and show that if it works for the smaller sizes it works for n. Substitution is the most general; Master is the fastest when it applies.</p></div></details>
@@ -76,7 +78,7 @@
 <div class="topic">Section 3: the Master Theorem</div>
 <section id="DC-8"><h2><span class="id">[DC-8]</span> Master Theorem fast steps</h2>
 <details open><summary>1. Read a (calls, at least 1), b (shrink, more than 1), f(n). 2. <b>p = log_b a</b> (calculator: log a ÷ log b). 3. Power of f: n² → 2, n → 1, √n → 0.5, constant → 0.</summary><div class="plain"><p>p is the power of n that the leaves of the recursion tree add up to ([DC-6]).</p></div></details>
-<details open><summary>f's power <b>smaller</b> than p → <b>Case 1: Θ(n^p)</b>. <b>Equal</b> → <b>Case 2: Θ(n^p log n)</b>. <b>Bigger</b> → <b>Case 3: Θ(f(n))</b>.</summary><div class="plain"><p>Why: n^p is the work at the leaves and f(n) is the work at the top. The bigger one wins. If equal, every level costs the same, so multiply by the log n levels.</p><p class="eg">8T(n/2)+n²: p=3, 2&lt;3 → Θ(n³). 2T(n/2)+n: p=1, equal → Θ(n log n). T(n/2)+1: p=0, equal → Θ(log n). 7T(n/2)+n³: p≈2.807, 3 bigger → Θ(n³).</p></div></details>
+<details open><summary>f's power <b>smaller</b> than p → <b>Case 1: Θ(n^p)</b>. <b>Equal</b> → <b>Case 2: Θ(n^p log n)</b>. <b>Bigger</b> → <b>Case 3: Θ(f(n))</b>.<span class="sx">e.g. 8T(n/2)+n²: p = log₂8 = 3; 2 &lt; 3 → Case 1 Θ(n³) · 2T(n/2)+n: p = 1, equal → Case 2 Θ(n log n)</span></summary><div class="plain"><p>Why: n^p is the work at the leaves and f(n) is the work at the top. The bigger one wins. If equal, every level costs the same, so multiply by the log n levels.</p><p class="eg">8T(n/2)+n²: p=3, 2&lt;3 → Θ(n³). 2T(n/2)+n: p=1, equal → Θ(n log n). T(n/2)+1: p=0, equal → Θ(log n). 7T(n/2)+n³: p≈2.807, 3 bigger → Θ(n³).</p></div></details>
 <details open><summary>Case 3 also needs <b>regularity</b>: a·f(n/b) ≤ c·f(n), c &lt; 1. For f = nᵏ: check a ÷ bᵏ &lt; 1.</summary><div class="plain"><p>It means the work must shrink as you go down the tree. 7T(n/2)+n³: 7 ÷ 2³ = 7/8, less than 1, so it holds. For plain powers of n it always holds in Case 3.</p></div></details>
 <details open><summary><div class="tbl"><table><tr><th>log</th><th>=</th><th>log</th><th>=</th></tr>
 <tr><td>log_b 1</td><td>0</td><td>log₃ 9</td><td>2</td></tr>
@@ -98,6 +100,6 @@
 <details open><summary>Fewer subproblems → smaller p → faster. Speed-up = n² ÷ n^1.585 (n = 10,000: about 46×).</summary><div class="plain"><p>The saving happens at every level, so the number of leaves drops from n² to n^1.585.</p><p class="eg">10,000² = 100,000,000. 10,000^1.585 ≈ 2,190,000. Divide: ≈ 46.</p></div></details>
 </section>
 
-<footer>Sources: Lecture 2 Divide and Conquer (Week 2), Class Master Theorem Example Solutions, Week 2 Lab and model answers. Version 1, 2 November 2026: written from the week 2 fast lesson.</footer>
+<footer>Sources: Lecture 2 Divide and Conquer (Week 2), Class Master Theorem Example Solutions, Week 2 Lab and model answers. Version 2, 2 November 2026: added a worked example under the most-asked lines (Misty's request after 3.1), plus "how to draw the tree" in [DC-6] and the POWER shortcut in [DC-4]. v1 is in versions/.</footer>
 </div>
 {{SCRIPT}}

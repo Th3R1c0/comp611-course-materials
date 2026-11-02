@@ -67,3 +67,10 @@ Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).
 | 2.1 | correct (D) | read 2T(n/2) as "2n": T notation (concept gap) | none yet; [DC-0] defines T |
 | 2.4 | correct (C) | wording: "n grows over n²" → loop in loop = n × n | none |
 | 3.1 | stuck: didn't know how to draw a recursion tree | lesson/sheet gap: [DC-6] assumes you can draw the tree; needs "jobs handing out jobs" story + concrete-number picture | taught in chat with figure w2-tree-2T-n3.png; fix [DC-6] in next sheet version |
+| 3.1 | correct after teaching (9 nodes, n/16) | – | – |
+
+### Sheet edits → version 2 (2026-11-02)
+- Misty asked for a worked example under the lines, so they can copy the method. Added example lines (shown on Paper view) to [DC-2], [DC-3], [DC-4] (plus the POWER shortcut: halve to 0, then work up from 1), [DC-5], [DC-6] (Misty's own 3T(n/4)+n² level-2 example), [DC-8]. Fixes 1.4/1.5 blank and 3.1 stuck.
+- [DC-6] new first line "Draw it" (1 box on top, a boxes under each, ÷ b each level). Fixes 3.1.
+- [DC-6] shortcut a ÷ bᵏ for same/shrink/grow.
+- v1 kept at revision/cheatsheets/versions/02-divide-and-conquer-v1.html.
