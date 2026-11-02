@@ -1,0 +1,88 @@
+<title>Week 3 BFS Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611, Week 3, Section 2 of 3</div>
+  <h1>Breadth-first search (BFS): fast steps</h1>
+  <p class="how">For each question type: what it means in plain English, the fast steps, and worked examples. The cheatsheet ([GR-4] to [GR-6]) is this same page, condensed.</p>
+  <div class="meta"><span class="pill">about 2 exam questions</span><span class="pill">no calculator needed</span></div>
+</header>
+
+<section><h2><span class="id">2A</span> Plain English: what BFS does</h2>
+<ol class="steps">
+<li>BFS finds the route with the <b>fewest edges</b> (fewest hops) from a start vertex, called the <b>source</b> s, to every other vertex.</li>
+<li>It spreads out in rings, like a ripple in a pond. First the source (layer 0). Then everything one edge away (layer 1). Then everything one edge away from layer 1 that has not been seen yet (layer 2). And so on.</li>
+<li><b>A vertex's layer number is exactly its distance from s</b>, counted in edges.</li>
+<li>It uses a <b>queue</b>: a waiting line where you join at the back and leave from the front, like a line at a shop. This is called "first in, first out". Taking the front item off is called <b>dequeue</b>. Adding to the back is called <b>enqueue</b>.</li>
+<li>It keeps two lists. <b>dist[v]</b> is the number of edges from s to v (it starts as ∞, meaning "not found yet"). <b>prev[v]</b> is the vertex that found v first (it starts as NIL, meaning "nothing").</li>
+<li><b>BFS ignores weights.</b> Every edge counts as 1 hop, whatever number is written on it.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">2B</span> Fast steps for each question type</h2>
+<p><b>Case A: "In what order are the vertices dequeued (visited)?"</b> Make a queue table.</p>
+<ol class="steps">
+<li>Write the queue as [s]. Set dist[s] = 0 and prev[s] = NIL.</li>
+<li>Take the <b>front</b> vertex off the queue. Call it u. Write it in the "order" list.</li>
+<li>Look at u's neighbours in alphabetical order (or the order the question says). For each one that has <b>never been found before</b>: set its dist to dist[u] + 1, set its prev to u, and add it to the <b>back</b> of the queue.</li>
+<li>A neighbour that is already in the queue, or already taken off, is skipped.</li>
+<li>Repeat from step 2 until the queue is empty. The "order" list is the answer.</li>
+<li><b>Why</b> a queue: because the vertices found first are the closest ones, taking them out first finishes each layer before the next one starts.</li>
+</ol>
+<p><b>Case B: "What is dist[v]?" or "Which vertices are in layer k?"</b> Read it off the table: dist is the layer number. Quick check without the table: it is the smallest number of edges you can walk from s to v.</p>
+<p><b>Case C: "What is prev[v]?"</b></p>
+<ol class="steps">
+<li>prev[v] is the vertex that was <b>being taken off the queue</b> when v was first found.</li>
+<li><b>Trap:</b> if two vertices both touch v, the one dequeued <b>earlier</b> wins. The later one sees v is already found and skips it.</li>
+</ol>
+<p><b>Case D: "What is the shortest path from s to v?"</b></p>
+<ol class="steps">
+<li>Start at v. Write it down.</li>
+<li>Look up prev[v], write it down, and move there. Keep going until you reach s (whose prev is NIL).</li>
+<li>You wrote the path backwards, so read it in reverse. The number of hops is dist[v].</li>
+</ol>
+<p><b>Case E: "Is the BFS path also the lightest (smallest total weight)?"</b></p>
+<ol class="steps">
+<li>Add up the weights along the BFS path.</li>
+<li>Look for a route with more hops but small weights. Add those up.</li>
+<li>The answer is usually "no": BFS minimises the number of edges, not the total weight. For weights, use Dijkstra (section 3).</li>
+</ol>
+<p><b>Case F: "What is BFS's running time?"</b> <b>O(V + E)</b> with an adjacency list. Why: every vertex joins the queue at most once (that is the V part), and every edge is looked at once in a directed graph, or twice in an undirected graph (that is the E part). With an adjacency matrix it is O(V²), because finding the neighbours of each vertex means reading a whole row of V boxes.</p>
+</section>
+
+<section><h2><span class="id">2C</span> Worked examples</h2>
+{{IMG:w3-s2-bfs.png|Undirected weighted graph with vertices A to F}}
+<p class="figcap">An undirected graph. Run BFS from A, breaking ties alphabetically. The weights are only used in the last example.</p>
+
+<div class="ex"><h3>Example: dequeue order, dist and prev (Cases A, B and C)</h3>
+<div class="tbl"><table>
+<tr><th>Step</th><th>Take off the front</th><th>Newly found (dist, prev)</th><th>Queue after</th></tr>
+<tr><td>0</td><td>(start)</td><td>A (0, NIL)</td><td>[A]</td></tr>
+<tr><td>1</td><td>A</td><td>B (1, A), C (1, A)</td><td>[B, C]</td></tr>
+<tr><td>2</td><td>B</td><td>D (2, B)</td><td>[C, D]</td></tr>
+<tr><td>3</td><td>C</td><td>E (2, C). D is already found, skip it.</td><td>[D, E]</td></tr>
+<tr><td>4</td><td>D</td><td>F (3, D)</td><td>[E, F]</td></tr>
+<tr><td>5</td><td>E</td><td>nothing new (F is already found)</td><td>[F]</td></tr>
+<tr><td>6</td><td>F</td><td>nothing new</td><td>[ ] empty, so stop</td></tr>
+</table></div>
+<p class="ans">Dequeue order: A, B, C, D, E, F. Layers: A is 0; B and C are 1; D and E are 2; F is 3.</p>
+<p>prev[D] is B, not C. Both B and C touch D, but B was dequeued first, so B found D first.</p></div>
+
+<div class="ex"><h3>Example: rebuild the path from A to F (Case D)</h3>
+<div class="calc">Start at F. prev[F] is D. prev[D] is B. prev[B] is A. prev[A] is NIL, so stop.
+Written backwards: F, D, B, A. Reversed: A, B, D, F.</div>
+<p class="ans">Path A, B, D, F, which is 3 hops (equal to dist[F] = 3).</p></div>
+
+<div class="ex"><h3>Example: is the BFS path the lightest? (Case E)</h3>
+<div class="calc">BFS path A, B, D, F weighs 4 + 4 + 4 = 12.
+Route A, C, E, F weighs 1 + 2 + 1 = 4. It also has 3 hops.</div>
+<p class="ans">No. BFS picked a path that weighs 12 when one weighing 4 exists, because BFS counts every edge as 1 and never looks at weights.</p></div>
+
+<div class="ex"><h3>Example: running time (Case F)</h3>
+<p>A graph has 50 vertices and 200 edges, stored as an adjacency list. BFS does about V + E = 50 + 200 = 250 units of work, so it is O(V + E).</p></div>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer <b>2.1 to 2.5</b> on the <a href="{{QLINK}}" target="_blank" rel="noopener">week 3 practice questions page</a> out loud in the chat, using only the cheatsheet.</p></section>
+<footer>Built from Lecture "Single Source Shortest Paths" (Week 3), the BFS slides and pseudocode, the BFS Example handout, and Week 3 lab question 2 with its solutions. 2 November 2026.</footer>
+</div>

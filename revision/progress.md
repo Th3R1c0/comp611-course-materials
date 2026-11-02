@@ -59,3 +59,8 @@ Weakest: topic 3 recall. Redo R2.2, R3.1, R3.3, R3.4 before topic 4.
 
 Sheet v1: revision/cheatsheets/02-divide-and-conquer.html (condensed from the three section lessons). Question bank: revision/practice/week2-questions.html (20 Qs), key week2-answer-key.json. Coverage check done: every question is tagged with the [DC-…] entry that answers it.
 Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).
+
+## 03 Graphs, BFS and Dijkstra (started 2026-11-02)
+
+Sheet v1: revision/cheatsheets/03-graphs-bfs-dijkstra.html (condensed from the three section lessons). Question bank: revision/practice/week3-questions.html (20 Qs, new graphs in revision/figures/w3-q-*.dot), key week3-answer-key.json. Coverage check done: every question is tagged with the [GR-…] entry that answers it. Traces were checked by running BFS and Dijkstra in Python.
+Practice-quiz Qs for week 3: not mapped yet (the quiz is local-only on the Mac).

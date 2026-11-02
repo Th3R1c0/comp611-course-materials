@@ -1,0 +1,25 @@
+// Practice questions 3.x: Dijkstra from S
+digraph G {
+  layout=neato; overlap=false; splines=true; pad=0.2; inputscale=1;
+  node [shape=circle, style=filled, fillcolor="#ffffff", fontname="Helvetica", fontsize=15, width=0.5, fixedsize=true];
+  edge [fontname="Helvetica", fontsize=13, color="#555555"];
+  edge [arrowsize=0.8];
+  S [pos="0,93.0"];
+  A [pos="129.6,186"];
+  B [pos="129.6,0"];
+  C [pos="259.2,93.0"];
+  D [pos="388.8,186"];
+  E [pos="388.8,0"];
+  T [pos="518.4,93.0"];
+  S -> A [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>6</TD></TR></TABLE>>];
+  S -> B [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>1</TD></TR></TABLE>>];
+  B -> A [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>2</TD></TR></TABLE>>];
+  B -> C [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>9</TD></TR></TABLE>>];
+  B -> E [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>9</TD></TR></TABLE>>];
+  A -> C [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>2</TD></TR></TABLE>>];
+  A -> D [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>7</TD></TR></TABLE>>];
+  C -> D [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>2</TD></TR></TABLE>>];
+  C -> E [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>3</TD></TR></TABLE>>];
+  D -> T [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>4</TD></TR></TABLE>>];
+  E -> T [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>1</TD></TR></TABLE>>];
+}

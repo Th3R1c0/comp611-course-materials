@@ -1,0 +1,113 @@
+<title>Week 3 Graphs Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611, Week 3, Section 1 of 3</div>
+  <h1>Graphs and how to store them: fast steps</h1>
+  <p class="how">For each question type: what it means in plain English, the fast steps, and worked examples. The cheatsheet ([GR-0] to [GR-3]) is this same page, condensed.</p>
+  <div class="meta"><span class="pill">about 1 exam question</span><span class="pill">no calculator needed</span></div>
+</header>
+
+<section><h2><span class="id">1A</span> Plain English: what a graph is</h2>
+<ol class="steps">
+<li>A <b>graph</b> is a set of dots joined by lines. The dots are called <b>vertices</b> (one is a <b>vertex</b>, also called a <b>node</b>). The lines are called <b>edges</b>.</li>
+<li>In an <b>undirected</b> graph an edge works both ways, like a two-way road. In a <b>directed</b> graph each edge has an arrow and works one way only, like a one-way street. "The edge from A to B" means you can go from A to B.</li>
+<li>In a <b>weighted</b> graph each edge has a number on it, called its <b>weight</b> (a cost, a distance, a time). w(A, B) means "the weight of the edge from A to B".</li>
+<li><b>V</b> is the number of vertices and <b>E</b> is the number of edges. The lecture writes them as |V| and |E|: the bars just mean "how many".</li>
+<li>A <b>path</b> is a route that follows edges, one after another. Its <b>cost</b> is all its weights added up. Its <b>length</b> (number of <b>hops</b>) is how many edges it uses. A <b>cycle</b> is a path that comes back to where it started.</li>
+<li>The <b>neighbours</b> of a vertex are the vertices it has an edge to. In a directed graph these are called <b>out-neighbours</b>.</li>
+<li><b>Why we care:</b> before a computer can run BFS or Dijkstra on a graph, it has to store it. There are two ways, and the exam asks which is faster or smaller for a job.</li>
+</ol>
+{{IMG:w3-s1-directed.png|Directed weighted graph with vertices A to E}}
+<p class="figcap">The graph used in the examples below (Week 3 lab, question 1). It is directed: the edge from A to B has weight 6, but there is no edge from B to A.</p>
+</section>
+
+<section><h2><span class="id">1B</span> Fast steps for each question type</h2>
+<p><b>Case A: "Fill in (or read) the adjacency matrix."</b></p>
+<ol class="steps">
+<li>Draw a square table. Put every vertex along the top and down the side, in the same order.</li>
+<li>The <b>row</b> is where the edge starts. The <b>column</b> is where it ends. So the box in row A, column B is the edge from A to B.</li>
+<li>If the edge exists, write its weight (or 1 if the graph has no weights). If it does not exist, write ∞ (weighted) or 0 (unweighted). On the diagonal, from a vertex to itself, write 0.</li>
+<li><b>Undirected trap:</b> each edge goes in two boxes, row A column B and row B column A. So an undirected matrix is a mirror image across the diagonal (the course calls this "symmetric").</li>
+<li><b>Why ∞:</b> "no edge" is like an infinitely long road, so it can never be the shortest way.</li>
+</ol>
+<p><b>Case B: "Write the adjacency list."</b></p>
+<ol class="steps">
+<li>Write each vertex once, down the page.</li>
+<li>Next to each one, write the pairs (neighbour, weight) for every edge that starts there. If no edge starts there, write a dash.</li>
+<li><b>Undirected:</b> each edge appears in two lists, once for each end.</li>
+</ol>
+<p><b>Case C: "How many storage entries does each one use?"</b></p>
+<ol class="steps">
+<li>Count V (vertices) and E (edges).</li>
+<li>Matrix: <b>V times V</b> boxes, because it has a box for every possible pair, even pairs with no edge.</li>
+<li>List: <b>V plus E</b> entries, one slot per vertex plus one per edge (directed graph). For an undirected graph each edge is stored twice, so it is V plus 2 times E. The big-O answer is still O(V + E).</li>
+</ol>
+<p><b>Case D: "How long does an operation take?" Use the match table, no working needed.</b></p>
+<div class="tbl"><table>
+<tr><th>The question asks about</th><th>Adjacency matrix</th><th>Adjacency list</th></tr>
+<tr><td>Memory</td><td>O(V²)</td><td>O(V + E)</td></tr>
+<tr><td>Is there an edge from u to v?</td><td><b>O(1)</b>, look in one box</td><td>O(number of neighbours of u), which is O(V) in the worst case</td></tr>
+<tr><td>List all neighbours of u</td><td>O(V), read the whole row</td><td><b>O(number of neighbours of u)</b></td></tr>
+<tr><td>Best for</td><td><b>dense</b> graphs (lots of edges)</td><td><b>sparse</b> graphs (few edges)</td></tr>
+</table></div>
+<ol class="steps">
+<li><b>Dense</b> means nearly every pair is joined, so E is close to V². <b>Sparse</b> means few edges, so E is close to V.</li>
+<li><b>Why</b> the matrix checks an edge in one step: it jumps straight to row u, column v. The list has to read through u's neighbours one by one.</li>
+</ol>
+<p><b>Case E: "How many edges does this graph have?"</b></p>
+<ol class="steps">
+<li>From a picture: count the lines. Each line is one edge, even in an undirected graph.</li>
+<li>From an undirected 0 and 1 matrix: count the 1s, then <b>halve</b> it, because every edge is written twice.</li>
+<li>From a directed matrix: count the boxes that have a weight (not 0 on the diagonal, not ∞). Do not halve.</li>
+</ol>
+<p><b>Case F: "Which is faster, O(V to the power 1.5) or O(E)?"</b> The answer is "it depends on the graph". For a dense graph E is about V², which is bigger than V to the power 1.5. For a sparse graph E is about V, which is smaller.</p>
+</section>
+
+<section><h2><span class="id">1C</span> Worked examples (all on the graph above)</h2>
+<div class="ex"><h3>Example: fill in the adjacency matrix (Case A)</h3>
+<div class="calc">Edges: A to B is 6, A to C is 2, B to D is 1, B to E is 4,
+C to B is 3, C to D is 5, D to E is 1.
+Row A: A to A is 0, A to B is 6, A to C is 2, no edge to D or E.</div>
+<div class="tbl"><table>
+<tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+<tr><th>A</th><td>0</td><td>6</td><td>2</td><td>∞</td><td>∞</td></tr>
+<tr><th>B</th><td>∞</td><td>0</td><td>∞</td><td>1</td><td>4</td></tr>
+<tr><th>C</th><td>∞</td><td>3</td><td>0</td><td>5</td><td>∞</td></tr>
+<tr><th>D</th><td>∞</td><td>∞</td><td>∞</td><td>0</td><td>1</td></tr>
+<tr><th>E</th><td>∞</td><td>∞</td><td>∞</td><td>∞</td><td>0</td></tr>
+</table></div>
+<p class="ans">Row B, column A is ∞, because the edge only goes from A to B.</p></div>
+
+<div class="ex"><h3>Example: write the adjacency list (Case B)</h3>
+<div class="calc">A: (B, 6), (C, 2)
+B: (D, 1), (E, 4)
+C: (B, 3), (D, 5)
+D: (E, 1)
+E: no edges start here, so write a dash</div></div>
+
+<div class="ex"><h3>Example: count the storage entries (Case C)</h3>
+<div class="calc">V = 5 vertices, E = 7 edges.
+Matrix: V times V = 5 times 5 = 25 entries.
+List: V plus E = 5 plus 7 = 12 entries.</div>
+<p class="ans">Matrix 25, list 12. The list is smaller because it only stores edges that exist.</p></div>
+
+<div class="ex"><h3>Example: is there an edge from C to E? (Case D)</h3>
+<div class="calc">List: go to C's list, (B, 3), (D, 5), and read it one by one.
+No E in it, so there is no edge. Worst case O(V).
+Matrix: look in the one box row C, column E. It is ∞, so no edge. O(1).</div></div>
+
+<div class="ex"><h3>Example: count edges from an undirected matrix (Case E, lecture slide)</h3>
+<div class="calc">   A B C D
+A  0 1 1 1
+B  1 0 0 0
+C  1 0 0 1
+D  1 0 1 0
+Count the 1s: 3 + 1 + 2 + 2 = 8. Halve it: 8 divided by 2 = 4.</div>
+<p class="ans">4 edges: A and B, A and C, A and D, C and D.</p></div>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer <b>1.1 to 1.5</b> on the <a href="{{QLINK}}" target="_blank" rel="noopener">week 3 practice questions page</a> out loud in the chat, using only the cheatsheet.</p></section>
+<footer>Built from Lecture "Single Source Shortest Paths" (Week 3), slides on graph representations, and the Week 3 lab question 1 with its solutions. 2 November 2026.</footer>
+</div>

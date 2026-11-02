@@ -1,0 +1,24 @@
+// Practice questions 2.x: BFS from A
+graph G {
+  layout=neato; overlap=false; splines=true; pad=0.2; inputscale=1;
+  node [shape=circle, style=filled, fillcolor="#ffffff", fontname="Helvetica", fontsize=15, width=0.5, fixedsize=true];
+  edge [fontname="Helvetica", fontsize=13, color="#555555"];
+  A [pos="0,93.0"];
+  B [pos="115.2,186"];
+  D [pos="115.2,0"];
+  C [pos="244.79999999999998,186"];
+  E [pos="244.79999999999998,93.0"];
+  G [pos="244.79999999999998,0"];
+  F [pos="374.40000000000003,148.79999999999998"];
+  H [pos="374.40000000000003,24.8"];
+  A -- B [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>1</TD></TR></TABLE>>];
+  A -- D [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>4</TD></TR></TABLE>>];
+  B -- C [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>1</TD></TR></TABLE>>];
+  B -- E [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>2</TD></TR></TABLE>>];
+  D -- E [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>1</TD></TR></TABLE>>];
+  D -- G [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>5</TD></TR></TABLE>>];
+  E -- F [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>1</TD></TR></TABLE>>];
+  C -- F [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>2</TD></TR></TABLE>>];
+  G -- H [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>3</TD></TR></TABLE>>];
+  F -- H [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>1</TD></TR></TABLE>>];
+}

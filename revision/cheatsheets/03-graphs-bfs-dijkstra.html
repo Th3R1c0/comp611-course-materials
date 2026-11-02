@@ -1,0 +1,166 @@
+<title>Week 3 Graphs Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+.id { white-space: nowrap; }
+[hidden] { display: none !important; }
+.modes { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; align-self: flex-start; }
+.modes button { border: 0; border-radius: 0; background: var(--card); }
+.modes button + button { border-left: 1px solid var(--rule); }
+.modes button[aria-checked="true"] { background: var(--accent); color: var(--card); font-weight: 700; }
+body.paper .plain, body.paper details:not([open]) .plain { display: none; }
+body.paper summary, body.full summary { cursor: default; }
+body.paper summary::before { content: "•"; }
+body.full summary::before { content: "•"; }
+body.paper section { gap: 0; }
+body.paper summary { padding-block: 4px; }
+body.paper .topic { font-size: 18px; }
+.topic { font-family: var(--display); font-size: 21px; margin-top: 10px; text-wrap: balance; }
+.vers { display:flex; flex-wrap:wrap; gap:8px 14px; font-size:14px; }
+a { color: var(--accent); }
+</style>
+
+<style>.sx { display: block; font-size: 14px; color: var(--muted); font-style: italic; margin-top: 3px; line-height: 1.45; }</style>
+<style>
+:root { --cu: #1f5fa8; --cw: #b5590f; --cv: #2f7d3a; --cu-bg: #e6eef8; --cw-bg: #fbeee2; --cv-bg: #e7f3e8; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --cu: #8bb8ee; --cw: #f0a868; --cv: #8fd19a; --cu-bg: #1e2a3a; --cw-bg: #33251a; --cv-bg: #1a2b1d; } }
+:root[data-theme="dark"] { --cu: #8bb8ee; --cw: #f0a868; --cv: #8fd19a; --cu-bg: #1e2a3a; --cw-bg: #33251a; --cv-bg: #1a2b1d; }
+.cu, .cw, .cv { font-weight: 700; padding: 0 3px; border-radius: 3px; }
+.cu { color: var(--cu); background: var(--cu-bg); } .cw { color: var(--cw); background: var(--cw-bg); } .cv { color: var(--cv); background: var(--cv-bg); }
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 cheatsheet, Week 3, version 1</div>
+  <h1>Graphs, BFS and Dijkstra</h1>
+  <div class="meta"><span class="pill">5 exam questions</span><span class="pill">about 10 marks</span><span class="pill">same content as the fast lessons, condensed</span></div>
+  <div class="modes" role="radiogroup" aria-label="View">
+    <button type="button" role="radio" data-mode="paper" id="m-paper">Paper</button>
+    <button type="button" role="radio" data-mode="full" id="m-full">Everything shown</button>
+    <button type="button" role="radio" data-mode="toggle" id="m-toggle">Tap to explain</button>
+  </div>
+  <p class="how" id="modeHelp"></p>
+  <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
+  <div class="vers"><span>Older versions:</span><span>none yet (this is the first)</span></div>
+</header>
+
+<div class="topic">Start here: words and symbols</div>
+<section id="GR-0"><h2><span class="id">[GR-0]</span> Glossary</h2>
+<details open><summary>A <b>graph</b> is dots (<b>vertices</b>, also called nodes) joined by lines (<b>edges</b>). <b>V</b> is how many vertices, <b>E</b> is how many edges (the lecture writes |V| and |E|).</summary><div class="plain"><p>The bars in |V| just mean "how many". A graph with 5 vertices and 7 edges has V = 5 and E = 7.</p></div></details>
+<details open><summary><b>Directed</b> means each edge is one way (an arrow). <b>Undirected</b> means each edge works both ways. <b>Weighted</b> means each edge has a number, its weight, written w(u, v).</summary><div class="plain"><p>w(A, B) = 6 means the edge from A to B costs 6. In a directed graph that says nothing about going from B to A.</p></div></details>
+<details open><summary>A <b>path</b> follows edges in a row. Its <b>cost</b> is the weights added up. Its <b>length</b>, or number of <b>hops</b>, is how many edges it uses.</summary><div class="plain"><p>A to B (weight 4) then B to D (weight 4) has cost 8 and length 2 hops. A <b>cycle</b> is a path that ends where it started.</p></div></details>
+<details open><summary><b>dist[v]</b> is the best distance from the source s to v found so far. <b>prev[v]</b> is the vertex just before v on that route. <b>∞</b> means "not reached yet". <b>NIL</b> means "nothing".</summary><div class="plain"><p>The <b>source</b> s is the start vertex. At the start dist[s] = 0, every other dist is ∞, and every prev is NIL.</p></div></details>
+<details open><summary><b>Dense</b> means lots of edges, so E is close to V². <b>Sparse</b> means few edges, so E is close to V.</summary><div class="plain"><p>With 100 vertices, a dense graph has thousands of edges and a sparse one has a few hundred.</p></div></details>
+</section>
+
+<div class="topic">Section 1: storing a graph</div>
+<section id="GR-1"><h2><span class="id">[GR-1]</span> Adjacency matrix</h2>
+<details open><summary>A square table of every vertex against every vertex. The <b>row</b> is where the edge starts and the <b>column</b> is where it ends. Write the weight if the edge exists, ∞ if not, and 0 on the diagonal.<span class="sx">Example: edges A to B is 6 and A to C is 2, so row A reads 0, 6, 2, ∞, ∞ and row B, column A is ∞.</span></summary><div class="plain"><p>For a graph with no weights, write 1 for an edge and 0 for no edge.</p></div></details>
+<details open><summary><b>Undirected:</b> every edge goes in two boxes, so the table is a mirror image across the diagonal. To count edges, count the 1s and <b>halve</b> it.<span class="sx">Example: a 4 by 4 undirected matrix with eight 1s has 8 divided by 2 = 4 edges.</span></summary><div class="plain"><p>The edge between A and C is written in row A column C, and again in row C column A. For a directed matrix, count the weights and do not halve.</p></div></details>
+</section>
+<section id="GR-2"><h2><span class="id">[GR-2]</span> Adjacency list</h2>
+<details open><summary>Each vertex lists its (neighbour, weight) pairs for the edges that start there. Write a dash if none start there. Undirected edges appear in both ends' lists.<span class="sx">Example: A: (B, 6), (C, 2). E: dash.</span></summary><div class="plain"><p>It only stores edges that exist, which is why it is small for sparse graphs.</p></div></details>
+</section>
+<section id="GR-3"><h2><span class="id">[GR-3]</span> Matrix or list: size and speed</h2>
+<details open><summary><div class="tbl"><table><tr><th>Question asks</th><th>Matrix</th><th>List</th></tr><tr><td>Memory</td><td>O(V²)</td><td>O(V + E)</td></tr><tr><td>Exact entries</td><td>V times V</td><td>V + E (undirected: V + 2E)</td></tr><tr><td>Is there an edge u to v?</td><td><b>O(1)</b></td><td>O(neighbours of u), worst O(V)</td></tr><tr><td>List u's neighbours</td><td>O(V)</td><td><b>O(neighbours of u)</b></td></tr><tr><td>Best for</td><td>dense</td><td>sparse</td></tr></table></div><span class="sx">Example: V = 5 and E = 7. The matrix uses 5 × 5 = 25 entries and the list uses 5 + 7 = 12.</span></summary><div class="plain"><p>Why the matrix checks an edge in one step: it jumps straight to row u, column v. The list must read u's neighbours one by one, and u could be joined to almost every vertex.</p></div></details>
+<details open><summary>"Which is faster, O(V to the power 1.5) or O(E)?" It depends on the graph. Dense: E is about V², so V to the power 1.5 is faster. Sparse: E is about V, so E is faster.</summary><div class="plain"><p>Running times of graph algorithms depend on both V and E, so how many edges there are decides which wins.</p></div></details>
+</section>
+
+<div class="topic">Section 2: breadth-first search (BFS)</div>
+<section id="GR-4"><h2><span class="id">[GR-4]</span> BFS trace with a queue</h2>
+<details open><summary>Queue starts as [s] with dist[s] = 0. Take the <b>front</b> vertex u. For each neighbour (alphabetical) <b>never found before</b>: dist = dist[u] + 1, prev = u, add to the <b>back</b>. Repeat until empty. The order taken off is the visit order.<span class="sx">Example: edges A to B, A to C, B to D, C to D, C to E, D to F, E to F, start A. Take A, add B and C. Take B, add D. Take C, add E (D already found). Take D, add F. Order: A, B, C, D, E, F.</span></summary><div class="plain"><p>A queue is a waiting line: join at the back, leave from the front ("first in, first out"). Vertices already in the queue or already taken off are skipped. BFS finds vertices in rings: the layer number is the distance in edges.</p></div></details>
+</section>
+<section id="GR-5"><h2><span class="id">[GR-5]</span> BFS dist, prev and the path back</h2>
+<details open><summary>dist[v] is the layer number, which is the fewest edges from s. prev[v] is the vertex being taken off when v was <b>first</b> found.<span class="sx">Example: D touches B and C. B was taken off first, so prev[D] = B.</span></summary><div class="plain"><p>Trap: when two vertices touch v, the one dequeued earlier wins. The later one sees v is already found.</p></div></details>
+<details open><summary><b>Path:</b> start at the target, follow prev back to s, then read it in reverse. Number of hops = dist[target].<span class="sx">Example: prev[F] = D, prev[D] = B, prev[B] = A. Backwards F, D, B, A, so the path is A, B, D, F with 3 hops.</span></summary><div class="plain"><p>prev records how each vertex was first reached, so following it backwards always lands on s. The same steps rebuild a Dijkstra path.</p></div></details>
+</section>
+<section id="GR-6"><h2><span class="id">[GR-6]</span> BFS facts</h2>
+<details open><summary>Running time <b>O(V + E)</b> with an adjacency list (O(V²) with a matrix). Each vertex joins the queue at most once, and each edge is looked at once (directed) or twice (undirected).</summary><div class="plain"><p>With a matrix, finding a vertex's neighbours means reading a whole row of V boxes, for every vertex, so V times V.</p></div></details>
+<details open><summary>BFS <b>ignores weights</b>: it finds the fewest edges, not the smallest total weight. A route with more but lighter edges can weigh less.<span class="sx">Example: BFS path A, B, D, F weighs 4 + 4 + 4 = 12, but A, C, E, F weighs 1 + 2 + 1 = 4.</span></summary><div class="plain"><p>BFS counts every edge as 1. For weights use Dijkstra [GR-8].</p></div></details>
+</section>
+
+<div class="topic">Section 3: Dijkstra's algorithm</div>
+<section id="GR-7"><h2><span class="id">[GR-7]</span> Relax the edge from u to v</h2>
+<details open><summary>Step 1: new = <span class="cu">dist[u]</span> + <span class="cw">w(u, v)</span>. Step 2: if new is <b>strictly smaller</b> than <span class="cv">dist[v]</span>, set dist[v] = new and prev[v] = u. If equal or bigger, change nothing. No calculator.<span class="sx">Example: <span class="cu">dist[a] = 4</span>, <span class="cw">w(a, b) = 3</span>, <span class="cv">dist[b] = 10</span>. 4 + 3 = 7, which is smaller than 10, so dist[b] = 7 and prev[b] = a.</span></summary><div class="plain"><p>Blue is the start of the edge, orange is the edge weight, green is the end of the edge. Relaxing can only make dist smaller. A dist can be lowered many times until its vertex is confirmed.</p></div></details>
+</section>
+<section id="GR-8"><h2><span class="id">[GR-8]</span> Dijkstra trace (lazy deletion)</h2>
+<details open><summary>Start dist[s] = 0, others ∞, queue (s, 0). Take out the pair with the <b>smallest number</b>. If its vertex is already confirmed it is <b>stale</b>: skip it. Otherwise confirm it and relax all its outgoing edges, adding (v, new dist) for each improvement. Repeat until the queue is empty.<span class="sx">Example: lab graph from S. Take S (0): A gets 4, B gets 2. Take B (2): A becomes 3, C gets 7. Take A (3): C becomes 5, D gets 6. (A, 4) is stale. Take C (5): T gets 8. Take D (6). (C, 7) is stale. Take T (8). Order S, B, A, C, D, T.</span></summary><div class="plain"><p>Confirmed means final: that dist never changes again. The order goes by smallest dist, not by when a vertex was first seen. Every improvement after the first leaves one stale pair behind. Vertices never reached stay ∞. Ties can go either way.</p></div></details>
+<details open><summary>Only works when every weight is 0 or more. Path and cost: follow prev back from the target, reverse it, and the cost is dist[target].<span class="sx">Example: T, C, A, B, S reversed is S, B, A, C, T, and 2 + 1 + 2 + 3 = 8 = dist[T].</span></summary><div class="plain"><p>Adding the weights along the path is a quick check that the trace was right.</p></div></details>
+</section>
+<section id="GR-9"><h2><span class="id">[GR-9]</span> Dijkstra running time</h2>
+<details open><summary><div class="tbl"><table><tr><th>Priority queue</th><th>Time</th><th>Best for</th></tr><tr><td>array</td><td>O(V²)</td><td>dense</td></tr><tr><td>binary heap</td><td>O((V + E) log V)</td><td>sparse</td></tr></table></div>With numbers, put V and E into both and pick the smaller. Calculator: log₂ V = log(V) ÷ log(2).<span class="sx">Example: V = 1,000 and E = 2,000. Array: 1,000,000. Heap: 3,000 × 10 = 30,000, so the heap wins.</span></summary><div class="plain"><p>There are V DeleteMin operations and at most E improvements. An array needs V steps to find the smallest; a heap needs about log V steps per operation. A priority queue is a to-do list that always hands back the smallest number first.</p></div></details>
+</section>
+<section id="GR-10"><h2><span class="id">[GR-10]</span> Negative edges and which algorithm to use</h2>
+<details open><summary>A <b>negative edge</b> can make Dijkstra wrong: it may confirm a vertex before the cheaper route through the negative edge is found.<span class="sx">Example: S to A is 2, S to B is 4, B to A is −3. Dijkstra confirms A at 2, but S, B, A costs 4 − 3 = 1.</span></summary><div class="plain"><p>Dijkstra assumes a route can only get heavier as it goes. A negative edge breaks that, so a confirmed dist might not be final.</p></div></details>
+<details open><summary><div class="tbl"><table><tr><th>Graph has</th><th>Use</th><th>Time</th></tr><tr><td>no weights (fewest edges)</td><td>BFS</td><td>O(V + E)</td></tr><tr><td>weights 0 or more</td><td>Dijkstra</td><td>O((V + E) log V)</td></tr><tr><td>some negative weights</td><td>Bellman-Ford</td><td>O(V times E)</td></tr></table></div></summary><div class="plain"><p>Bellman-Ford is taught in week 4. It relaxes every edge over and over instead of confirming vertices one at a time.</p></div></details>
+</section>
+<footer>Condensed from the three week 3 fast lessons, which were built from the Week 3 lecture, the Dijkstra worked examples handout, and the Week 3 lab with its solutions. Version 1, 2 November 2026.</footer>
+</div>
+<script>
+const help = {
+  paper: "Paper view: just the lines, exactly what the printed sheet will show. Practise with this one for the exam.",
+  full: "Everything shown: every line with its plain-English explanation, reason and example underneath. Nothing to tap.",
+  toggle: "Tap to explain: just the lines, and tapping a line opens its explanation."
+};
+const all = () => document.querySelectorAll('details');
+function setMode(m) {
+  document.body.classList.remove('paper', 'full', 'toggle'); document.body.classList.add(m);
+  document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-checked', b.dataset.mode === m));
+  document.getElementById('modeHelp').textContent = help[m];
+  document.getElementById('toggleTools').hidden = m !== 'toggle';
+  all().forEach(d => d.open = (m !== 'toggle'));
+  try { localStorage.setItem('gr-mode', m); } catch (e) {}
+}
+document.querySelectorAll('summary').forEach(s => s.addEventListener('click', e => { if (!document.body.classList.contains('toggle')) e.preventDefault(); }));
+document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+document.getElementById('openAll').addEventListener('click', () => all().forEach(d => d.open = true));
+document.getElementById('closeAll').addEventListener('click', () => all().forEach(d => d.open = false));
+let start = 'paper'; try { start = localStorage.getItem('gr-mode') || 'paper'; } catch (e) {}
+setMode(help[start] ? start : 'paper');
+</script>
+

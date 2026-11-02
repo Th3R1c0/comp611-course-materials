@@ -1,0 +1,119 @@
+<title>Week 3 Dijkstra Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611, Week 3, Section 3 of 3</div>
+  <h1>Dijkstra's algorithm: fast steps</h1>
+  <p class="how">For each question type: what it means in plain English, the fast steps, and worked examples. The cheatsheet ([GR-7] to [GR-10]) is this same page, condensed.</p>
+  <div class="meta"><span class="pill">about 2 exam questions</span><span class="pill">calculator only for running-time numbers</span></div>
+</header>
+
+<section><h2><span class="id">3A</span> Plain English: what Dijkstra does</h2>
+<ol class="steps">
+<li>Dijkstra finds the route with the <b>smallest total weight</b> from the source s to every vertex. It only works when <b>every weight is 0 or more</b> (no negative numbers).</li>
+<li>Like BFS it keeps <b>dist[v]</b> (the best total weight found so far, starting at ∞) and <b>prev[v]</b> (the vertex just before v on that best route, starting at NIL).</li>
+<li>It keeps a <b>confirmed set</b>: vertices whose dist is final and will never change. (The lecture calls this set S, which is a different thing from the source vertex s.)</li>
+<li>Each round it <b>confirms the unconfirmed vertex with the smallest dist</b>, then <b>relaxes</b> every edge leaving it (see Case A).</li>
+<li>To find the smallest dist quickly it uses a <b>priority queue</b>: a to-do list of (vertex, number) pairs that always hands you the pair with the smallest number. Taking it out is called <b>DeleteMin</b>.</li>
+<li><b>Lazy deletion:</b> when a vertex's dist gets better, the course does not change its old pair. It just adds a new pair. The old pair is now <b>stale</b> (out of date). When a stale pair comes out later, the vertex is already confirmed, so it is skipped.</li>
+<li><b>Why it works:</b> with no negative weights, a route can only get heavier as it goes on. So once a vertex has the smallest dist of all unconfirmed vertices, no other route could ever reach it more cheaply.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">3B</span> Fast steps for each question type</h2>
+<p><b>Case A: "Relax the edge from u to v." What happens?</b> <span class="calcflag">No calculator: one addition</span></p>
+<ol class="steps">
+<li>Write down <span class="cu">dist[u]</span> (the start of the edge), <span class="cw">w(u, v)</span> (the weight of the edge) and <span class="cv">dist[v]</span> (the end of the edge).</li>
+<li>Add: new = <span class="cu">dist[u]</span> + <span class="cw">w(u, v)</span>.</li>
+<li>Compare new with <span class="cv">dist[v]</span>.</li>
+<li>If new is <b>strictly smaller</b>: set dist[v] = new and prev[v] = u. Otherwise (equal or bigger): change nothing.</li>
+<li><b>Why "relax":</b> it loosens an over-high guess down to a better one. It can only ever make dist smaller.</li>
+</ol>
+<p><b>Case B: "In what order are the vertices confirmed?" or "What is dist[] after k steps?"</b> Make a trace table.</p>
+<ol class="steps">
+<li>Set dist[s] = 0 and every other dist to ∞. Put (s, 0) in the priority queue.</li>
+<li>Take out the pair with the <b>smallest number</b>. If that vertex is already confirmed, the pair is stale: write "stale" and take out the next one.</li>
+<li>Confirm the vertex. Call it u.</li>
+<li>Relax every edge leaving u (Case A). Every time a dist improves, add a new pair (vertex, new dist) to the queue.</li>
+<li>Write one table row: the vertex confirmed, the edges that improved, and the queue after.</li>
+<li>Repeat from step 2 until the queue is empty. Vertices never reached keep dist ∞.</li>
+<li><b>Trap:</b> the order is by smallest dist, <b>not</b> by when a vertex was first seen. A vertex found later can be confirmed earlier.</li>
+</ol>
+<p><b>Case C: "What is the shortest path, and its cost?"</b> Start at the target and follow prev back to s, then reverse it (exactly like BFS Case D). The cost is dist[target]. Check it by adding the weights along the path.</p>
+<p><b>Case D: "How many times did dist[v] change?" or "Which pairs are stale?"</b> Count the improvements to v in your table. Each improvement after the first leaves one stale pair for v behind in the queue.</p>
+<p><b>Case E: "What is the running time?"</b> Use the match table.</p>
+<div class="tbl"><table>
+<tr><th>Priority queue built as</th><th>Running time</th><th>Best for</th></tr>
+<tr><td>a plain array (list)</td><td><b>O(V²)</b></td><td>dense graphs (E close to V²)</td></tr>
+<tr><td>a binary heap</td><td><b>O((V + E) log V)</b></td><td>sparse graphs (E close to V)</td></tr>
+</table></div>
+<ol class="steps">
+<li><b>If the question gives numbers:</b> put V and E into both formulas and pick the smaller one. <span class="calcflag">Calculator: log₂ V is log(V) ÷ log(2)</span></li>
+<li><b>Why</b> these numbers: Dijkstra takes out V vertices (DeleteMin) and does at most E improvements. An array takes V steps to find the smallest; a heap takes log V steps for each operation.</li>
+</ol>
+<p><b>Case F: "What happens with a negative edge?"</b> Dijkstra may give a <b>wrong</b> answer, because it may already have confirmed a vertex before the cheaper route through the negative edge is found. Use <b>Bellman-Ford</b> instead (week 4).</p>
+<p><b>Case G: "Which algorithm should you use?"</b> Use the match table.</p>
+<div class="tbl"><table>
+<tr><th>The graph has</th><th>Use</th><th>Running time</th></tr>
+<tr><td>no weights, or you want the fewest edges</td><td><b>BFS</b></td><td>O(V + E)</td></tr>
+<tr><td>weights that are all 0 or more</td><td><b>Dijkstra</b></td><td>O((V + E) log V) with a heap</td></tr>
+<tr><td>some negative weights</td><td><b>Bellman-Ford</b></td><td>O(V times E), see week 4</td></tr>
+</table></div>
+</section>
+
+<section><h2><span class="id">3C</span> Worked examples</h2>
+<div class="ex"><h3>Example: relax one edge (Case A, Week 3 lab question 3)</h3>
+<p>dist[a] = 4, dist[b] = 10, and the edge from a to b weighs 3.</p>
+<div class="calc">Step 1: <span class="cu">dist[a] = 4</span>, <span class="cw">w(a, b) = 3</span>, <span class="cv">dist[b] = 10</span>
+Step 2: new = <span class="cu">4</span> + <span class="cw">3</span> = 7
+Step 3: is 7 smaller than <span class="cv">10</span>? Yes.
+Step 4: dist[b] becomes 7, prev[b] becomes a.</div>
+<p>Then the edge from d to b (dist[d] = 3, weight 2) is relaxed:</p>
+<div class="calc">new = <span class="cu">3</span> + <span class="cw">2</span> = 5. Is 5 smaller than <span class="cv">7</span>? Yes.
+dist[b] becomes 5, prev[b] becomes d. That is b's second update.</div>
+<p class="ans">A dist can change many times, as long as the vertex is not confirmed yet.</p></div>
+
+{{IMG:w3-s3-dijkstra.png|Directed weighted graph with vertices S, A, B, C, D, T}}
+<p class="figcap">Week 3 lab question 4: run Dijkstra from S.</p>
+
+<div class="ex"><h3>Example: full trace (Cases B and D)</h3>
+<div class="tbl"><table>
+<tr><th>Step</th><th>Take out</th><th>Stale?</th><th>Edges that improved</th><th>Queue after</th></tr>
+<tr><td>1</td><td>(S, 0)</td><td>no</td><td>A from ∞ to 4; B from ∞ to 2</td><td>(B,2) (A,4)</td></tr>
+<tr><td>2</td><td>(B, 2)</td><td>no</td><td>A from 4 to 3 (2 + 1); C from ∞ to 7 (2 + 5)</td><td>(A,3) (A,4) (C,7)</td></tr>
+<tr><td>3</td><td>(A, 3)</td><td>no</td><td>C from 7 to 5 (3 + 2); D from ∞ to 6 (3 + 3)</td><td>(A,4) (C,5) (D,6) (C,7)</td></tr>
+<tr><td>4</td><td>(A, 4)</td><td><b>yes</b></td><td>none, A is already confirmed</td><td>(C,5) (D,6) (C,7)</td></tr>
+<tr><td>5</td><td>(C, 5)</td><td>no</td><td>T from ∞ to 8 (5 + 3)</td><td>(D,6) (C,7) (T,8)</td></tr>
+<tr><td>6</td><td>(D, 6)</td><td>no</td><td>none: D to C gives 7, not smaller than 5; D to T gives 12, not smaller than 8</td><td>(C,7) (T,8)</td></tr>
+<tr><td>7</td><td>(C, 7)</td><td><b>yes</b></td><td>none</td><td>(T,8)</td></tr>
+<tr><td>8</td><td>(T, 8)</td><td>no</td><td>none</td><td>empty, so stop</td></tr>
+</table></div>
+<p class="ans">Confirmed in the order S, B, A, C, D, T. Only the dist values decide the order: C was found in step 2 but waited until step 5, because A (3) and then C (5) were the smallest each time.</p>
+<p>dist[A] changed twice (∞, then 4, then 3) and dist[C] changed twice (∞, then 7, then 5). That left two stale pairs, (A, 4) and (C, 7).</p></div>
+
+<div class="ex"><h3>Example: shortest path from S to T (Case C)</h3>
+<div class="calc">Final dist: S 0, A 3, B 2, C 5, D 6, T 8.
+prev: A is B, B is S, C is A, D is A, T is C.
+Follow back from T: T, C, A, B, S. Reverse: S, B, A, C, T.
+Check: 2 + 1 + 2 + 3 = 8, which matches dist[T].</div>
+<p class="ans">Path S, B, A, C, T with cost 8.</p></div>
+
+<div class="ex"><h3>Example: array or heap? (Case E)</h3>
+<p>A road map has V = 1,000 vertices and E = 2,000 edges.</p>
+<div class="calc">Calculator: log₂ 1000 = log(1000) ÷ log(2) = 3 ÷ 0.301, about 10.
+Array: V² = 1,000 × 1,000 = 1,000,000.
+Heap: (V + E) × log V = 3,000 × 10 = 30,000.</div>
+<p class="ans">The heap is much faster here, because the graph is sparse (E is close to V).</p></div>
+
+<div class="ex"><h3>Example: a negative edge (Case F, lecture slide)</h3>
+{{IMG:w3-neg.png|Graph S to A weight 2, S to B weight 4, B to A weight minus 3}}
+<div class="calc">Dijkstra confirms S (0). Then A gets 2 and B gets 4.
+It confirms A with 2, the smallest, and A is now final.
+Later B is confirmed and the edge from B to A gives 4 + (−3) = 1, but A is already final.</div>
+<p class="ans">Dijkstra reports dist[A] = 2, but the true shortest is 1 (through B). Use Bellman-Ford when an edge is negative.</p></div>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer <b>3.1 to 3.5</b> and <b>4.1 to 4.5</b> on the <a href="{{QLINK}}" target="_blank" rel="noopener">week 3 practice questions page</a> out loud in the chat, using only the cheatsheet.</p></section>
+<footer>Built from Lecture "Single Source Shortest Paths" (Week 3), the Dijkstra slides, running time and "When Dijkstra goes wrong" slides, the Week 3 Dijkstra worked examples handout, and Week 3 lab questions 3 and 4 with their solutions. 2 November 2026.</footer>
+</div>
