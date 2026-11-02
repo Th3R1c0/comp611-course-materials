@@ -1,0 +1,12 @@
+// DP table drawn as a Graphviz HTML-like table. Shade cells on the traceback path with "#cfe3f5", and colour the cell currently being computed "#fff2a8".
+// A plain markdown table is fine when no highlighting is needed.
+digraph T {
+  node [shape=plaintext, fontname="Helvetica"];
+  t [label=<
+  <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="6">
+    <TR><TD></TD><TD><B>""</B></TD><TD><B>A</B></TD><TD><B>B</B></TD><TD><B>C</B></TD></TR>
+    <TR><TD><B>""</B></TD><TD BGCOLOR="#cfe3f5">0</TD><TD>0</TD><TD>0</TD><TD>0</TD></TR>
+    <TR><TD><B>A</B></TD><TD>0</TD><TD BGCOLOR="#cfe3f5">1</TD><TD>1</TD><TD>1</TD></TR>
+    <TR><TD><B>C</B></TD><TD>0</TD><TD>1</TD><TD BGCOLOR="#cfe3f5">1</TD><TD BGCOLOR="#fff2a8">?</TD></TR>
+  </TABLE>>];
+}

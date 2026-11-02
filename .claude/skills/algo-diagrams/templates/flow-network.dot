@@ -1,0 +1,14 @@
+// Flow network. Label each edge "flow/capacity". Draw edges on an augmenting path with penwidth=3 and color="#2ca02c".
+// For a residual graph, use solid edges for forward residual capacity and dashed edges for backward ones, each labelled with the residual amount.
+// Mark the min cut by filling the S side with "#cfe3f5".
+digraph F {
+  rankdir=LR; nodesep=0.6; ranksep=1.0;
+  node [shape=circle, style=filled, fillcolor="#ffffff", fontname="Helvetica", fontsize=14, width=0.45, fixedsize=true];
+  edge [fontname="Helvetica", fontsize=12, color="#555555"];
+  s [fillcolor="#cfe3f5"]; t;
+  s -> a [label="3/10", penwidth=3, color="#2ca02c"];
+  s -> b [label="5/5"];
+  a -> b [label="0/4"];
+  a -> t [label="3/7", penwidth=3, color="#2ca02c"];
+  b -> t [label="5/8"];
+}

@@ -1,0 +1,22 @@
+// Red-black tree. Draw red nodes with fillcolor="#d62728" and black nodes with fillcolor="#222222", both with white text.
+// Include NIL leaves only when the question is about black-height or NIL cases. Draw them as small black boxes.
+digraph RB {
+  ordering=out;  // children are drawn left to right in the order their edges are listed
+  node [shape=circle, style=filled, fontcolor="white", fontname="Helvetica-Bold", fontsize=14, width=0.5, fixedsize=true];
+  edge [arrowhead=none, color="#444444"];
+  n13 [label="13", fillcolor="#222222"];
+  n8  [label="8",  fillcolor="#d62728"];
+  n17 [label="17", fillcolor="#d62728"];
+  n1  [label="1",  fillcolor="#222222"];
+  n11 [label="11", fillcolor="#222222"];
+  n15 [label="15", fillcolor="#222222"];
+  n25 [label="25", fillcolor="#222222"];
+  n6  [label="6",  fillcolor="#d62728"];
+  n13 -> n8; n13 -> n17;
+  n8 -> n1; n8 -> n11;
+  n17 -> n15; n17 -> n25;
+  // Keep left/right placement correct for a lone child: add an invisible sibling.
+  L1 [style=invis, label=""];
+  n1 -> L1 [style=invis];  // invisible LEFT child
+  n1 -> n6;                // 6 > 1, so it is the RIGHT child
+}

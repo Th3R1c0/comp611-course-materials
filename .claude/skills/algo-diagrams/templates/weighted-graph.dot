@@ -1,0 +1,21 @@
+// Weighted undirected graph for Prim, Dijkstra and Kruskal.
+// Put the node name and its current distance/key INSIDE the node so they never collide with edge weights.
+// Give edge weights a white background box so they stay readable where they cross lines.
+// Draw chosen tree edges with penwidth=3 and color="#1f77b4", and fill visited / in-tree nodes with "#cfe3f5".
+// Let neato place the nodes, and use edge len to space them out. Fix a position with pos="x,y!" only to match a figure exactly; pos is in inches.
+graph G {
+  layout=neato; overlap=false; splines=true;
+  node [shape=circle, style=filled, fillcolor="#ffffff", fontname="Helvetica", fontsize=14, width=0.6, fixedsize=true];
+  edge [fontname="Helvetica", fontsize=13, color="#555555", len=1.8];
+  A [   fillcolor="#cfe3f5", label=<A<BR/><FONT POINT-SIZE="10" COLOR="#1f77b4">0</FONT>>];
+  B [   label=<B<BR/><FONT POINT-SIZE="10" COLOR="#1f77b4">4</FONT>>];
+  C [     fillcolor="#cfe3f5", label=<C<BR/><FONT POINT-SIZE="10" COLOR="#1f77b4">2</FONT>>];
+  D [   label=<D<BR/><FONT POINT-SIZE="10" COLOR="#1f77b4">10</FONT>>];
+  E [   label=<E<BR/><FONT POINT-SIZE="10" COLOR="#1f77b4">∞</FONT>>];
+  A -- B [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>4</TD></TR></TABLE>>];
+  A -- C [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>2</TD></TR></TABLE>>, penwidth=3, color="#1f77b4"];
+  B -- C [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>1</TD></TR></TABLE>>];
+  B -- D [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>5</TD></TR></TABLE>>];
+  C -- D [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>8</TD></TR></TABLE>>];
+  D -- E [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD>3</TD></TR></TABLE>>];
+}

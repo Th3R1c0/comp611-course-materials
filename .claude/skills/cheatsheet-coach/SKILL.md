@@ -37,7 +37,7 @@ At the start of every session, read these files and continue where the student l
 
 ### 1. Teach
 - Give a short, focused lesson on the section, built from the course materials. Cite the file or slide you used.
-- Cover the definitions, the key algorithms or methods, the standard proof or analysis patterns, the common traps, and one worked example in the exact style of an exam question.
+- Cover the definitions, the key algorithms or methods, the standard proof or analysis patterns, the common traps, and one worked example in the exact style of an exam question. Use `algo-diagrams` for any figure, and show step-by-step traces as one image per step.
 - Check understanding with 1–2 quick questions before moving on. Keep it interactive and don't lecture for pages.
 
 ### 2. Write the cheatsheet
@@ -48,7 +48,7 @@ At the start of every session, read these files and continue where the student l
 
 ### 3. Test
 - Give **one exam-style question at a time**. Vary the question types within the section.
-- **Model the drill questions on the practice quiz.** Use the same format (multiple choice with the same number of options), the same kinds of distractors, and the same "trace this on a figure" setups. When a quiz question uses a figure, make a fresh graph or tree of similar size: draw it as an ASCII or Mermaid diagram, or as an edge list or table. That way the student practises the skill rather than memorising a quiz answer.
+- **Model the drill questions on the practice quiz.** Use the same format (multiple choice with the same number of options), the same kinds of distractors, and the same "trace this on a figure" setups. When a quiz question uses a figure, make a fresh graph, tree, flow network or DP table of similar size. **Draw it with the `algo-diagrams` skill** (Graphviz PNG, checked visually before showing). That way the student practises the skill rather than memorising a quiz answer.
 - **Use the real quiz questions sparingly.** Use a section's real quiz questions as the final check before marking it mastered. Keep about a third of all 45 untouched for the final mock exam. Log which question numbers have been used in `progress.md`.
 - **Answer key.** If the quiz has no confirmed answers yet, work out the answer yourself and show your working. Mark it "unconfirmed", and flag any question you're unsure of. Once the student shares their graded attempt, add the confirmed answers to the local `mock-exam-questions.md`. Re-check any earlier corrections that disagree with the confirmed answers.
 - Tell the student to answer **using only the cheatsheet** and to **think out loud**: what they look up, why, and each step.
