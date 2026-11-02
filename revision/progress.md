@@ -35,3 +35,15 @@ Weakest: topic 3 recall. Redo R2.2, R3.1, R3.3, R3.4 before topic 4.
 - [AA-7] step-by-step to find the fastest term. [AA-8] new fast steps for judging any O/Ω/Θ statement (same / slower / faster). Fixes R2.2.
 - [AA-9] split into "what c and n₀ mean" (c always on the right, n₀ replaces n, why c exists, ceiling picture) and [AA-9b] fast steps per question type (incl. O(1) hiding c × 1, smallest-first for minus sign, check n = 100). Fixes R3.1, R3.3, R3.4, R3.5 reason.
 - v3 kept at revision/cheatsheets/versions/01-algorithm-analysis-v3.html.
+
+## Topics 4–5 practice (2026-11-02)
+| Q | Result | Cause |
+|---|---|---|
+| 4.2 | wrong: divided the n values, not the times | concept: ratio of times |
+| 4.3 | wrong: 3 s (×k instead of ×k² for n²) | forgot to use the growth in brackets |
+| 4.4 | correct (log n) | – |
+| 4.5 | didn't know | apply "drop numbers, compare growth" |
+| 5.2 | unsure | pattern-table lookup |
+| 5.3 | correct (log n) | – |
+| 5.5 | didn't know how to count lines | concept: inside loop = n, outside = 1, header = n+1 |
+| 5.1, 5.4 | skipped | – |
