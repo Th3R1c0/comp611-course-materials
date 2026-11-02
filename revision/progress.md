@@ -74,3 +74,6 @@ Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).
 - [DC-6] new first line "Draw it" (1 box on top, a boxes under each, ÷ b each level). Fixes 3.1.
 - [DC-6] shortcut a ÷ bᵏ for same/shrink/grow.
 - v1 kept at revision/cheatsheets/versions/02-divide-and-conquer-v1.html.
+
+### Sheet edits → version 3 (2026-11-02)
+- [DC-6] "levels same / shrinking / growing" line + a ÷ bᵏ shortcut rewritten as full English sentences with three worked examples (same, shrink, grow). Cause: sheet unclear (Misty couldn't read the arrow shorthand). v2 kept at versions/02-divide-and-conquer-v2.html.
