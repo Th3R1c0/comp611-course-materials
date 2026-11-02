@@ -10,13 +10,6 @@ Status: **applied in trial** = done by hand in the test thread, not yet written 
 | 3 | 2026-11-02 | **Final cheatsheet is a PDF with no expanders**, just the lines. The expand view is only a study aid to keep reminding what things mean. | noted for final assembly |
 | 4 | 2026-11-02 | **Keep a log of requested skill changes** (this file) whenever Misty says so. | applied |
 | 5 | 2026-11-02 | **Teach week by week** following the course schedule (Week 1, 2, 3…) instead of grouping by quiz topic. | applied in trial |
-
-## Suggested SKILL.md edits (draft)
-- Teach step: "Assume the student knows no mathematical notation unless they say otherwise. Introduce each symbol in plain words with a numeric example, and add a symbol-key entry at the top of each sheet."
-- Cheatsheet step: "Write the study sheet as `revision/cheatsheets/<NN>-<slug>.html`. Each sheet line is a `<details>` row: the summary is the exact line for the printed sheet, the body is a plain-English explanation from first principles."
-- Final assembly: "Build `cheatsheet-final.pdf` from the summary lines only (no explanations), within the one-A4-single-sided limit."
-- Sections: "Order sections by course week unless the student asks otherwise."
-
 | 6 | 2026-11-02 | **Practice questions as a bank: 5 questions per topic inside each week**, covering all of that week, from course content (not one question at a time). | applied in trial (Week 1: 30 Qs) |
 | 7 | 2026-11-02 | **Full plain-English sentences on every sheet line**, with an example, not shorthand. | applied in trial (Week 1 v3) |
 | 8 | 2026-11-02 | **Every rule includes the "why"** (e.g. why we count steps, not seconds). | applied in trial (Week 1 v3) |
@@ -26,6 +19,12 @@ Status: **applied in trial** = done by hand in the test thread, not yet written 
 | 12 | 2026-11-02 | **Explanations shown open by default** in the study version (button to hide them). | applied in trial (Week 1 v3) |
 | 13 | 2026-11-02 | **Stop and fix when the sheet fails**: pause the questions, fix the sheet, re-teach, then resume. | applied in trial |
 | 14 | 2026-11-02 | **Keep every previous version of each cheatsheet** so the student can go back (revision/cheatsheets/versions/, older HTML versions published separately). | applied in trial (v1, v2 kept) |
+
+## Suggested SKILL.md edits (draft)
+- Teach step: "Assume the student knows no mathematical notation unless they say otherwise. Introduce each symbol in plain words with a numeric example, and add a symbol-key entry at the top of each sheet."
+- Cheatsheet step: "Write the study sheet as `revision/cheatsheets/<NN>-<slug>.html`. Each sheet line is a `<details>` row: the summary is the exact line for the printed sheet, the body is a plain-English explanation from first principles."
+- Final assembly: "Build `cheatsheet-final.pdf` from the summary lines only (no explanations), within the one-A4-single-sided limit."
+- Sections: "Order sections by course week unless the student asks otherwise."
 
 ## Open question
 - Full sentences make the study sheet long. The final PDF must fit Week 1 into about 1/8 of one A4 side, so the final version will need shortened lines. Decide how to shorten when building the final PDF.
