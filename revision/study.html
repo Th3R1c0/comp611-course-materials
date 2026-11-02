@@ -53,11 +53,61 @@ main.vertical .divider::after{left:0;right:0;top:3px;bottom:auto;width:auto;heig
 main.vertical .divider:hover::after,main.vertical .divider.drag::after{height:3px;top:2px;width:auto}
 .divider.hidden{display:none}
 body.dragging iframe{pointer-events:none}
+
+/* progress bar + view tabs */
+.top{display:flex;align-items:center;gap:10px;padding:8px 12px 6px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.views{display:flex;gap:2px}
+.prog{flex:1;min-width:220px;display:flex;flex-direction:column;gap:3px}
+.prog-label{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.segs{display:flex;gap:3px;height:16px}
+.seg{flex:1;border-radius:3px;background:var(--line);cursor:pointer;position:relative;font-size:10px;line-height:16px;text-align:center;color:var(--muted)}
+.seg.review,.seg.done{color:#fff}
+.seg.review{background:var(--amber)}
+.seg.done{background:var(--green)}
+.seg.cur{outline:2px solid var(--accent);outline-offset:1px}
+:root{--amber:#e9b949;--amber-soft:#fbf3db;--green:#4dab9a;--green-soft:#ddedea;--red:#e16259;--red-soft:#fbe4e4;--gray-soft:#f1f1ef}
+:root[data-theme="dark"]{--amber:#c29343;--amber-soft:#3b3020;--green:#4dab9a;--green-soft:#1f3330;--red:#df5452;--red-soft:#3a2222;--gray-soft:#262626}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--amber:#c29343;--amber-soft:#3b3020;--green:#4dab9a;--green-soft:#1f3330;--red:#df5452;--red-soft:#3a2222;--gray-soft:#262626}}
+/* review view */
+#review{flex:1;overflow:auto;padding:24px max(16px,4vw) 48px;display:none}
+body.v-review #review{display:block}
+body.v-review main,body.v-review header{display:none}
+#review h2{font-size:22px;margin:0 0 4px;font-weight:700}
+#review .sub{color:var(--muted);margin:0 0 20px}
+#review h3{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:28px 0 8px}
+.cal{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px}
+.day{border:1px solid var(--line);border-radius:6px;padding:8px;min-height:92px;background:var(--bg)}
+.day.today{border-color:var(--accent)}
+.day.exam{background:var(--red-soft);border-color:var(--red)}
+.day.over{outline:2px dashed var(--accent)}
+.day .dh{font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:4px;padding:2px 8px;margin:0 4px 4px 0;font-size:13px;cursor:grab;user-select:none;background:var(--gray-soft);border:1px solid var(--line)}
+.chip.review{background:var(--amber-soft)}
+.chip.done{background:var(--green-soft)}
+.chip.overdue{background:var(--red-soft)}
+.lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:800px){.lanes{grid-template-columns:1fr}}
+.lane{border-radius:8px;background:var(--side);border:1px solid var(--line);padding:10px;min-height:120px}
+.lane.over{outline:2px dashed var(--accent)}
+.lane h4{margin:0 0 8px;font-size:13px;font-weight:600;display:flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:6px;cursor:grab}
+.card .t{font-weight:600}
+.card .d{font-size:12px;color:var(--muted);margin:2px 0 6px}
+.card .acts{display:flex;flex-wrap:wrap;gap:2px}
+.card .acts .btn{font-size:12px;padding:2px 6px;border:1px solid var(--line)}
+.card input[type=date]{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);padding:1px 4px}
+.legend{font-size:12px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+
 .hint{font-size:12px;color:var(--faint)}
 @media (max-width:700px){ .brand,.hint{display:none} }
 </style>
 </head>
-<body>
+<body class="v-study">
+<div class="top">
+  <div class="views"><button class="btn on" id="vStudy">Study</button><button class="btn" id="vReview">Review</button></div>
+  <div class="prog"><div class="prog-label"><span id="progText"></span><span id="examText"></span></div><div class="segs" id="segs"></div></div>
+</div>
 <header>
   <span class="brand">Study Desk</span>
   <div class="weeks" id="weeks"></div>
@@ -74,6 +124,7 @@ body.dragging iframe{pointer-events:none}
   <div class="divider" id="divider" title="Drag to resize, double-click for 50/50"></div>
   <section class="pane" id="paneB"></section>
 </main>
+<section id="review"></section>
 <script>
 /* ---- Content list. kind: lesson | cheatsheet | questions | recap ---- */
 const PAGES = [
@@ -111,7 +162,7 @@ function renderWeeks(){
   weeks.forEach(w=>{
     const b = document.createElement("button");
     b.className = "btn" + (w===S.week?" on":""); b.textContent = "Week " + w;
-    b.onclick = ()=>{ S.week = w; S.A.src = S.B.src = null; save(); renderWeeks(); renderPane("A"); renderPane("B"); };
+    b.onclick = ()=>{ S.week = w; S.A.src = S.B.src = null; save(); renderWeeks(); renderPane("A"); renderPane("B"); renderProgress(); };
     $("weeks").appendChild(b);
   });
 }
@@ -182,15 +233,123 @@ function applyTheme(){
 }
 $("themeBtn").onclick = ()=>{ S.theme = {system:"light",light:"dark",dark:"system"}[S.theme]; applyTheme(); save(); };
 
+
+/* ================= Course weeks, progress bar and spaced review ================= */
+const COURSE = [
+  {w:1,  t:"Algorithm fundamentals & asymptotic analysis"},
+  {w:2,  t:"Divide and conquer & recurrences"},
+  {w:3,  t:"Graphs, BFS, Dijkstra"},
+  {w:4,  t:"Bellman-Ford, Floyd-Warshall"},
+  {w:5,  t:"DP, LIS, edit distance"},
+  {w:7,  t:"Greedy: intervals, Prim, Kruskal"},
+  {w:8,  t:"Flow networks & max flow"},
+  {w:9,  t:"BSTs & red-black trees"},
+  {w:10, t:"Interval trees"},
+  {w:11, t:"B-trees & disjoint sets"},
+];
+const EXAM = "2026-11-06";
+const DAY = 864e5;
+const iso = d => { const x=new Date(d); x.setMinutes(x.getMinutes()-x.getTimezoneOffset()); return x.toISOString().slice(0,10); };
+const today = () => iso(new Date());
+const addDays = (s,n) => iso(new Date(new Date(s+"T12:00").getTime()+n*DAY));
+const daysBetween = (a,b) => Math.round((new Date(b+"T12:00")-new Date(a+"T12:00"))/DAY);
+const nice = s => new Date(s+"T12:00").toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"});
+/* status: new | review | done.  review cards have due + reps */
+let R; try{ R = JSON.parse(localStorage.getItem("studyDeskSRS")||"null"); }catch(e){}
+if(!R){ R = {}; COURSE.forEach(c=>R[c.w]={status:"new"});
+  R[1]={status:"review",due:today(),reps:0}; R[2]={status:"review",due:addDays(today(),1),reps:0}; }
+COURSE.forEach(c=>{ if(!R[c.w]) R[c.w]={status:"new"}; });
+const saveR = () => { try{ localStorage.setItem("studyDeskSRS", JSON.stringify(R)); }catch(e){} };
+/* intervals squeezed to fit before the exam: 1, 2, 4 days, never past the day before the exam */
+function schedule(w, grade){
+  const r=R[w]; const steps={hard:1, good:[1,2,4][Math.min(r.reps||0,2)], easy:[2,4,7][Math.min(r.reps||0,2)]}[grade];
+  r.reps=(r.reps||0)+(grade==="hard"?0:1);
+  let due=addDays(today(),steps); const last=addDays(EXAM,-1);
+  if(due>last) due = today()<last ? last : addDays(today(),1);
+  r.status="review"; r.due=due; r.last=today(); saveR(); renderAll();
+}
+function setStatus(w, st, due){
+  const r=R[w]; r.status=st;
+  if(st==="review"){ r.due=due||r.due||addDays(today(),1); r.reps=r.reps||0; }
+  saveR(); renderAll();
+}
+function goStudy(w){ if(weeks.includes(w)){ S.week=w; S.A.src=S.B.src=null; save(); renderWeeks(); renderPane("A"); renderPane("B"); } setView("study"); }
+
+function renderProgress(){
+  const learnt = COURSE.filter(c=>R[c.w].status!=="new").length;
+  $("progText").textContent = `${learnt} of ${COURSE.length} weeks learnt · ${COURSE.filter(c=>R[c.w].status==="done").length} mastered`;
+  const left = daysBetween(today(),EXAM);
+  $("examText").textContent = left>0 ? `Exam ${nice(EXAM)} · ${left} day${left>1?"s":""} left` : left===0 ? "Exam today" : "";
+  $("segs").innerHTML = COURSE.map(c=>`<div class="seg ${R[c.w].status} ${S.week===c.w&&document.body.classList.contains("v-study")?"cur":""}" data-w="${c.w}" title="Week ${c.w}: ${c.t} (${({new:"not learnt yet",review:"in review",done:"mastered"})[R[c.w].status]})">W${c.w}</div>`).join("");
+  $("segs").querySelectorAll(".seg").forEach(el=>el.onclick=()=>goStudy(+el.dataset.w));
+}
+
+function card(c){
+  const r=R[c.w], has=weeks.includes(c.w);
+  let d="", acts="";
+  if(r.status==="new"){ d=has?"Material ready":"No lessons yet";
+    acts=`<button class="btn" data-a="learnt">Mark learnt</button>${has?`<button class="btn" data-a="study">Study</button>`:""}`; }
+  if(r.status==="review"){ const n=daysBetween(today(),r.due);
+    d = n<0?`Overdue by ${-n} day${n<-1?"s":""}`: n===0?"Due today":`Due ${nice(r.due)} (in ${n} day${n>1?"s":""})`;
+    d += ` · reviewed ${r.reps||0}×`;
+    acts=`${has?`<button class="btn" data-a="study">Review now</button>`:""}<button class="btn" data-g="hard">Hard</button><button class="btn" data-g="good">Good</button><button class="btn" data-g="easy">Easy</button><button class="btn" data-a="done">Mastered</button><input type="date" value="${r.due}" max="${EXAM}" title="Reschedule">`; }
+  if(r.status==="done"){ d=r.last?`Last reviewed ${nice(r.last)}`:"Mastered";
+    acts=`<button class="btn" data-a="requeue">Review again</button>`; }
+  return `<div class="card" draggable="true" data-w="${c.w}"><div class="t">Week ${c.w}</div><div>${c.t}</div><div class="d">${d}</div><div class="acts">${acts}</div></div>`;
+}
+function renderReview(){
+  const t=today(), days=Math.max(1,daysBetween(t,EXAM)+1);
+  const due=COURSE.filter(c=>R[c.w].status==="review"&&R[c.w].due<=t);
+  let cal="";
+  for(let i=0;i<Math.min(days,21);i++){ const d=addDays(t,i);
+    const chips=COURSE.filter(c=>R[c.w].status==="review"&&(R[c.w].due===d||(i===0&&R[c.w].due<t)))
+      .map(c=>`<span class="chip review ${R[c.w].due<t?"overdue":""}" draggable="true" data-w="${c.w}" title="${c.t}">W${c.w}</span>`).join("");
+    cal+=`<div class="day ${i===0?"today":""} ${d===EXAM?"exam":""}" data-day="${d}"><div class="dh"><span>${i===0?"Today":nice(d)}</span>${d===EXAM?"<b>Exam</b>":""}</div>${chips}</div>`; }
+  const lane=(st,label,color)=>`<div class="lane" data-st="${st}"><h4><span class="dot" style="background:${color}"></span>${label} · ${COURSE.filter(c=>R[c.w].status===st).length}</h4>
+     ${COURSE.filter(c=>R[c.w].status===st).sort((a,b)=>st==="review"?(R[a.w].due>R[b.w].due?1:-1):a.w-b.w).map(card).join("")}</div>`;
+  $("review").innerHTML = `
+    <h2>Review</h2>
+    <p class="sub">${due.length?`<b>${due.length} week${due.length>1?"s":""} due today:</b> ${due.map(c=>"Week "+c.w).join(", ")}.`:"Nothing due today."} After a review, press Hard, Good or Easy to schedule the next one (spaced to fit before the exam). Drag a week onto a day to schedule it, or between lanes to change its status.</p>
+    <h3>Schedule until the exam</h3>
+    <div class="cal">${cal}</div>
+    <h3>Weeks</h3>
+    <div class="lanes">${lane("new","Not learnt yet","var(--handle)")}${lane("review","Review queue","var(--amber)")}${lane("done","Mastered","var(--green)")}</div>
+    <div class="legend"><span>Hard: again tomorrow</span><span>Good: 1, then 2, then 4 days</span><span>Easy: 2, then 4, then 7 days</span><span><button class="btn" id="resetR">Reset review data</button></span></div>`;
+  const rv=$("review");
+  rv.querySelectorAll(".card").forEach(el=>{ const w=+el.dataset.w;
+    el.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{ const a=b.dataset.a;
+      if(a==="learnt") setStatus(w,"review",addDays(today(),1)); else if(a==="study") goStudy(w);
+      else if(a==="done") setStatus(w,"done"); else if(a==="requeue") setStatus(w,"review",today()); });
+    el.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>schedule(w,b.dataset.g));
+    const inp=el.querySelector("input[type=date]"); if(inp) inp.onchange=()=>{ if(inp.value) setStatus(w,"review",inp.value); };
+  });
+  rv.querySelectorAll("[draggable]").forEach(el=>el.addEventListener("dragstart",e=>e.dataTransfer.setData("text/plain",el.dataset.w)));
+  const drop=(sel,fn)=>rv.querySelectorAll(sel).forEach(z=>{
+    z.addEventListener("dragover",e=>{e.preventDefault();z.classList.add("over")});
+    z.addEventListener("dragleave",()=>z.classList.remove("over"));
+    z.addEventListener("drop",e=>{e.preventDefault();z.classList.remove("over");const w=+e.dataTransfer.getData("text/plain");if(w)fn(w,z);}); });
+  drop(".day",(w,z)=>setStatus(w,"review",z.dataset.day));
+  drop(".lane",(w,z)=>{ const st=z.dataset.st; if(st==="review") setStatus(w,"review",R[w].status==="review"?R[w].due:addDays(today(),1)); else setStatus(w,st); });
+  $("resetR").onclick=()=>{ if(confirm("Reset all review data?")){ try{localStorage.removeItem("studyDeskSRS");}catch(e){} location.reload(); } };
+}
+function setView(v){
+  document.body.classList.toggle("v-study",v==="study"); document.body.classList.toggle("v-review",v==="review");
+  $("vStudy").classList.toggle("on",v==="study"); $("vReview").classList.toggle("on",v==="review");
+  S.view=v; save(); renderAll();
+}
+function renderAll(){ renderProgress(); if(document.body.classList.contains("v-review")) renderReview(); }
+$("vStudy").onclick=()=>setView("study"); $("vReview").onclick=()=>setView("review");
+
 /* ---- keyboard ---- */
 document.addEventListener("keydown", e=>{
   if(e.metaKey||e.ctrlKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
   const k=e.key.toLowerCase();
   if(k==="l") $("layoutBtn").click(); else if(k==="s") $("swapBtn").click();
   else if(k==="f") $("focusBtn").click(); else if(k==="t") $("themeBtn").click();
+  else if(k==="r") setView(document.body.classList.contains("v-review")?"study":"review");
 });
 
-renderWeeks(); renderPane("A"); renderPane("B"); applyLayout(); applyTheme();
+renderWeeks(); renderPane("A"); renderPane("B"); applyLayout(); applyTheme(); setView(S.view==="review"?"review":"study");
 </script>
 </body>
 </html>
