@@ -1,0 +1,77 @@
+<title>Topics 4-6 Fast Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+
+.id { white-space: nowrap; }
+.steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.calc { font-family: var(--mono); font-size: 14px; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; overflow-x: auto; white-space: pre; line-height: 1.6; }
+.ans { font-weight: 700; color: var(--note-edge); margin: 0; }
+.tip { background: var(--accent-soft); border-radius: 6px; padding: 10px 12px; font-size: 15px; }
+.ex { display: flex; flex-direction: column; gap: 8px; padding: 10px 0; border-top: 1px solid var(--rule); }
+.ex h3 { font-size: 15.5px; margin: 0; }
+.ex p { margin: 0; }
+a { color: var(--accent); }
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 · Week 1 · Topics 4, 5 and 6</div>
+  <h1>Growth, loops and cases: fast steps</h1>
+  <p class="how">For each question type: what it means in plain English, the fast steps, and worked examples.</p>
+</header>
+<div class="topic" style="font-family:var(--display);font-size:22px;margin-top:12px">Topic 4 · Growth order and timing tables (sheet [AA-10] [AA-11])</div><section><h2><span class="id">4A</span> Put functions in order</h2><ol class="steps"><li><b>Memorise one line:</b> 1 → log n → n → n log n → n² → n³ → 2ⁿ → n!. Left = slowest growing, right = fastest.</li><li>To order a list, drop the numbers in front first, then place each one on the line.</li><li><b>Plain English:</b> log n barely grows (a million is only about 20). n log n is a bit more than n. Powers (n², n³) are much faster. 2ⁿ doubles every time n goes up by 1.</li></ol><div class="ex"><h3>Example: order 5n², 3 log n, 2ⁿ, 100n</h3><p>Drop numbers: n², log n, 2ⁿ, n. Place them on the line.</p><div class="calc">log n → n → n² → 2ⁿ</div><p class="ans">3 log n, 100n, 5n², 2ⁿ</p></div></section><section><h2><span class="id">4B</span> Timing tables: "which growth fits?"</h2><ol class="steps"><li>Check that n <b>doubles</b> each row (1,000 → 2,000 → 4,000).</li><li><b>Divide each time by the one before it.</b> That's the ratio.</li><li>Match the ratio: <b>about 1 (adds a little) → log n · 2 → n · a bit over 2 → n log n · 4 → n² · 8 → n³</b>.</li><li><b>Why:</b> if work is n², doubling n gives 2 × 2 = 4 times the work. For n³ it's 2 × 2 × 2 = 8.</li></ol><div class="ex"><h3>Example: 3 s, 12 s, 48 s as n doubles</h3><p>Divide each by the one before.</p><div class="calc">12 ÷ 3 = 4
+48 ÷ 12 = 4</div><p class="ans">Ratio 4, so Θ(n²)</p></div><div class="ex"><h3>Example: 1 s, 8 s, 64 s as n doubles</h3><p>Divide.</p><div class="calc">8 ÷ 1 = 8
+64 ÷ 8 = 8</div><p class="ans">Ratio 8, so Θ(n³)</p></div><div class="ex"><h3>Example: 2.0 s, 2.1 s, 2.2 s as n doubles</h3><p>The time only <b>adds</b> 0.1 each time, and the ratio is about 1.</p><div class="calc">2.1 ÷ 2.0 ≈ 1.05</div><p class="ans">Θ(log n)</p></div></section><section><h2><span class="id">4C</span> "n gets k times bigger. How long now?"</h2><ol class="steps"><li>Work out k = new n ÷ old n.</li><li>Multiply the time by: <b>k for n · k × k for n² · k × k × k for n³</b>.</li></ol><div class="ex"><h3>Example: Θ(n²) takes 2 s at n = 1,000. How long at n = 3,000?</h3><p>k = 3,000 ÷ 1,000 = 3. It's n², so multiply by 3 × 3 = 9.</p><div class="calc">2 s × 9 = 18 s</div><p class="ans">18 seconds</p></div><div class="ex"><h3>Example: Θ(n) takes 5 s at n = 100. How long at n = 400?</h3><p>k = 4. It's n, so multiply by 4.</p><div class="calc">5 × 4 = 20 s</div><p class="ans">20 seconds</p></div></section><section><h2><span class="id">4D</span> "Which is faster for very large n?"</h2><ol class="steps"><li><b>Ignore the numbers in front completely.</b> Compare the growth on the line.</li><li>Whichever grows slower wins (takes fewer steps) for large n, even if it has a huge number in front.</li></ol><div class="ex"><h3>Example: A = 50n vs B = 0.01n²</h3><p>Drop the numbers: n vs n². n is slower, so A wins for large n.</p><div class="calc">At n = 1,000,000: A = 50,000,000   B = 10,000,000,000</div><p class="ans">A</p></div></section><div class="topic" style="font-family:var(--display);font-size:22px;margin-top:12px">Topic 5 · Counting steps from pseudocode (sheet [AA-12])</div><section><h2><span class="id">5A</span> How to read any loop question</h2><ol class="steps"><li>Find the line <b>inside the deepest loop</b>. It runs the most, so it decides the answer.</li><li>Work out how many times each loop goes round, using the pattern table below.</li><li><b>Nested</b> loops (one inside another) → <b>multiply</b>. Loops one <b>after</b> another → <b>add</b>, then keep the biggest.</li></ol></section><section><h2><span class="id">5B</span> Pattern table: match the loop and read off the answer</h2><div class="tbl"><table><tr><th>Loop shape</th><th>Times</th><th>Growth</th></tr><tr><td><code>for i = 1 to n</code></td><td>n</td><td>Θ(n)</td></tr><tr><td><code>for i = 1 to n</code> with <code>for j = 1 to n</code> inside</td><td>n × n</td><td>Θ(n²)</td></tr><tr><td><code>for i = 1 to n</code> with <code>for j = i+1 to n</code> inside (each pair once)</td><td>n(n−1)/2</td><td>Θ(n²)</td></tr><tr><td><code>for i = 1 to n</code> with <code>for j = 1 to i</code> inside</td><td>n(n+1)/2</td><td>Θ(n²)</td></tr><tr><td>three nested loops to n</td><td>n × n × n</td><td>Θ(n³)</td></tr><tr><td><code>while i &gt; 1: i = i / 2</code> (or <code>j = j * 2</code>)</td><td>log n</td><td>Θ(log n)</td></tr><tr><td>a loop to n with a halving loop inside</td><td>n × log n</td><td>Θ(n log n)</td></tr><tr><td>a loop to n, <b>then</b> a separate loop to n</td><td>n + n = 2n</td><td>Θ(n)</td></tr></table></div><p class="how" style="margin:0"><b>Plain English:</b> "j = i + 1 to n" checks every pair once. For n = 5 that's 4 + 3 + 2 + 1 = 10, and 5 × 4 ÷ 2 = 10. Half of n² is still n², because numbers in front are dropped.</p></section><section><h2><span class="id">5C</span> Exact counts: "how many steps in total?"</h2><ol class="steps"><li>Write how many times each line runs next to it.</li><li><b>Loop header</b> (the "for" line): n + 1 times (it checks one extra time to stop). <b>Body:</b> n times. <b>Lines outside loops:</b> 1 each.</li><li>Add them up.</li></ol><div class="ex"><h3>Example</h3><p>Count each line.</p><div class="calc">1  x = 0               → 1
+2  for i = 1 to n       → n + 1
+3      x = x + A[i]     → n
+4  return x             → 1
+   total = 1 + (n+1) + n + 1 = 2n + 3</div><p class="ans">2n + 3, which is Θ(n)</p></div><div class="ex"><h3>Example: what is count at the end?</h3><p>for i = 1 to 4 / for j = i+1 to 4 / count = count + 1</p><div class="calc">n = 4: pairs = 4 × 3 ÷ 2 = 6
+(i=1: 3, i=2: 2, i=3: 1, i=4: 0 → 3+2+1 = 6)</div><p class="ans">6</p></div></section><div class="topic" style="font-family:var(--display);font-size:22px;margin-top:12px">Topic 6 · Best and worst cases, Fibonacci (sheet [AA-13] [AA-14])</div><section><h2><span class="id">6A</span> Memorise this table</h2><div class="tbl"><table><tr><th>Algorithm</th><th>Best case</th><th>Worst case</th></tr><tr><td>Linear search</td><td>Θ(1): target is first</td><td>Θ(n): target missing</td></tr><tr><td>Insertion sort</td><td>Θ(n): already sorted</td><td>Θ(n²): reverse order</td></tr><tr><td>Merge sort</td><td>Θ(n log n): any input</td><td>Θ(n log n): any input</td></tr><tr><td>Binary search (needs a <b>sorted</b> list)</td><td>Θ(1): middle is the target</td><td>Θ(log n)</td></tr><tr><td>Selection / bubble sort</td><td>Θ(n²)</td><td>Θ(n²)</td></tr></table></div><p class="how" style="margin:0"><b>"Same best and worst?"</b> → merge sort (and selection/bubble). <b>"Depends on input order?"</b> → insertion sort, linear search.</p></section><section><h2><span class="id">6B</span> Insertion sort shifts</h2><ol class="steps"><li>Insertion sort takes each item and slides it left into place, like sorting cards in your hand. Each one-place slide is a <b>shift</b>.</li><li><b>Already sorted:</b> 0 shifts, but still Θ(n), not Θ(1), because it must look at every item once.</li><li><b>Reverse order:</b> shifts = n × (n − 1) ÷ 2.</li><li><b>Any list:</b> shifts = the number of pairs that are in the wrong order.</li></ol><div class="ex"><h3>Example: reversed list of 5</h3><p>n = 5</p><div class="calc">5 × 4 ÷ 2 = 10 shifts</div><p class="ans">10</p></div><div class="ex"><h3>Example: [3, 1, 2]</h3><p>Count pairs in the wrong order (a bigger number before a smaller one).</p><div class="calc">(3,1) wrong · (3,2) wrong · (1,2) fine</div><p class="ans">2 shifts</p></div></section><section><h2><span class="id">6C</span> Early return and Fibonacci</h2><ol class="steps"><li>If a loop can <b>stop early</b> (a return inside the loop), the time depends on the values, so there's <b>no single Θ</b>. Say O(worst) and Ω(best).</li><li><b>Fibonacci</b> (0, 1, 1, 2, 3, 5, 8…, where each is the sum of the two before): naive recursion is <b>exponential</b> because it recalculates the same numbers again and again.</li><li>Fix by storing answers (<b>memoisation</b>) or using a loop: O(n). Matrix exponentiation: O(log n).</li><li><b>Trap:</b> recursion itself isn't slow. Binary search is recursive and only log n.</li></ol></section><section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer <b>4.1 to 6.5</b> on the <a href="https://claude.ai/artifact/9Y6mjfnbhmjkYFwyLXvGrR" target="_blank" rel="noopener">practice questions page</a> out loud in the chat. Then we'll do the recap of topics 1 to 6.</p></section>
+<footer>Built from the Week 1 lecture (Asymptotic Analysis) and lab, 2 November 2026.</footer>
+</div>
