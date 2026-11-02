@@ -17,6 +17,7 @@ Work through the course **week by week, following the course schedule** (Week 1,
 - `revision/cheatsheets/<NN>-<week-slug>.html` is the **current study cheatsheet** for each week (see "The study cheatsheet").
 - `revision/cheatsheets/versions/<NN>-<week-slug>-vK.html` keeps **every previous version** of each sheet. Never overwrite an old version.
 - `revision/practice/` holds the practice question banks, answer keys (`*-answer-key.json`), lesson pages and recap quizzes.
+- `revision/study.html` is the **Study Desk**: a split-screen viewer (lessons / cheatsheet on one side, questions / recaps on the other, by week). **Whenever you create a lesson page, cheatsheet version, question bank or recap, add it to the `PAGES` list at the top of its script** (week, kind, title, path relative to `revision/`).
 - `revision/progress.md` is the log: every question asked, the result, the mistake type, which cheatsheet entry each edit fixes, and which practice-quiz question numbers have been used.
 - `revision/skill-change-log.md` is the log of changes the student has asked for in this skill (see "Feedback on the skill").
 - **Practice quiz:** this is the official Canvas practice mock, with 45 multiple-choice questions with options and about 20 figures. **It is the main reference for question style and exam coverage.** Look for `mock-exam-questions.md` and its `images/` folder in these places, in order, and use the first one found:

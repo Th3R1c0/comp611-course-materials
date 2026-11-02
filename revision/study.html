@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Desk</title>
+<style>
+/* Study Desk: split-screen viewer for fast lessons / cheatsheets next to practice questions.
+   Add new pages to PAGES below (the cheatsheet-coach skill does this when it creates a page). */
+:root{
+  --bg:#ffffff; --side:#fbfbfa; --ink:#37352f; --muted:#787774; --faint:#9b9a97;
+  --line:#e9e9e7; --hover:#efefed; --active:#e3e2e0; --accent:#2383e2; --handle:#d3d1cb;
+  --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#191919; --side:#202020; --ink:#e6e6e5; --muted:#9b9b9b; --faint:#7f7f7f;
+  --line:#2f2f2f; --hover:#2c2c2c; --active:#373737; --accent:#529cca; --handle:#444; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#191919; --side:#202020; --ink:#e6e6e5; --muted:#9b9b9b; --faint:#7f7f7f;
+  --line:#2f2f2f; --hover:#2c2c2c; --active:#373737; --accent:#529cca; --handle:#444; color-scheme:dark }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--font);display:flex;flex-direction:column;overflow:hidden}
+button,select{font:inherit;color:inherit}
+.btn{background:none;border:0;border-radius:4px;padding:3px 8px;cursor:pointer;color:var(--muted);white-space:nowrap}
+.btn:hover{background:var(--hover);color:var(--ink)}
+.btn.on{background:var(--active);color:var(--ink)}
+select{background:transparent;border:0;border-radius:4px;padding:3px 6px;cursor:pointer;max-width:100%}
+select:hover{background:var(--hover)}
+/* top bar */
+header{display:flex;align-items:center;gap:6px;padding:6px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap;min-height:44px}
+.brand{font-weight:600;margin-right:6px}
+.sep{width:1px;height:18px;background:var(--line);margin:0 4px}
+.grow{flex:1}
+.weeks{display:flex;gap:2px;flex-wrap:wrap}
+/* workspace */
+main{flex:1;display:flex;min-height:0}
+main.vertical{flex-direction:column}
+.pane{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
+.pane.hidden{display:none}
+.phead{display:flex;align-items:center;gap:4px;padding:4px 8px;border-bottom:1px solid var(--line);background:var(--side);flex-wrap:wrap}
+.phead select{flex:1;min-width:120px;font-weight:500}
+.kinds{display:flex;gap:2px}
+.zoom{font-variant-numeric:tabular-nums;color:var(--faint);font-size:12px;min-width:38px;text-align:center}
+.frame-wrap{flex:1;position:relative;min-height:0}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--bg)}
+.empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--faint);padding:24px;text-align:center}
+.divider{flex:0 0 7px;cursor:col-resize;position:relative;background:var(--bg)}
+.divider::after{content:"";position:absolute;top:0;bottom:0;left:3px;width:1px;background:var(--line)}
+.divider:hover::after,.divider.drag::after{background:var(--accent);width:3px;left:2px}
+main.vertical .divider{cursor:row-resize}
+main.vertical .divider::after{left:0;right:0;top:3px;bottom:auto;width:auto;height:1px}
+main.vertical .divider:hover::after,main.vertical .divider.drag::after{height:3px;top:2px;width:auto}
+.divider.hidden{display:none}
+body.dragging iframe{pointer-events:none}
+.hint{font-size:12px;color:var(--faint)}
+@media (max-width:700px){ .brand,.hint{display:none} }
+</style>
+</head>
+<body>
+<header>
+  <span class="brand">Study Desk</span>
+  <div class="weeks" id="weeks"></div>
+  <span class="grow"></span>
+  <button class="btn" id="layoutBtn" title="Side by side / stacked (L)">⇆ Side by side</button>
+  <button class="btn" id="swapBtn" title="Swap panes (S)">⇄ Swap</button>
+  <button class="btn" id="focusBtn" title="Show both / left only / right only (F)">◧ Both</button>
+  <span class="sep"></span>
+  <button class="btn" id="themeBtn" title="Theme (T)">◐ System</button>
+  <span class="hint" title="Keyboard shortcuts">L S F T · drag divider · double-click to reset</span>
+</header>
+<main id="main">
+  <section class="pane" id="paneA"></section>
+  <div class="divider" id="divider" title="Drag to resize, double-click for 50/50"></div>
+  <section class="pane" id="paneB"></section>
+</main>
+<script>
+/* ---- Content list. kind: lesson | cheatsheet | questions | recap ---- */
+const PAGES = [
+  {week:1, kind:"lesson",     title:"Topic 3 worked examples",          src:"practice/topic3-worked-examples.html"},
+  {week:1, kind:"lesson",     title:"Topics 4–6 fast lesson",           src:"practice/topics4-6-lesson.html"},
+  {week:1, kind:"cheatsheet", title:"Week 1 cheatsheet (current)",      src:"cheatsheets/01-algorithm-analysis.html"},
+  {week:1, kind:"cheatsheet", title:"Week 1 cheatsheet v4",             src:"cheatsheets/versions/01-algorithm-analysis-v4.html"},
+  {week:1, kind:"cheatsheet", title:"Week 1 cheatsheet v3",             src:"cheatsheets/versions/01-algorithm-analysis-v3.html"},
+  {week:1, kind:"cheatsheet", title:"Week 1 cheatsheet v2",             src:"cheatsheets/versions/01-algorithm-analysis-v2.html"},
+  {week:1, kind:"questions",  title:"Week 1 practice questions",        src:"practice/week1-questions.html"},
+  {week:1, kind:"recap",      title:"Recap: topics 1–3",                src:"practice/recap-1-3.html"},
+];
+const KINDS = [["lesson","Lessons"],["cheatsheet","Cheatsheet"],["questions","Questions"],["recap","Recaps"]];
+
+/* ---- state (remembered per browser) ---- */
+const DEF = {week:null, split:50, layout:"h", focus:"both", theme:"system",
+  A:{kind:"lesson", src:null, zoom:100}, B:{kind:"questions", src:null, zoom:100}};
+let S; try{ S = Object.assign({}, DEF, JSON.parse(localStorage.getItem("studyDesk")||"{}")); }catch(e){ S = structuredClone(DEF); }
+S.A = Object.assign({}, DEF.A, S.A); S.B = Object.assign({}, DEF.B, S.B);
+const save = () => { try{ localStorage.setItem("studyDesk", JSON.stringify(S)); }catch(e){} };
+const weeks = [...new Set(PAGES.map(p=>p.week))].sort((a,b)=>a-b);
+if(!weeks.includes(S.week)) S.week = weeks[0];
+
+const $ = id => document.getElementById(id);
+const main = $("main"), divider = $("divider");
+
+/* ---- week tabs ---- */
+function renderWeeks(){
+  $("weeks").innerHTML = "";
+  weeks.forEach(w=>{
+    const b = document.createElement("button");
+    b.className = "btn" + (w===S.week?" on":""); b.textContent = "Week " + w;
+    b.onclick = ()=>{ S.week = w; S.A.src = S.B.src = null; save(); renderWeeks(); renderPane("A"); renderPane("B"); };
+    $("weeks").appendChild(b);
+  });
+}
+
+/* ---- panes ---- */
+function renderPane(id){
+  const st = S[id], el = $("pane"+id);
+  const inWeek = PAGES.filter(p=>p.week===S.week);
+  let list = inWeek.filter(p=>p.kind===st.kind);
+  if(!list.find(p=>p.src===st.src)) st.src = list[0] ? list[0].src : null;
+  el.innerHTML = `
+    <div class="phead">
+      <div class="kinds">${KINDS.map(([k,l])=>`<button class="btn ${k===st.kind?"on":""}" data-k="${k}"
+         ${inWeek.some(p=>p.kind===k)?"":"disabled style='opacity:.35;cursor:default'"}>${l}</button>`).join("")}</div>
+      <select aria-label="Page">${list.map(p=>`<option value="${p.src}" ${p.src===st.src?"selected":""}>${p.title}</option>`).join("")}</select>
+      <button class="btn" data-z="-10" title="Smaller text">A−</button>
+      <span class="zoom">${st.zoom}%</span>
+      <button class="btn" data-z="10" title="Bigger text">A+</button>
+      <button class="btn" data-open title="Open in new tab">↗</button>
+    </div>
+    <div class="frame-wrap">${st.src ? `<iframe title="${id}" src="${st.src}"></iframe>` : `<div class="empty">Nothing of this type for Week ${S.week} yet.</div>`}</div>`;
+  el.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{ if(b.disabled) return; st.kind=b.dataset.k; st.src=null; save(); renderPane(id); });
+  el.querySelector("select").onchange = e=>{ st.src = e.target.value; save(); renderPane(id); };
+  el.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{ st.zoom = Math.min(200, Math.max(50, st.zoom + +b.dataset.z)); save(); applyZoom(id); el.querySelector(".zoom").textContent = st.zoom+"%"; });
+  el.querySelector("[data-open]").onclick = ()=>{ if(st.src) window.open(st.src, "_blank"); };
+  const f = el.querySelector("iframe"); if(f) f.onload = ()=>{ applyZoom(id); applyThemeTo(f); };
+  applyZoom(id);
+}
+function applyZoom(id){
+  const f = $("pane"+id).querySelector("iframe"); if(!f) return;
+  const z = S[id].zoom/100;
+  try{ f.contentDocument.documentElement.style.zoom = z; f.style.zoom = ""; }   // same-origin (served over http)
+  catch(e){ f.style.zoom = z; f.style.width = (100/z)+"%"; f.style.height = (100/z)+"%"; } // file:// fallback
+}
+
+/* ---- layout, split, focus ---- */
+function applyLayout(){
+  main.classList.toggle("vertical", S.layout==="v");
+  $("layoutBtn").textContent = S.layout==="v" ? "⇅ Stacked" : "⇆ Side by side";
+  const a=$("paneA"), b=$("paneB");
+  a.classList.toggle("hidden", S.focus==="B"); b.classList.toggle("hidden", S.focus==="A");
+  divider.classList.toggle("hidden", S.focus!=="both");
+  $("focusBtn").textContent = {both:"◧ Both", A:"▢ Left only", B:"▢ Right only"}[S.focus];
+  if(S.focus==="both"){ a.style.flex = `0 0 calc(${S.split}% - 3.5px)`; b.style.flex = "1 1 0"; }
+  else { a.style.flex = b.style.flex = "1 1 0"; }
+}
+let dragging=false;
+divider.addEventListener("pointerdown", e=>{ dragging=true; divider.setPointerCapture(e.pointerId); divider.classList.add("drag"); document.body.classList.add("dragging"); });
+divider.addEventListener("pointermove", e=>{ if(!dragging) return;
+  const r = main.getBoundingClientRect();
+  const p = S.layout==="v" ? (e.clientY-r.top)/r.height : (e.clientX-r.left)/r.width;
+  S.split = Math.round(Math.min(85, Math.max(15, p*100))*10)/10; applyLayout(); });
+divider.addEventListener("pointerup", ()=>{ dragging=false; divider.classList.remove("drag"); document.body.classList.remove("dragging"); save(); });
+divider.addEventListener("dblclick", ()=>{ S.split=50; applyLayout(); save(); });
+
+$("layoutBtn").onclick = ()=>{ S.layout = S.layout==="v"?"h":"v"; applyLayout(); save(); };
+$("swapBtn").onclick = ()=>{ [S.A,S.B]=[S.B,S.A]; save(); renderPane("A"); renderPane("B"); };
+$("focusBtn").onclick = ()=>{ S.focus = {both:"A",A:"B",B:"both"}[S.focus]; applyLayout(); save(); };
+
+/* ---- theme (also pushed into pages when the browser allows it) ---- */
+function applyThemeTo(f){ try{ const r=f.contentDocument.documentElement;
+  if(S.theme==="system") r.removeAttribute("data-theme"); else r.setAttribute("data-theme", S.theme); }catch(e){} }
+function applyTheme(){
+  if(S.theme==="system") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", S.theme);
+  $("themeBtn").textContent = {system:"◐ System", light:"○ Light", dark:"● Dark"}[S.theme];
+  document.querySelectorAll("iframe").forEach(applyThemeTo);
+}
+$("themeBtn").onclick = ()=>{ S.theme = {system:"light",light:"dark",dark:"system"}[S.theme]; applyTheme(); save(); };
+
+/* ---- keyboard ---- */
+document.addEventListener("keydown", e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
+  const k=e.key.toLowerCase();
+  if(k==="l") $("layoutBtn").click(); else if(k==="s") $("swapBtn").click();
+  else if(k==="f") $("focusBtn").click(); else if(k==="t") $("themeBtn").click();
+});
+
+renderWeeks(); renderPane("A"); renderPane("B"); applyLayout(); applyTheme();
+</script>
+</body>
+</html>
