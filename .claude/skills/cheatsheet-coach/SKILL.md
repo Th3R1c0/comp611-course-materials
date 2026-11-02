@@ -14,15 +14,17 @@ Work through the exam **one section at a time**. Run the loop below for each sec
 - `revision/exam-plan.md` lists the exam sections, the question styles, the cheatsheet rules, and the status of each section.
 - `revision/cheatsheets/<NN>-<section-slug>.md` holds one cheatsheet per section.
 - `revision/progress.md` is the log: every question asked, the result, the mistake type, and any cheatsheet edits.
+- `revision/practice-quiz/mock-exam-questions.md` (with figures in `revision/practice-quiz/images/`) is the official Canvas practice mock: 45 multiple-choice questions with options and about 20 figures. **It is the main reference for exam sections and question style.** Open the figure images whenever a question refers to one. Its answer key may be missing until the student submits an attempt.
 
 At the start of every session, read these files and continue where the student left off. If they don't exist, run Setup.
 
 ## Setup (first session only)
 
-1. Ask the student, in one message:
-   - What are the exam sections, or the topics and question types? Ask for a past paper if they have one.
-   - What are the cheatsheet rules: number of pages or sides, handwritten or printed, font limits?
-   - When is the exam?
+1. **Derive the exam sections from the practice quiz.** Read `revision/practice-quiz/mock-exam-questions.md` and group the 45 questions by topic (for example Prim/Dijkstra, red-black trees, max-flow, dynamic programming). Weight each section by how many questions it has. For each section, note the question styles it uses, such as tracing an algorithm on a figure, picking the next step or final state, complexity, true/false on properties, or filling a DP table. Record which question numbers belong to each section.
+   Then ask the student, in one message, to confirm or adjust the sections, and to give:
+   - the cheatsheet rules: number of pages or sides, handwritten or printed, font limits
+   - the exam date
+   If the practice quiz is missing, ask for the sections or a past paper instead.
 2. Find the course materials in the repo (lecture slides, notes, labs, past papers). If there are none, ask the student to add them. Don't teach from memory alone. Teach from their course's notation and definitions.
 3. Write `revision/exam-plan.md` with the sections in order, giving each a share of the cheatsheet's page budget based on its exam weight.
 
@@ -40,7 +42,10 @@ At the start of every session, read these files and continue where the student l
 - Respect the page budget for the section. Prefer recipes and traps over prose the student already knows.
 
 ### 3. Test
-- Give **one exam-style question at a time**, in the style and difficulty of the real exam (use past papers when they exist). Vary the question types within the section.
+- Give **one exam-style question at a time**. Vary the question types within the section.
+- **Model the drill questions on the practice quiz.** Use the same format (multiple choice with the same number of options), the same kinds of distractors, and the same "trace this on a figure" setups. When a quiz question uses a figure, make a fresh graph or tree of similar size: draw it as an ASCII or Mermaid diagram, or as an edge list or table. That way the student practises the skill rather than memorising a quiz answer.
+- **Use the real quiz questions sparingly.** Use a section's real quiz questions as the final check before marking it mastered. Keep about a third of all 45 untouched for the final mock exam. Log which question numbers have been used in `progress.md`.
+- **Answer key.** If the quiz has no confirmed answers yet, work out the answer yourself and show your working. Mark it "unconfirmed", and flag any question you're unsure of. Once the student shares their graded attempt, add the confirmed answers to `mock-exam-questions.md`. Re-check any earlier corrections that disagree with the confirmed answers.
 - Tell the student to answer **using only the cheatsheet** and to **think out loud**: what they look up, why, and each step.
 - Give no hints while they answer.
 
@@ -70,7 +75,7 @@ At the start of each session after the first, ask 1–2 questions from sections 
 When all sections are done, or when the student asks:
 - Merge all section sheets into `revision/cheatsheet-final.md` in exam order.
 - Check it against the page and format rules. Trim the least-used entries first, using `progress.md` to see which entries were cited.
-- Run a short mixed mock exam across all sections that uses only the final sheet.
+- Run a mixed mock exam that uses only the final sheet. Build it from the practice-quiz questions you held back, in the quiz's format and timed if the student wants.
 
 ## Style
 - Keep turns short and interactive, since the student is answering live.
