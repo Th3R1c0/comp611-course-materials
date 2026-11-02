@@ -21,6 +21,18 @@ Status: **applied in trial** = done by hand in the test thread, not yet written 
 | 14 | 2026-11-02 | **Keep every previous version of each cheatsheet** so the student can go back (revision/cheatsheets/versions/, older HTML versions published separately). | applied in trial (v1, v2 kept) |
 | 15 | 2026-11-02 | **Three view modes built into the study sheet**: Paper (just the lines, like the printed exam sheet, to get used to no toggles), Everything shown (lines + explanations, no tapping), Tap to explain (toggles). Default: Paper. | applied in trial (Week 1 v3) |
 | 16 | 2026-11-02 | **Cumulative recap after every topic (mini spaced repetition)**: after finishing topic k, give new questions covering every question type from topics 1..k; student answers out loud, Claude corrects all, then move on. After the last topic, recap everything, then do everything once more to finish. | applied in trial (recap 1–3) |
+| 17 | 2026-11-02 | **Fast lesson page per topic (or group of topics)**: plain English → fast steps per question type → worked examples → "your turn" pointing to the exact questions. Misty's favourite format. | applied in trial (topic 3, topics 4–6 pages) |
+| 18 | 2026-11-02 | **Teach by question type**: list every kind of question a topic can ask (Case A/B/C…), give a short numbered recipe for each; steps first, the "why" optional underneath. | applied in trial |
+| 19 | 2026-11-02 | **Translate notation into English before solving** (O = at most, Ω = at least, Θ = exactly; "=" means "fits the description"; c goes on the right). Include how to say it out loud. | applied in trial (sheet v4) |
+| 20 | 2026-11-02 | **Use a picture when an idea is abstract** (e.g. the ceiling/floor graph for c and n₀). | applied in trial |
+| 21 | 2026-11-02 | **Worked examples show every number**, use numbers doable without a calculator; for bounds, check at n₀ and at a big n like 100. | applied in trial |
+| 22 | 2026-11-02 | **Correction style**: ✓/✗ each answer, name exactly what was misread (e.g. "you divided the n's, not the times"), give the right step, then a quick redo of only the missed ones. | applied in trial |
+| 23 | 2026-11-02 | **New cheatsheet version after every round of mistakes**: rewrite only the failed entries, keep every old version linked at the top, log which mistake each edit fixes (progress.md). | applied in trial (v4, v5) |
+| 24 | 2026-11-02 | **Glossary covers every word**, including ones that tripped the student up: term, constant, how to read `for i = 1 to n`. | applied in trial (sheet v4/v5) |
+| 25 | 2026-11-02 | **Key tables live in the sheet lines themselves** so they show in Paper view, and must fit a phone without sideways scrolling. | applied in trial (sheet v5) |
+| 26 | 2026-11-02 | **Handle speech-to-text**: interpret garbled words ("circle" → ceiling, "0" → O, "4 in 2" → 4n²) and correct gently without losing the answer. | applied in trial |
+| 27 | 2026-11-02 | **Let the student group topics**: if they ask for several topics at once, make one combined lesson page. | applied in trial (topics 4–6) |
+| 28 | 2026-11-02 | **Propose before logging**: when the student gives feedback, suggest improvements and log only the ones they pick. | applied |
 
 ## Suggested SKILL.md edits (draft)
 - Teach step: "Assume the student knows no mathematical notation unless they say otherwise. Introduce each symbol in plain words with a numeric example, and add a symbol-key entry at the top of each sheet."
