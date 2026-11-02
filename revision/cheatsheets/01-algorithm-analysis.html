@@ -49,17 +49,34 @@ th { color: var(--muted); font-weight: 400; }
 footer { color: var(--muted); font-size: 13px; }
 @media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
 .id { white-space: nowrap; }
+[hidden] { display: none !important; }
+.modes { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; align-self: flex-start; }
+.modes button { border: 0; border-radius: 0; background: var(--card); }
+.modes button + button { border-left: 1px solid var(--rule); }
+.modes button[aria-checked="true"] { background: var(--accent); color: var(--card); font-weight: 700; }
+body.paper .plain, body.paper details:not([open]) .plain { display: none; }
+body.paper summary, body.full summary { cursor: default; }
+body.paper summary::before { content: "•"; }
+body.full summary::before { content: "•"; }
+body.paper section { gap: 0; }
+body.paper summary { padding-block: 4px; }
+body.paper .topic { font-size: 18px; }
 .topic { font-family: var(--display); font-size: 21px; margin-top: 10px; text-wrap: balance; }
 .vers { display:flex; flex-wrap:wrap; gap:8px 14px; font-size:14px; }
 a { color: var(--accent); }
 </style>
 <div class="wrap">
 <header>
-  <div class="eyebrow">COMP611 cheatsheet · Week 1 · study version 3</div>
+  <div class="eyebrow">COMP611 cheatsheet · Week 1 · version 3</div>
   <h1>Algorithm analysis &amp; growth rates</h1>
   <div class="meta"><span class="pill">5 exam questions</span><span class="pill">12 marks</span><span class="pill">6 topics, same as the practice questions</span></div>
-  <p class="how">Each sentence with a − or + marker is one line of the sheet. The green note under it explains it in plain English, with the reason and an example. Notes are open by default; use the buttons to hide them for a quick look at just the lines. Every word is defined in the glossary [AA-0].</p>
-  <div class="tools"><button id="closeAll" type="button">Hide explanations</button><button id="openAll" type="button">Show explanations</button></div>
+  <div class="modes" role="radiogroup" aria-label="View">
+    <button type="button" role="radio" data-mode="paper" id="m-paper">Paper</button>
+    <button type="button" role="radio" data-mode="full" id="m-full">Everything shown</button>
+    <button type="button" role="radio" data-mode="toggle" id="m-toggle">Tap to explain</button>
+  </div>
+  <p class="how" id="modeHelp"></p>
+  <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
   <div class="vers"><span>Older versions:</span><a href="https://claude.ai/artifact/FGxRNgwQuBN8KkzEpEf2gY" target="_blank" rel="noopener">Version 2 (expandable, shorthand)</a><span>Version 1 (plain text) is in the repo at revision/cheatsheets/versions/</span></div>
 </header>
 <div class="topic">Start here: words and symbols</div>
@@ -178,6 +195,24 @@ a { color: var(--accent); }
 <footer>Sources: Lecture 1B Asymptotic Analysis (Week 1), Week 1 Lab solutions. Version 3, 2 November 2026.</footer>
 </div>
 <script>
-document.getElementById('openAll').addEventListener('click', () => document.querySelectorAll('details').forEach(d => d.open = true));
-document.getElementById('closeAll').addEventListener('click', () => document.querySelectorAll('details').forEach(d => d.open = false));
+const help = {
+  paper: "Paper view: just the lines, exactly what the printed sheet will show. Practise with this one for the exam.",
+  full: "Everything shown: every line with its plain-English explanation, reason and example underneath. Nothing to tap.",
+  toggle: "Tap to explain: just the lines, and tapping a line opens its explanation."
+};
+const all = () => document.querySelectorAll('details');
+function setMode(m) {
+  document.body.classList.remove('paper', 'full', 'toggle'); document.body.classList.add(m);
+  document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-checked', b.dataset.mode === m));
+  document.getElementById('modeHelp').textContent = help[m];
+  document.getElementById('toggleTools').hidden = m !== 'toggle';
+  all().forEach(d => d.open = (m !== 'toggle'));
+  try { localStorage.setItem('aa-mode', m); } catch (e) {}
+}
+document.querySelectorAll('summary').forEach(s => s.addEventListener('click', e => { if (!document.body.classList.contains('toggle')) e.preventDefault(); }));
+document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+document.getElementById('openAll').addEventListener('click', () => all().forEach(d => d.open = true));
+document.getElementById('closeAll').addEventListener('click', () => all().forEach(d => d.open = false));
+let start = 'paper'; try { start = localStorage.getItem('aa-mode') || 'paper'; } catch (e) {}
+setMode(help[start] ? start : 'paper');
 </script>
