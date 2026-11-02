@@ -48,148 +48,135 @@ th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var
 th { color: var(--muted); font-weight: 400; }
 footer { color: var(--muted); font-size: 13px; }
 @media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+.id { white-space: nowrap; }
+.topic { font-family: var(--display); font-size: 21px; margin-top: 10px; text-wrap: balance; }
+.vers { display:flex; flex-wrap:wrap; gap:8px 14px; font-size:14px; }
+a { color: var(--accent); }
 </style>
-
 <div class="wrap">
 <header>
-  <div class="eyebrow">COMP611 cheatsheet · Week 1 · study version</div>
+  <div class="eyebrow">COMP611 cheatsheet · Week 1 · study version 3</div>
   <h1>Algorithm analysis &amp; growth rates</h1>
-  <div class="meta"><span class="pill">5 exam questions</span><span class="pill">12 marks</span><span class="pill">≈ 1/8 of the A4 side</span></div>
-  <p class="how">Each line is what goes on the printed sheet. Tap a line to see it explained in plain English from scratch. The final sheet will be a PDF with just the lines.</p>
-  <div class="tools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
+  <div class="meta"><span class="pill">5 exam questions</span><span class="pill">12 marks</span><span class="pill">6 topics, same as the practice questions</span></div>
+  <p class="how">Each sentence with a − or + marker is one line of the sheet. The green note under it explains it in plain English, with the reason and an example. Notes are open by default; use the buttons to hide them for a quick look at just the lines. Every word is defined in the glossary [AA-0].</p>
+  <div class="tools"><button id="closeAll" type="button">Hide explanations</button><button id="openAll" type="button">Show explanations</button></div>
+  <div class="vers"><span>Older versions:</span><a href="https://claude.ai/artifact/FGxRNgwQuBN8KkzEpEf2gY" target="_blank" rel="noopener">Version 2 (expandable, shorthand)</a><span>Version 1 (plain text) is in the repo at revision/cheatsheets/versions/</span></div>
 </header>
-
-<section>
-<h2><span class="id">[AA-0]</span> Symbol key</h2>
-<details><summary><span class="m">n</span> = size of the input</summary><div class="plain">
-<p>n is just "how much stuff the algorithm is given". Sorting a list of 1,000 numbers means n = 1,000. Everything else is described in terms of n so we can ask "what happens as n gets bigger?"</p></div></details>
-<details><summary><span class="m">T(n)</span> or <span class="m">f(n)</span> = number of steps for an input of size n</summary><div class="plain">
-<p>Read the brackets as "for". T(n) means "the time (number of steps) for an input of size n". It's a little formula you plug n into.</p>
-<p class="eg">T(n) = 2n + 1 → for n = 10: 2×10 + 1 = 21 steps</p></div></details>
-<details><summary><span class="m">n² = n×n · n³ = n×n×n · 2ⁿ = 2×2×…×2 (n times)</span></summary><div class="plain">
-<p>The small raised number says how many times to multiply. These grow at very different speeds:</p>
-<p class="eg">n = 10: n² = 100, n³ = 1,000, 2ⁿ = 1,024<br>n = 20: n² = 400, n³ = 8,000, 2ⁿ ≈ 1,000,000</p></div></details>
-<details><summary><span class="m">log n</span> = how many times you can halve n before reaching 1</summary><div class="plain">
-<p>8 → 4 → 2 → 1 is 3 halvings, so log 8 = 3. A million only takes about 20 halvings, so log n grows very slowly. You'll see a small number written under it, like log₂ or log₁₀. That's the "base", and in this course it never changes the answer.</p></div></details>
-<details><summary><span class="m">n log n</span> = n multiplied by log n</summary><div class="plain">
-<p class="eg">n = 8: 8 × 3 = 24</p><p>It sits between n and n²: a bit more than linear, much less than squared.</p></div></details>
-<details><summary><span class="m">≤</span> at most · <span class="m">≥</span> at least · <span class="m">c</span>, <span class="m">n₀</span> = numbers we get to pick</summary><div class="plain">
-<p>In the Big-O definitions, c is a fixed multiplier (like 10) and n₀ (say "n-nought") is the starting point, the value of n from which the rule must hold. You choose them yourself to make the inequality true.</p></div></details>
+<div class="topic">Start here: words and symbols</div>
+<section id="AA-0"><h2><span class="id">[AA-0]</span> Glossary: every word used on this sheet</h2>
+<details open><summary>An <b>algorithm</b> is a list of exact steps that turns an input into an output.</summary><div class="plain"><p>A recipe is an algorithm: ingredients go in (input), a cake comes out (output). In this course the input is usually a list of numbers and the output is, for example, the list sorted.</p></div></details>
+<details open><summary>The <b>input size</b>, written <span class=m>n</span>, is how much data the algorithm is given.</summary><div class="plain"><p>If you sort a list of 1,000 numbers, n = 1,000. We describe everything in terms of n so we can ask what happens as the data gets bigger.</p></div></details>
+<details open><summary>An <b>elementary operation</b> (also called a <b>step</b>) is one basic action that the computer does in a fixed amount of time.</summary><div class="plain"><p>Adding two numbers, comparing two numbers, or storing a value in a variable are each one step. See [AA-3] for the full list.</p></div></details>
+<details open><summary>The <b>step count</b> is the total number of steps an algorithm performs on one input.</summary><div class="plain"><p>If an algorithm adds up a list of 10 numbers with one addition per number, its step count is about 10. The step count is how this course measures speed.</p></div></details>
+<details open><summary><b>Running time</b> means the step count, not the number of seconds.</summary><div class="plain"><p>So when a question says "running time", think "how many steps". [AA-2] explains why.</p></div></details>
+<details open><summary><b>Time complexity</b> is a rule (a formula in n) that tells you the step count for any input size.</summary><div class="plain"><p>For example, "2n + 1" is a time complexity: for n = 10 it predicts 21 steps, for n = 100 it predicts 201 steps.</p></div></details>
+<details open><summary>The <b>worst case</b> is the input of a given size that needs the most steps. The <b>best case</b> needs the fewest. The <b>average case</b> is the typical amount.</summary><div class="plain"><p>Two lists of the same length can take different amounts of work. [AA-4] explains with an example.</p></div></details>
+<details open><summary><b>Space</b> (memory) is how much storage the algorithm uses while it runs. <b>Auxiliary space</b> means the extra storage it creates for itself, not counting the input.</summary><div class="plain"><p>"Auxiliary" just means "extra" or "helper". See [AA-5].</p></div></details>
+<details open><summary><b>Pseudocode</b> is code written in a simple, half-English style that isn't any real programming language.</summary><div class="plain"><p>It's how the lecture and exam show algorithms, e.g. <span class=m>for i = 1 to n</span>. [AA-12] shows how to read it.</p></div></details>
+<details open><summary>A <b>growth rate</b> describes how fast the step count grows as n gets bigger. A <b>bound</b> is a limit on that growth: a ceiling, a floor, or both.</summary><div class="plain"><p>Big-O, Big-Ω and Big-Θ ([AA-6]) are the three kinds of bound. A <b>tight bound</b> is the exact growth rate, written with Θ.</p></div></details>
 </section>
-
-<section>
-<h2><span class="id">[AA-1]</span> RAM model: how time is measured</h2>
-<details><summary>Running time = <b>number of elementary operations</b>, not seconds</summary><div class="plain">
-<p>Timing with a stopwatch depends on the laptop, language and what else is running. So instead we count basic actions the algorithm does. Each counts as 1 step. That count is the same on any machine.</p></div></details>
-<details><summary>Elementary op = + − × ÷ %, compare (== != &lt; &gt;), assign, read/write <span class="m">A[i]</span>, return</summary><div class="plain">
-<p><span class="m">A[i]</span> means "the item at position i in the list A". "Assign" means storing a value, like <span class="m">x = 5</span>. The model assumes reaching any memory spot takes the same 1 step.</p></div></details>
-<details><summary>Worst case = slowest input of size n · best = fastest · average = typical</summary><div class="plain">
-<p>Two lists of the same length can take different times. Searching for a name that's first in the list is instant; one that isn't there means checking everything. The worst case is the guarantee people care about most.</p></div></details>
-<details><summary>Space = most memory used at one moment; count only <b>extra</b> memory (not the input)</summary><div class="plain">
-<p>If an algorithm just uses a couple of counters (i, j) no matter how big the list is, its extra space is constant, written Θ(1).</p></div></details>
+<section id="AA-0s"><h2><span class="id">[AA-0s]</span> Symbol key</h2>
+<details open><summary><span class=m>T(n)</span> or <span class=m>f(n)</span> means "the number of steps for an input of size n".</summary><div class="plain"><p>Read the brackets as "for". T(n) = 2n + 1 means: for n = 10, T = 2×10 + 1 = 21 steps.</p></div></details>
+<details open><summary><span class=m>n²</span> means n × n, <span class=m>n³</span> means n × n × n, and <span class=m>2ⁿ</span> means 2 multiplied by itself n times.</summary><div class="plain"><p>For n = 10: n² = 100, n³ = 1,000, 2ⁿ = 1,024. For n = 20: n² = 400, n³ = 8,000, 2ⁿ ≈ 1,000,000.</p></div></details>
+<details open><summary><span class=m>log n</span> is how many times you can halve n before you reach 1.</summary><div class="plain"><p>8 → 4 → 2 → 1 is three halvings, so log 8 = 3. A million needs only about 20 halvings. The little number under log (log₂, log₁₀) is the base, and in this course it never changes the answer.</p></div></details>
+<details open><summary><span class=m>n log n</span> means n multiplied by log n.</summary><div class="plain"><p>For n = 8: 8 × 3 = 24. It's a bit more than n but much less than n².</p></div></details>
+<details open><summary><span class=m>≤</span> means "at most" and <span class=m>≥</span> means "at least".</summary><div class="plain"><p>"Steps ≤ 10n" means the steps never go above 10 times n.</p></div></details>
+<details open><summary><span class=m>c</span> and <span class=m>n₀</span> are numbers you choose when proving a bound: c is a multiplier and n₀ ("n-nought") is the starting point.</summary><div class="plain"><p>See [AA-9] for how to choose them.</p></div></details>
+<details open><summary><span class=m>Θ(1)</span> means "constant": the amount stays the same however big n gets.</summary><div class="plain"><p>Using 3 counter variables is Θ(1) because it's still 3 whether n is 10 or 10 million.</p></div></details>
 </section>
-
-<section>
-<h2><span class="id">[AA-2]</span> O, Ω, Θ: comparing growth</h2>
-<details><summary><b>O</b> (Big-O) = ceiling: f grows <b>no faster</b> than g. f(n) ≤ c·g(n) once n ≥ n₀</summary><div class="plain">
-<p>f is your algorithm's step count. g is a simple shape like n². "f is O(n²)" means: past some point, your step count always stays under some fixed multiple of n².</p>
-<p>A ceiling can be loose. "5n − 2 is O(n²)" is true, the same way "I'm under 3 metres tall" is true.</p></div></details>
-<details><summary><b>Ω</b> (Big-Omega) = floor: f grows <b>at least as fast</b> as g. f(n) ≥ c·g(n)</summary><div class="plain">
-<p>The same idea flipped. Past some point, your step count is always above some fixed multiple of g.</p></div></details>
-<details><summary><b>Θ</b> (Big-Theta) = both: f grows <b>exactly like</b> g. Only exists if ceiling = floor</summary><div class="plain">
-<p>If the ceiling and the floor are the same shape (both n², say), the growth is pinned down exactly: Θ(n²). If they differ, like insertion sort's n² worst and n best, there's no single Θ that covers every input.</p></div></details>
-<details><summary>"Tight bound" in a question = they want Θ = the biggest term</summary><div class="plain">
-<p>Multiple choice often asks for the "tight asymptotic bound". That's Θ, and you find it with [AA-4]: keep the fastest-growing piece and drop its number.</p></div></details>
+<div class="topic">Topic 1 · The RAM model and what an algorithm is</div>
+<section id="AA-1"><h2><span class="id">[AA-1]</span> Properties of an algorithm</h2>
+<details open><summary>An algorithm must have well-defined <b>inputs</b>: the data it's given before it starts.</summary><div class="plain"><p>Example: the list of numbers to sort.</p></div></details>
+<details open><summary>It must have well-defined <b>outputs</b>: the result it produces when it finishes.</summary><div class="plain"><p>Example: the same numbers in sorted order.</p></div></details>
+<details open><summary><b>Finiteness</b> means it always stops after a limited number of steps.</summary><div class="plain"><p>A process that could loop forever is not an algorithm.</p></div></details>
+<details open><summary><b>Definiteness</b> means every step is clear, precise and has only one meaning.</summary><div class="plain"><p>"Add a bit of salt" is not definite. "Add 5 g of salt" is.</p></div></details>
+<details open><summary><b>Effectiveness</b> means every step is simple enough to actually carry out in reasonable time.</summary><div class="plain"><p>"Find the best answer by magic" is not effective.</p></div></details>
 </section>
-
-<section>
-<h2><span class="id">[AA-3]</span> Proving O with c and n₀ (recipe)</h2>
-<details><summary>Upper (O): <b>c = add the positive numbers in front, n₀ = 1</b>. 3n²+5n+2 ≤ 10n²</summary><div class="plain">
-<p>When n is 1 or more, n is never bigger than n², and 1 is never bigger than n². So you can swap each smaller piece for n² and only make the total bigger:</p>
-<p class="eg">3n² + 5n + 2 ≤ 3n² + 5n² + 2n² = 10n²</p><p>So c = 10 and n₀ = 1 work.</p></div></details>
-<details><summary>Lower (Ω): <b>c = number in front of the biggest term, n₀ = 1</b>. 3n²+5n+2 ≥ 3n²</summary><div class="plain">
-<p>The extra pieces (5n and 2) are positive, so removing them can only make it smaller. So the whole thing is at least 3n².</p></div></details>
-<details><summary>Checking an option (c, n₀): plug in n = n₀ and a bigger n. c must be ≥ the leading number</summary><div class="plain">
-<p>Example: f(n) = 2n² + 3n + 1, option c = 6, n₀ = 1. At n = 1: f = 6, and 6 × 1² = 6. 6 ≤ 6 ✓. At n = 10: f = 231, 6 × 100 = 600 ✓.</p>
-<p>A c smaller than the leading number (here 2) can never work for big n, because the n² part alone already beats it.</p></div></details>
-<details><summary>Minus sign? Pick n₀ where it's small: n²/2 − 5n ≥ n²/4 once n ≥ 20</summary><div class="plain">
-<p>Taking something away can make the floor fail for small n. Find where the subtracted part is at most half the big part. At n = 20, 5n = 100 and n²/4 = 100, so from there on it holds.</p></div></details>
+<section id="AA-2"><h2><span class="id">[AA-2]</span> The RAM model: why we count steps instead of seconds</h2>
+<details open><summary>The RAM (Random Access Machine) model measures running time by <b>counting elementary operations</b>, with each one costing 1.</summary><div class="plain"><p>It imagines a simple computer that does one thing at a time and can reach any spot in memory in the same time.</p></div></details>
+<details open><summary><b>Why:</b> seconds depend on the machine, the programming language and what else is running, but the step count is the same on every computer.</summary><div class="plain"><p>So the step count describes the algorithm itself, which lets us compare two algorithms fairly before we even write the code.</p></div></details>
+<details open><summary><b>Trap:</b> timing one run on a laptop does not tell you the complexity.</summary><div class="plain"><p>It depends on that laptop, a single measurement can't show how the time grows as n grows, and you don't know whether that input was a best or worst case.</p></div></details>
 </section>
-
-<section>
-<h2><span class="id">[AA-4]</span> Simplifying to the growth class</h2>
-<details><summary>Keep only the <b>biggest term</b>: 7n³ + 200n² + 9 → Θ(n³)</summary><div class="plain">
-<p>For large n the biggest power swamps the rest. At n = 1,000: 7n³ = 7 billion, 200n² = 200 million. The n³ part wins and keeps winning.</p></div></details>
-<details><summary>Drop the number in front: 100n → Θ(n) · log base doesn't matter</summary><div class="plain">
-<p>Doubling n doubles 100n just like it doubles n, so they grow the same way. The number only changes the speed on a given machine, not the shape.</p></div></details>
-<details><summary>Trap: 5n − 2 is O(n²) <b>TRUE</b>, but Θ(n²) <b>FALSE</b> (it's Θ(n))</summary><div class="plain">
-<p>O is just a ceiling, so a high ceiling is allowed. Θ must be exact, so it has to be n.</p></div></details>
+<section id="AA-3"><h2><span class="id">[AA-3]</span> What counts as one step (an elementary operation)</h2>
+<details open><summary>One step: arithmetic (+ − × ÷ %), a comparison (== != &lt; &gt;), storing a value in a variable, reading or writing one array item <span class=m>A[i]</span>, a return.</summary><div class="plain"><p><span class=m>A[i]</span> means "the item at position i in the list A". Each of these takes a fixed amount of time however big the input is.</p></div></details>
+<details open><summary><b>Not</b> one step: anything whose work grows with n, such as sorting a whole list, searching a list, or a loop that goes through n items.</summary><div class="plain"><p>Sorting n numbers takes many steps, and more for bigger n, so it can never count as a single elementary operation.</p></div></details>
 </section>
-
-<section>
-<h2><span class="id">[AA-5]</span> Growth order &amp; the doubling test</h2>
-<details><summary>1 &lt; log n &lt; n &lt; n log n &lt; n² &lt; n³ &lt; 2ⁿ &lt; n!</summary><div class="plain">
-<p>Slowest growing on the left, fastest on the right. For n = 1,000: log n ≈ 10, n log n ≈ 10,000, n² = 1,000,000, and 2ⁿ is too big to write. n! (n factorial) is 1×2×3×…×n.</p></div></details>
-<details><summary>Timing table: when n doubles, time × <b>1 → log n · 2 → n · ~2.1 → n log n · 4 → n² · 8 → n³</b></summary><div class="plain">
-<p>If the work is n², doubling n gives (2n)² = 4n², so 4 times the time. If it's n³, it's 2×2×2 = 8 times. So divide each time by the one before it and match the ratio.</p>
-<p class="eg">0.5 s → 1.0 s → 2.0 s : ratio 2 → Θ(n)</p></div></details>
-<details><summary>2ⁿ: adding just 1 to n doubles the time</summary><div class="plain">
-<p>That's why exponential algorithms become hopeless so fast.</p></div></details>
+<section id="AA-4"><h2><span class="id">[AA-4]</span> Best, worst and average case</h2>
+<details open><summary>Different inputs of the same size can need different numbers of steps.</summary><div class="plain"><p>Looking for a name in a list of 10: if it's first you need 1 check, if it isn't there you need 10.</p></div></details>
+<details open><summary>The <b>worst-case time complexity</b> is a rule that gives, for each size n, the step count of the slowest input of that size.</summary><div class="plain"><p>It's the guarantee: the algorithm will never be slower than this. It's the one people care about most.</p></div></details>
+<details open><summary>The <b>best case</b> is the fastest input of that size, and the <b>average case</b> is the average over all inputs of that size.</summary><div class="plain"><p>The average needs an assumption about how likely each input is, so it's harder to work out.</p></div></details>
 </section>
-
-<section>
-<h2><span class="id">[AA-6]</span> Counting steps from pseudocode</h2>
-<details><summary>Recipe: count how many times the <b>innermost line</b> runs, then simplify ([AA-4])</summary><div class="plain">
-<p>Pseudocode is code written in plain-ish English. The line inside the deepest loop runs the most, so it decides the growth.</p></div></details>
-<details><summary>One loop 1 to n → n · two nested loops to n → n×n = Θ(n²) · three → Θ(n³)</summary><div class="plain">
-<p>A loop "for i = 1 to n" repeats its body n times. Putting a loop inside a loop multiplies: n times round the outer, n times round the inner each time.</p></div></details>
-<details><summary>Inner loop starts after outer (<span class="m">for j = i+1 to n</span>) → n(n−1)/2 → still Θ(n²)</summary><div class="plain">
-<p>This checks every pair once. With n = 5: 4 + 3 + 2 + 1 = 10 pairs, and 5 × 4 ÷ 2 = 10. It's about half of n², and halving doesn't change the class.</p></div></details>
-<details><summary>Loop that halves n (or doubles i) → log n · inside an n-loop → n log n</summary><div class="plain">
-<p>"while n &gt; 1: n = n / 2" runs log n times by definition of log ([AA-0]). Put it inside a normal loop of n and it's n × log n.</p></div></details>
-<details><summary>Shortcut: 1 + 2 + … + n = n(n+1)/2</summary><div class="plain">
-<p>Pair the first with the last: 1+n, 2+(n−1), … each pair adds to n+1, and there are n/2 pairs. Example: 1+2+…+10 = 10 × 11 ÷ 2 = 55.</p></div></details>
+<section id="AA-5"><h2><span class="id">[AA-5]</span> Space complexity and auxiliary space</h2>
+<details open><summary><b>Space complexity</b> is the most memory the algorithm uses at any one moment, as a rule in n.</summary><div class="plain"><p>Like time complexity, but counting storage instead of steps.</p></div></details>
+<details open><summary><b>Auxiliary space</b> is only the <b>extra</b> memory the algorithm creates. The input itself is not counted.</summary><div class="plain"><p>If the input is a list of n numbers and the algorithm only creates counters i, j and k, its auxiliary space is 3 values whatever n is, which is constant: Θ(1).</p></div></details>
+<details open><summary>If the algorithm creates a new list of size n, its auxiliary space is Θ(n).</summary><div class="plain"><p>For example, copying the input into a new array.</p></div></details>
 </section>
-
-<section>
-<h2><span class="id">[AA-7]</span> Best &amp; worst cases to know</h2>
-<div class="tbl"><table>
-<tr><th>Algorithm</th><th>Best</th><th>Worst</th></tr>
-<tr><td>Linear search</td><td>Θ(1)</td><td>Θ(n)</td></tr>
-<tr><td>Insertion sort</td><td>Θ(n)</td><td>Θ(n²)</td></tr>
-<tr><td>Merge sort</td><td>Θ(n log n)</td><td>Θ(n log n)</td></tr>
-<tr><td>Binary search</td><td>Θ(1)</td><td>Θ(log n)</td></tr>
-<tr><td>Selection / bubble</td><td>Θ(n²)</td><td>Θ(n²)</td></tr>
-</table></div>
-<details><summary>Linear search: best = target first, worst = not there (2n + 1 steps)</summary><div class="plain">
-<p>It checks items one by one. If the target is first, it's done in 1 check. If it's missing, it checks all n items (n loop steps + n comparisons + 1 return = 2n + 1).</p></div></details>
-<details><summary>Insertion sort: best = already sorted, worst = reverse sorted, n(n−1)/2 shifts</summary><div class="plain">
-<p>It takes each item and slides it left into place, like sorting cards in your hand. If the list is already sorted, nothing slides. If it's backwards, every item slides all the way: 1 + 2 + … + (n−1).</p></div></details>
-<details><summary>Merge sort = n log n on every input · binary search halves a <b>sorted</b> list each step</summary><div class="plain">
-<p>Merge sort always splits and merges the same way, so the input order doesn't matter. Binary search looks at the middle, throws away the half that can't contain the target, and repeats, so it takes log n steps.</p></div></details>
-<details><summary>Early <span class="m">return</span> in a loop → no single Θ: say O(worst) and Ω(best)</summary><div class="plain">
-<p>If the code can stop early, the time depends on the actual values, not just n. Then the honest answer is "at most the worst, at least the best". Remove the early return and it always runs to the end, so one Θ works.</p></div></details>
+<div class="topic">Topic 2 · Big-O, Big-Ω and Big-Θ</div>
+<section id="AA-6"><h2><span class="id">[AA-6]</span> The three kinds of bound</h2>
+<details open><summary><b>Big-O</b> is a ceiling: "f(n) = O(g(n))" means f grows <b>no faster</b> than g once n is big enough.</summary><div class="plain"><p>Formally: there are numbers c and n₀ so that f(n) ≤ c × g(n) for every n from n₀ upward. A ceiling can be high: 5n + 3 = O(n²) is true, just like "I'm under 3 metres tall" is true.</p></div></details>
+<details open><summary><b>Big-Ω</b> (Omega) is a floor: f grows <b>at least as fast</b> as g once n is big enough.</summary><div class="plain"><p>f(n) ≥ c × g(n) for every n from n₀ upward. Every algorithm is Ω(1), because it always does at least a constant amount of work.</p></div></details>
+<details open><summary><b>Big-Θ</b> (Theta) is exact: f grows <b>at the same rate</b> as g. It holds only when f is both O(g) and Ω(g).</summary><div class="plain"><p>If the ceiling and floor have the same shape (both n³, say), the growth is pinned down: Θ(n³). If they're different shapes, there's no Θ for that pair.</p></div></details>
+<details open><summary>When a question asks for the <b>tight bound</b>, it wants Θ: the exact growth rate.</summary><div class="plain"><p>Find it with [AA-7].</p></div></details>
 </section>
-
-<section>
-<h2><span class="id">[AA-8]</span> Fibonacci case study</h2>
-<details><summary>Naive recursion: exponential (~1.618ⁿ, O(2ⁿ)) · memo / loop: O(n) · matrix power: O(log n)</summary><div class="plain">
-<p>Fibonacci: each number is the sum of the two before (0, 1, 1, 2, 3, 5, 8 …). The naive version recalculates the same numbers over and over, so the work explodes. Storing answers in a list ("memoisation") or just looping fixes that: one step per number. A matrix trick gets it down to log n.</p></div></details>
+<section id="AA-7"><h2><span class="id">[AA-7]</span> Simplifying to the growth rate</h2>
+<details open><summary>Keep only the term that grows fastest, and drop the rest.</summary><div class="plain"><p>In 7n³ + 200n² + 9, at n = 1,000 the 7n³ part is 7 billion while 200n² is only 200 million. The biggest term always wins for big n, so it's Θ(n³). Use the order in [AA-10] to see which term is biggest.</p></div></details>
+<details open><summary>Drop the number in front of the term.</summary><div class="plain"><p>100n and n both double when n doubles, so they grow the same way: both Θ(n). The number only changes speed on a particular machine.</p></div></details>
+<details open><summary>The base of a log doesn't matter: log₁₀ n and log₂ n are both Θ(log n).</summary><div class="plain"><p>Changing the base just multiplies by a fixed number (log₁₀ n ≈ 0.3 × log₂ n), and fixed numbers are dropped.</p></div></details>
 </section>
-
-<section>
-<h2><span class="id">[AA-9]</span> Traps &amp; definitions</h2>
-<details><summary>"O(n²) means quadratic on every input" → <b>FALSE</b></summary><div class="plain">
-<p>O is only a ceiling. Insertion sort is O(n²) but runs in linear time on a list that's already sorted.</p></div></details>
-<details><summary>Seconds on one laptop ≠ complexity</summary><div class="plain">
-<p>Three problems: it depends on the machine, one measurement can't show how time grows, and you don't know if it was a best or worst case input.</p></div></details>
-<details><summary>Algorithm = finite, well-defined steps from input → output</summary><div class="plain">
-<p>Its five properties: well-defined <b>inputs</b>, well-defined <b>outputs</b>, <b>finiteness</b> (it stops), <b>definiteness</b> (each step is unambiguous), <b>effectiveness</b> (each step is simple enough to actually do).</p></div></details>
+<section id="AA-8"><h2><span class="id">[AA-8]</span> Common traps with O, Ω, Θ</h2>
+<details open><summary>5n − 2 = O(n²) is <b>true</b>, but 5n − 2 = Θ(n²) is <b>false</b>: its exact growth is Θ(n).</summary><div class="plain"><p>O only needs to be a ceiling, so a high ceiling is allowed. Θ must be exact.</p></div></details>
+<details open><summary>"An O(n²) algorithm takes quadratic time on every input" is <b>false</b>.</summary><div class="plain"><p>O is only a ceiling. Insertion sort is O(n²), but on an already sorted list it only takes linear time ([AA-13]).</p></div></details>
+<details open><summary>A slower-growing function can't be a ceiling for a faster one: n² is not O(n), 2ⁿ is not O(n³).</summary><div class="plain"><p>Check with the order in [AA-10]: the thing inside O( ) must be the same or further right.</p></div></details>
+<details open><summary>A faster-growing function can't be a floor for a slower one: n log n is not Ω(n²).</summary><div class="plain"><p>For Ω, the thing inside Ω( ) must be the same or further <b>left</b> in [AA-10].</p></div></details>
 </section>
-
-<footer>Sources: Lecture 1B Asymptotic Analysis (Week 1), Week 1 Lab solutions.</footer>
+<div class="topic">Topic 3 · Proving bounds with c and n₀</div>
+<section id="AA-9"><h2><span class="id">[AA-9]</span> Choosing c and n₀</h2>
+<details open><summary>To prove f(n) = O(n²) you must find a multiplier c and a starting point n₀ so that f(n) ≤ c × n² for every n from n₀ upward.</summary><div class="plain"><p>You're showing that from n₀ on, the steps never rise above c lots of n².</p></div></details>
+<details open><summary><b>Ceiling recipe:</b> add up all the positive numbers in f to get c, and use n₀ = 1.</summary><div class="plain"><p>For 3n² + 5n + 2: when n is 1 or more, n is never bigger than n², and 1 is never bigger than n². So swap every piece for n²: 3n² + 5n² + 2n² = 10n². So c = 10, n₀ = 1 works.</p></div></details>
+<details open><summary><b>Floor recipe (Ω):</b> c = the number in front of the biggest term, n₀ = 1.</summary><div class="plain"><p>3n² + 5n + 2 ≥ 3n², because removing the positive extras can only make it smaller. So c = 3, n₀ = 1.</p></div></details>
+<details open><summary><b>Checking an answer option:</b> plug n = n₀ into both sides, then try a big n like 100. Both must hold.</summary><div class="plain"><p>Example: f(n) = 2n² + 3n + 1 with c = 6, n₀ = 1. At n = 1: f = 6 and 6 × 1 = 6, so 6 ≤ 6 ✓. At n = 100: f = 20,301 and 6 × 10,000 = 60,000 ✓.</p></div></details>
+<details open><summary>For a ceiling, c must be <b>bigger</b> than the number in front of the biggest term if anything is added on.</summary><div class="plain"><p>With f = 3n + 10 and c = 3, you'd need 3n + 10 ≤ 3n, which is never true. A c smaller than the front number fails for big n.</p></div></details>
+<details open><summary><b>Impossible case:</b> 2n² is not O(n), because you'd need 2n ≤ c for every big n, and n keeps growing while c is fixed.</summary><div class="plain"><p>Divide both sides of 2n² ≤ c × n by n to see this.</p></div></details>
+<details open><summary><b>With a minus sign</b>, the bound may only start working from a larger n₀. Solve for it.</summary><div class="plain"><p>Floor of n²/2 − 5n with c = 1/4: you need n²/2 − n²/4 ≥ 5n, which is n²/4 ≥ 5n, which is n ≥ 20. So the smallest n₀ is 20. Check: at n = 20, 200 − 100 = 100 and 400/4 = 100 ✓.</p></div></details>
+</section>
+<div class="topic">Topic 4 · Growth order and timing tables</div>
+<section id="AA-10"><h2><span class="id">[AA-10]</span> Growth order, slowest to fastest</h2>
+<details open><summary>1 &lt; log n &lt; n &lt; n log n &lt; n² &lt; n³ &lt; 2ⁿ &lt; n!</summary><div class="plain"><p>For n = 1,000: log n ≈ 10, n log n ≈ 10,000, n² = 1,000,000, n³ = 1,000,000,000, and 2ⁿ is too big to write. n! ("n factorial") is 1 × 2 × 3 × … × n.</p></div></details>
+<details open><summary>For very large n, the faster-growing rate always wins, whatever numbers are in front.</summary><div class="plain"><p>0.001n² eventually takes more steps than 100 n log n, even though 0.001 is tiny. That's why we compare growth rates, not constants.</p></div></details>
+</section>
+<section id="AA-11"><h2><span class="id">[AA-11]</span> Reading a timing table</h2>
+<details open><summary>When n doubles, divide each time by the one before. A ratio of <b>about 1 → log n, 2 → n, a bit over 2 → n log n, 4 → n², 8 → n³</b>.</summary><div class="plain"><p>Why: if work is n², doubling n gives (2n)² = 4 × n², so 4 times as long. For n³ it's 2 × 2 × 2 = 8.</p></div></details>
+<details open><summary>For log n, doubling n only <b>adds</b> a small fixed amount of time.</summary><div class="plain"><p>Doubling n adds just one more halving. So 1.0 s → 1.1 s → 1.2 s is log n.</p></div></details>
+<details open><summary>When n is multiplied by k, an n² algorithm takes k × k times as long, and an n³ algorithm takes k × k × k times as long.</summary><div class="plain"><p>n² taking 2 s at n = 1,000 takes 2 × 3 × 3 = 18 s at n = 3,000.</p></div></details>
+<details open><summary>For 2ⁿ, adding just 1 to n doubles the time.</summary><div class="plain"><p>That's why exponential algorithms become hopeless so quickly.</p></div></details>
+</section>
+<div class="topic">Topic 5 · Counting steps from pseudocode</div>
+<section id="AA-12"><h2><span class="id">[AA-12]</span> How to count</h2>
+<details open><summary>Find the line inside the deepest loop, count how many times it runs, then simplify with [AA-7].</summary><div class="plain"><p>That line runs most often, so it decides the growth rate.</p></div></details>
+<details open><summary><span class=m>for i = 1 to n</span> repeats its body n times. Its header line (the test) runs n + 1 times, because it checks one extra time to stop.</summary><div class="plain"><p>Only matters when a question asks for an exact count and states this convention.</p></div></details>
+<details open><summary>A loop inside a loop multiplies: two loops each to n give n × n = n² runs. Three give n³.</summary><div class="plain"><p>For each of the n outer turns, the inner loop does all n of its turns.</p></div></details>
+<details open><summary>If the inner loop starts after the outer one (<span class=m>for j = i + 1 to n</span>), the inner line runs n(n − 1)/2 times, which is still Θ(n²).</summary><div class="plain"><p>It checks each pair once. For n = 5: 4 + 3 + 2 + 1 = 10, and 5 × 4 ÷ 2 = 10. It's half of n², and halving doesn't change the growth rate.</p></div></details>
+<details open><summary>A loop that halves something (<span class=m>i = i / 2</span>) or doubles it (<span class=m>j = j * 2</span>) runs log n times.</summary><div class="plain"><p>That's what log means ([AA-0s]). Put it inside a normal loop of n and the total is n × log n.</p></div></details>
+<details open><summary>Exact count: add up how many times each line runs.</summary><div class="plain"><p>Example: <span class=m>x = 0</span> (1) · <span class=m>for i = 1 to n</span> (n + 1) · <span class=m>x = x + i</span> (n) · <span class=m>return x</span> (1). Total = 2n + 3, which is Θ(n).</p></div></details>
+<details open><summary>Shortcut: 1 + 2 + 3 + … + n = n(n + 1)/2.</summary><div class="plain"><p>Pair the first with the last: 1 + n, 2 + (n − 1), and so on. Each pair adds to n + 1, and there are n/2 pairs. 1 + … + 10 = 10 × 11 ÷ 2 = 55.</p></div></details>
+</section>
+<div class="topic">Topic 6 · Best and worst cases of known algorithms, and Fibonacci</div>
+<section id="AA-13"><h2><span class="id">[AA-13]</span> Algorithms to know</h2>
+<details open><summary><b>Linear search</b> checks items one by one. Best case: the target is first, Θ(1). Worst case: the target is missing, Θ(n), with 2n + 1 steps.</summary><div class="plain"><p>If it's missing, every item must be checked: n loop steps + n comparisons + 1 return.</p></div></details>
+<details open><summary><b>Insertion sort</b> takes each item and slides it left into place, like sorting cards in your hand.</summary><div class="plain"><p>Each slide of one item by one place is called a <b>shift</b>.</p></div></details>
+<details open><summary>Insertion sort best case: the list is already sorted, so there are 0 shifts, but it is still Θ(n), not Θ(1).</summary><div class="plain"><p>It still has to look at each of the n items once to check it's in place.</p></div></details>
+<details open><summary>Insertion sort worst case: the list is in reverse order, so there are 1 + 2 + … + (n − 1) = n(n − 1)/2 shifts, Θ(n²).</summary><div class="plain"><p>For a reversed list of 5: 4 × 5 ÷ 2 = 10 shifts.</p></div></details>
+<details open><summary><b>Merge sort</b> is Θ(n log n) on every input, so its best and worst cases are the same.</summary><div class="plain"><p>It always splits and merges in exactly the same way, so the order of the input doesn't matter.</p></div></details>
+<details open><summary><b>Binary search</b> needs a sorted list. It looks at the middle and throws away the half that can't contain the target. Worst case Θ(log n).</summary><div class="plain"><p>Halving each time means log n steps ([AA-0s]).</p></div></details>
+<details open><summary>If a loop can <b>stop early</b> (an early return), there's no single Θ for all inputs. Say O(worst) and Ω(best).</summary><div class="plain"><p>The time then depends on the actual values, not just n. Without the early return the loop always runs to the end and one Θ works.</p></div></details>
+</section>
+<section id="AA-14"><h2><span class="id">[AA-14]</span> Fibonacci case study</h2>
+<details open><summary>Fibonacci numbers: each is the sum of the two before it: 0, 1, 1, 2, 3, 5, 8, 13 …</summary><div class="plain"><p>The lecture uses it to compare four algorithms for the same problem.</p></div></details>
+<details open><summary>Naive recursion is <b>exponential</b> (about 1.618ⁿ, written O(2ⁿ)) because it recalculates the same smaller numbers again and again.</summary><div class="plain"><p>Recursion itself isn't the problem. Binary search is recursive and only takes log n steps.</p></div></details>
+<details open><summary>Storing answers (<b>memoisation</b>) or using a simple loop takes O(n). Matrix exponentiation takes O(log n).</summary><div class="plain"><p>Memoisation means writing each answer down the first time so you never work it out twice.</p></div></details>
+</section>
+<footer>Sources: Lecture 1B Asymptotic Analysis (Week 1), Week 1 Lab solutions. Version 3, 2 November 2026.</footer>
 </div>
-
 <script>
 document.getElementById('openAll').addEventListener('click', () => document.querySelectorAll('details').forEach(d => d.open = true));
 document.getElementById('closeAll').addEventListener('click', () => document.querySelectorAll('details').forEach(d => d.open = false));

@@ -1,0 +1,196 @@
+<title>Week 1 Analysis Sheet v2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 cheatsheet · Week 1 · version 2 (old)</div>
+  <h1>Algorithm analysis &amp; growth rates</h1>
+  <div class="meta"><span class="pill">5 exam questions</span><span class="pill">12 marks</span><span class="pill">≈ 1/8 of the A4 side</span></div>
+  <p class="how">Each line is what goes on the printed sheet. Tap a line to see it explained in plain English from scratch. The final sheet will be a PDF with just the lines.</p>
+  <div class="tools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
+</header>
+
+<section>
+<h2><span class="id">[AA-0]</span> Symbol key</h2>
+<details><summary><span class="m">n</span> = size of the input</summary><div class="plain">
+<p>n is just "how much stuff the algorithm is given". Sorting a list of 1,000 numbers means n = 1,000. Everything else is described in terms of n so we can ask "what happens as n gets bigger?"</p></div></details>
+<details><summary><span class="m">T(n)</span> or <span class="m">f(n)</span> = number of steps for an input of size n</summary><div class="plain">
+<p>Read the brackets as "for". T(n) means "the time (number of steps) for an input of size n". It's a little formula you plug n into.</p>
+<p class="eg">T(n) = 2n + 1 → for n = 10: 2×10 + 1 = 21 steps</p></div></details>
+<details><summary><span class="m">n² = n×n · n³ = n×n×n · 2ⁿ = 2×2×…×2 (n times)</span></summary><div class="plain">
+<p>The small raised number says how many times to multiply. These grow at very different speeds:</p>
+<p class="eg">n = 10: n² = 100, n³ = 1,000, 2ⁿ = 1,024<br>n = 20: n² = 400, n³ = 8,000, 2ⁿ ≈ 1,000,000</p></div></details>
+<details><summary><span class="m">log n</span> = how many times you can halve n before reaching 1</summary><div class="plain">
+<p>8 → 4 → 2 → 1 is 3 halvings, so log 8 = 3. A million only takes about 20 halvings, so log n grows very slowly. You'll see a small number written under it, like log₂ or log₁₀. That's the "base", and in this course it never changes the answer.</p></div></details>
+<details><summary><span class="m">n log n</span> = n multiplied by log n</summary><div class="plain">
+<p class="eg">n = 8: 8 × 3 = 24</p><p>It sits between n and n²: a bit more than linear, much less than squared.</p></div></details>
+<details><summary><span class="m">≤</span> at most · <span class="m">≥</span> at least · <span class="m">c</span>, <span class="m">n₀</span> = numbers we get to pick</summary><div class="plain">
+<p>In the Big-O definitions, c is a fixed multiplier (like 10) and n₀ (say "n-nought") is the starting point, the value of n from which the rule must hold. You choose them yourself to make the inequality true.</p></div></details>
+</section>
+
+<section>
+<h2><span class="id">[AA-1]</span> RAM model: how time is measured</h2>
+<details><summary>Running time = <b>number of elementary operations</b>, not seconds</summary><div class="plain">
+<p>Timing with a stopwatch depends on the laptop, language and what else is running. So instead we count basic actions the algorithm does. Each counts as 1 step. That count is the same on any machine.</p></div></details>
+<details><summary>Elementary op = + − × ÷ %, compare (== != &lt; &gt;), assign, read/write <span class="m">A[i]</span>, return</summary><div class="plain">
+<p><span class="m">A[i]</span> means "the item at position i in the list A". "Assign" means storing a value, like <span class="m">x = 5</span>. The model assumes reaching any memory spot takes the same 1 step.</p></div></details>
+<details><summary>Worst case = slowest input of size n · best = fastest · average = typical</summary><div class="plain">
+<p>Two lists of the same length can take different times. Searching for a name that's first in the list is instant; one that isn't there means checking everything. The worst case is the guarantee people care about most.</p></div></details>
+<details><summary>Space = most memory used at one moment; count only <b>extra</b> memory (not the input)</summary><div class="plain">
+<p>If an algorithm just uses a couple of counters (i, j) no matter how big the list is, its extra space is constant, written Θ(1).</p></div></details>
+</section>
+
+<section>
+<h2><span class="id">[AA-2]</span> O, Ω, Θ: comparing growth</h2>
+<details><summary><b>O</b> (Big-O) = ceiling: f grows <b>no faster</b> than g. f(n) ≤ c·g(n) once n ≥ n₀</summary><div class="plain">
+<p>f is your algorithm's step count. g is a simple shape like n². "f is O(n²)" means: past some point, your step count always stays under some fixed multiple of n².</p>
+<p>A ceiling can be loose. "5n − 2 is O(n²)" is true, the same way "I'm under 3 metres tall" is true.</p></div></details>
+<details><summary><b>Ω</b> (Big-Omega) = floor: f grows <b>at least as fast</b> as g. f(n) ≥ c·g(n)</summary><div class="plain">
+<p>The same idea flipped. Past some point, your step count is always above some fixed multiple of g.</p></div></details>
+<details><summary><b>Θ</b> (Big-Theta) = both: f grows <b>exactly like</b> g. Only exists if ceiling = floor</summary><div class="plain">
+<p>If the ceiling and the floor are the same shape (both n², say), the growth is pinned down exactly: Θ(n²). If they differ, like insertion sort's n² worst and n best, there's no single Θ that covers every input.</p></div></details>
+<details><summary>"Tight bound" in a question = they want Θ = the biggest term</summary><div class="plain">
+<p>Multiple choice often asks for the "tight asymptotic bound". That's Θ, and you find it with [AA-4]: keep the fastest-growing piece and drop its number.</p></div></details>
+</section>
+
+<section>
+<h2><span class="id">[AA-3]</span> Proving O with c and n₀ (recipe)</h2>
+<details><summary>Upper (O): <b>c = add the positive numbers in front, n₀ = 1</b>. 3n²+5n+2 ≤ 10n²</summary><div class="plain">
+<p>When n is 1 or more, n is never bigger than n², and 1 is never bigger than n². So you can swap each smaller piece for n² and only make the total bigger:</p>
+<p class="eg">3n² + 5n + 2 ≤ 3n² + 5n² + 2n² = 10n²</p><p>So c = 10 and n₀ = 1 work.</p></div></details>
+<details><summary>Lower (Ω): <b>c = number in front of the biggest term, n₀ = 1</b>. 3n²+5n+2 ≥ 3n²</summary><div class="plain">
+<p>The extra pieces (5n and 2) are positive, so removing them can only make it smaller. So the whole thing is at least 3n².</p></div></details>
+<details><summary>Checking an option (c, n₀): plug in n = n₀ and a bigger n. c must be ≥ the leading number</summary><div class="plain">
+<p>Example: f(n) = 2n² + 3n + 1, option c = 6, n₀ = 1. At n = 1: f = 6, and 6 × 1² = 6. 6 ≤ 6 ✓. At n = 10: f = 231, 6 × 100 = 600 ✓.</p>
+<p>A c smaller than the leading number (here 2) can never work for big n, because the n² part alone already beats it.</p></div></details>
+<details><summary>Minus sign? Pick n₀ where it's small: n²/2 − 5n ≥ n²/4 once n ≥ 20</summary><div class="plain">
+<p>Taking something away can make the floor fail for small n. Find where the subtracted part is at most half the big part. At n = 20, 5n = 100 and n²/4 = 100, so from there on it holds.</p></div></details>
+</section>
+
+<section>
+<h2><span class="id">[AA-4]</span> Simplifying to the growth class</h2>
+<details><summary>Keep only the <b>biggest term</b>: 7n³ + 200n² + 9 → Θ(n³)</summary><div class="plain">
+<p>For large n the biggest power swamps the rest. At n = 1,000: 7n³ = 7 billion, 200n² = 200 million. The n³ part wins and keeps winning.</p></div></details>
+<details><summary>Drop the number in front: 100n → Θ(n) · log base doesn't matter</summary><div class="plain">
+<p>Doubling n doubles 100n just like it doubles n, so they grow the same way. The number only changes the speed on a given machine, not the shape.</p></div></details>
+<details><summary>Trap: 5n − 2 is O(n²) <b>TRUE</b>, but Θ(n²) <b>FALSE</b> (it's Θ(n))</summary><div class="plain">
+<p>O is just a ceiling, so a high ceiling is allowed. Θ must be exact, so it has to be n.</p></div></details>
+</section>
+
+<section>
+<h2><span class="id">[AA-5]</span> Growth order &amp; the doubling test</h2>
+<details><summary>1 &lt; log n &lt; n &lt; n log n &lt; n² &lt; n³ &lt; 2ⁿ &lt; n!</summary><div class="plain">
+<p>Slowest growing on the left, fastest on the right. For n = 1,000: log n ≈ 10, n log n ≈ 10,000, n² = 1,000,000, and 2ⁿ is too big to write. n! (n factorial) is 1×2×3×…×n.</p></div></details>
+<details><summary>Timing table: when n doubles, time × <b>1 → log n · 2 → n · ~2.1 → n log n · 4 → n² · 8 → n³</b></summary><div class="plain">
+<p>If the work is n², doubling n gives (2n)² = 4n², so 4 times the time. If it's n³, it's 2×2×2 = 8 times. So divide each time by the one before it and match the ratio.</p>
+<p class="eg">0.5 s → 1.0 s → 2.0 s : ratio 2 → Θ(n)</p></div></details>
+<details><summary>2ⁿ: adding just 1 to n doubles the time</summary><div class="plain">
+<p>That's why exponential algorithms become hopeless so fast.</p></div></details>
+</section>
+
+<section>
+<h2><span class="id">[AA-6]</span> Counting steps from pseudocode</h2>
+<details><summary>Recipe: count how many times the <b>innermost line</b> runs, then simplify ([AA-4])</summary><div class="plain">
+<p>Pseudocode is code written in plain-ish English. The line inside the deepest loop runs the most, so it decides the growth.</p></div></details>
+<details><summary>One loop 1 to n → n · two nested loops to n → n×n = Θ(n²) · three → Θ(n³)</summary><div class="plain">
+<p>A loop "for i = 1 to n" repeats its body n times. Putting a loop inside a loop multiplies: n times round the outer, n times round the inner each time.</p></div></details>
+<details><summary>Inner loop starts after outer (<span class="m">for j = i+1 to n</span>) → n(n−1)/2 → still Θ(n²)</summary><div class="plain">
+<p>This checks every pair once. With n = 5: 4 + 3 + 2 + 1 = 10 pairs, and 5 × 4 ÷ 2 = 10. It's about half of n², and halving doesn't change the class.</p></div></details>
+<details><summary>Loop that halves n (or doubles i) → log n · inside an n-loop → n log n</summary><div class="plain">
+<p>"while n &gt; 1: n = n / 2" runs log n times by definition of log ([AA-0]). Put it inside a normal loop of n and it's n × log n.</p></div></details>
+<details><summary>Shortcut: 1 + 2 + … + n = n(n+1)/2</summary><div class="plain">
+<p>Pair the first with the last: 1+n, 2+(n−1), … each pair adds to n+1, and there are n/2 pairs. Example: 1+2+…+10 = 10 × 11 ÷ 2 = 55.</p></div></details>
+</section>
+
+<section>
+<h2><span class="id">[AA-7]</span> Best &amp; worst cases to know</h2>
+<div class="tbl"><table>
+<tr><th>Algorithm</th><th>Best</th><th>Worst</th></tr>
+<tr><td>Linear search</td><td>Θ(1)</td><td>Θ(n)</td></tr>
+<tr><td>Insertion sort</td><td>Θ(n)</td><td>Θ(n²)</td></tr>
+<tr><td>Merge sort</td><td>Θ(n log n)</td><td>Θ(n log n)</td></tr>
+<tr><td>Binary search</td><td>Θ(1)</td><td>Θ(log n)</td></tr>
+<tr><td>Selection / bubble</td><td>Θ(n²)</td><td>Θ(n²)</td></tr>
+</table></div>
+<details><summary>Linear search: best = target first, worst = not there (2n + 1 steps)</summary><div class="plain">
+<p>It checks items one by one. If the target is first, it's done in 1 check. If it's missing, it checks all n items (n loop steps + n comparisons + 1 return = 2n + 1).</p></div></details>
+<details><summary>Insertion sort: best = already sorted, worst = reverse sorted, n(n−1)/2 shifts</summary><div class="plain">
+<p>It takes each item and slides it left into place, like sorting cards in your hand. If the list is already sorted, nothing slides. If it's backwards, every item slides all the way: 1 + 2 + … + (n−1).</p></div></details>
+<details><summary>Merge sort = n log n on every input · binary search halves a <b>sorted</b> list each step</summary><div class="plain">
+<p>Merge sort always splits and merges the same way, so the input order doesn't matter. Binary search looks at the middle, throws away the half that can't contain the target, and repeats, so it takes log n steps.</p></div></details>
+<details><summary>Early <span class="m">return</span> in a loop → no single Θ: say O(worst) and Ω(best)</summary><div class="plain">
+<p>If the code can stop early, the time depends on the actual values, not just n. Then the honest answer is "at most the worst, at least the best". Remove the early return and it always runs to the end, so one Θ works.</p></div></details>
+</section>
+
+<section>
+<h2><span class="id">[AA-8]</span> Fibonacci case study</h2>
+<details><summary>Naive recursion: exponential (~1.618ⁿ, O(2ⁿ)) · memo / loop: O(n) · matrix power: O(log n)</summary><div class="plain">
+<p>Fibonacci: each number is the sum of the two before (0, 1, 1, 2, 3, 5, 8 …). The naive version recalculates the same numbers over and over, so the work explodes. Storing answers in a list ("memoisation") or just looping fixes that: one step per number. A matrix trick gets it down to log n.</p></div></details>
+</section>
+
+<section>
+<h2><span class="id">[AA-9]</span> Traps &amp; definitions</h2>
+<details><summary>"O(n²) means quadratic on every input" → <b>FALSE</b></summary><div class="plain">
+<p>O is only a ceiling. Insertion sort is O(n²) but runs in linear time on a list that's already sorted.</p></div></details>
+<details><summary>Seconds on one laptop ≠ complexity</summary><div class="plain">
+<p>Three problems: it depends on the machine, one measurement can't show how time grows, and you don't know if it was a best or worst case input.</p></div></details>
+<details><summary>Algorithm = finite, well-defined steps from input → output</summary><div class="plain">
+<p>Its five properties: well-defined <b>inputs</b>, well-defined <b>outputs</b>, <b>finiteness</b> (it stops), <b>definiteness</b> (each step is unambiguous), <b>effectiveness</b> (each step is simple enough to actually do).</p></div></details>
+</section>
+
+<footer>Sources: Lecture 1B Asymptotic Analysis (Week 1), Week 1 Lab solutions.</footer>
+</div>
+
+<script>
+document.getElementById('openAll').addEventListener('click', () => document.querySelectorAll('details').forEach(d => d.open = true));
+document.getElementById('closeAll').addEventListener('click', () => document.querySelectorAll('details').forEach(d => d.open = false));
+</script>

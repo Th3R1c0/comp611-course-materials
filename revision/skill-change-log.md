@@ -18,3 +18,14 @@ Status: **applied in trial** = done by hand in the test thread, not yet written 
 - Sections: "Order sections by course week unless the student asks otherwise."
 
 | 6 | 2026-11-02 | **Practice questions as a bank: 5 questions per topic inside each week**, covering all of that week, from course content (not one question at a time). | applied in trial (Week 1: 30 Qs) |
+| 7 | 2026-11-02 | **Full plain-English sentences on every sheet line**, with an example, not shorthand. | applied in trial (Week 1 v3) |
+| 8 | 2026-11-02 | **Every rule includes the "why"** (e.g. why we count steps, not seconds). | applied in trial (Week 1 v3) |
+| 9 | 2026-11-02 | **Define every term before it's used**: a glossary of every word the questions use (step count, worst case, auxiliary space…). | applied in trial (Week 1 v3, [AA-0]) |
+| 10 | 2026-11-02 | **Findable headings named the way exam questions name things**; no burying ideas inside other entries (e.g. "Properties of an algorithm" gets its own entry). | applied in trial (Week 1 v3) |
+| 11 | 2026-11-02 | **Coverage check before questions**: every practice question must be answerable from the sheet alone; tag each question with its entry and fix the sheet if it isn't. | applied in trial (all 30 Week 1 Qs re-tagged) |
+| 12 | 2026-11-02 | **Explanations shown open by default** in the study version (button to hide them). | applied in trial (Week 1 v3) |
+| 13 | 2026-11-02 | **Stop and fix when the sheet fails**: pause the questions, fix the sheet, re-teach, then resume. | applied in trial |
+| 14 | 2026-11-02 | **Keep every previous version of each cheatsheet** so the student can go back (revision/cheatsheets/versions/, older HTML versions published separately). | applied in trial (v1, v2 kept) |
+
+## Open question
+- Full sentences make the study sheet long. The final PDF must fit Week 1 into about 1/8 of one A4 side, so the final version will need shortened lines. Decide how to shorten when building the final PDF.
