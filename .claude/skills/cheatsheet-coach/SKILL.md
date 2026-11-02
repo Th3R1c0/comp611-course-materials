@@ -14,13 +14,18 @@ Work through the exam **one section at a time**. Run the loop below for each sec
 - `revision/exam-plan.md` lists the exam sections, the question styles, the cheatsheet rules, and the status of each section.
 - `revision/cheatsheets/<NN>-<section-slug>.md` holds one cheatsheet per section.
 - `revision/progress.md` is the log: every question asked, the result, the mistake type, and any cheatsheet edits.
-- `revision/practice-quiz/mock-exam-questions.md` (with figures in `revision/practice-quiz/images/`) is the official Canvas practice mock: 45 multiple-choice questions with options and about 20 figures. **It is the main reference for exam sections and question style.** Open the figure images whenever a question refers to one. Its answer key may be missing until the student submits an attempt.
+- **Practice quiz:** this is the official Canvas practice mock, with 45 multiple-choice questions with options and about 20 figures. **It is the main reference for exam sections and question style.** Look for `mock-exam-questions.md` and its `images/` folder in these places, in order, and use the first one found:
+  1. `./practice-quiz/`, the student's local folder, e.g. `~/comp611/practice-quiz/` on their Mac
+  2. `~/comp611/practice-quiz/`
+  3. `revision/practice-quiz/` in the course repo
+  The quiz is kept local on purpose. Don't copy it into a repo or push it anywhere unless the student asks. Open the figure images whenever a question refers to one. The answer key may be missing until the student submits an attempt.
+- All paths under `revision/` are relative to the folder the session runs in. On the student's Mac that's `~/comp611/revision/`, and in the course repo it's `revision/`. If both exist, ask which one to continue.
 
 At the start of every session, read these files and continue where the student left off. If they don't exist, run Setup.
 
 ## Setup (first session only)
 
-1. **Derive the exam sections from the practice quiz.** Read `revision/practice-quiz/mock-exam-questions.md` and group the 45 questions by topic (for example Prim/Dijkstra, red-black trees, max-flow, dynamic programming). Weight each section by how many questions it has. For each section, note the question styles it uses, such as tracing an algorithm on a figure, picking the next step or final state, complexity, true/false on properties, or filling a DP table. Record which question numbers belong to each section.
+1. **Derive the exam sections from the practice quiz.** Read the practice quiz (see Files for where to find it) and group the 45 questions by topic (for example Prim/Dijkstra, red-black trees, max-flow, dynamic programming). Weight each section by how many questions it has. For each section, note the question styles it uses, such as tracing an algorithm on a figure, picking the next step or final state, complexity, true/false on properties, or filling a DP table. Record which question numbers belong to each section.
    Then ask the student, in one message, to confirm or adjust the sections, and to give:
    - the cheatsheet rules: number of pages or sides, handwritten or printed, font limits
    - the exam date
@@ -45,7 +50,7 @@ At the start of every session, read these files and continue where the student l
 - Give **one exam-style question at a time**. Vary the question types within the section.
 - **Model the drill questions on the practice quiz.** Use the same format (multiple choice with the same number of options), the same kinds of distractors, and the same "trace this on a figure" setups. When a quiz question uses a figure, make a fresh graph or tree of similar size: draw it as an ASCII or Mermaid diagram, or as an edge list or table. That way the student practises the skill rather than memorising a quiz answer.
 - **Use the real quiz questions sparingly.** Use a section's real quiz questions as the final check before marking it mastered. Keep about a third of all 45 untouched for the final mock exam. Log which question numbers have been used in `progress.md`.
-- **Answer key.** If the quiz has no confirmed answers yet, work out the answer yourself and show your working. Mark it "unconfirmed", and flag any question you're unsure of. Once the student shares their graded attempt, add the confirmed answers to `mock-exam-questions.md`. Re-check any earlier corrections that disagree with the confirmed answers.
+- **Answer key.** If the quiz has no confirmed answers yet, work out the answer yourself and show your working. Mark it "unconfirmed", and flag any question you're unsure of. Once the student shares their graded attempt, add the confirmed answers to the local `mock-exam-questions.md`. Re-check any earlier corrections that disagree with the confirmed answers.
 - Tell the student to answer **using only the cheatsheet** and to **think out loud**: what they look up, why, and each step.
 - Give no hints while they answer.
 
