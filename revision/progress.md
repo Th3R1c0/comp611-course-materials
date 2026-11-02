@@ -28,3 +28,10 @@ Question bank: revision/practice/week1-questions.html (30 Qs, 6 topics x 5). Ans
 | R3.4 | not attempted (unsure) | recall of "smallest first" |
 | R3.5 | correct letter, wrong reason (said n₀ too big) | c too small is the reason |
 Weakest: topic 3 recall. Redo R2.2, R3.1, R3.3, R3.4 before topic 4.
+
+### Sheet edits after recap 1–3 → version 4
+- [AA-0] added "term" and "constant".
+- [AA-6] rewritten in English (O = at most, Ω = at least, Θ = exactly; "=" means "fits the description"). Fixes R2.2.
+- [AA-7] step-by-step to find the fastest term. [AA-8] new fast steps for judging any O/Ω/Θ statement (same / slower / faster). Fixes R2.2.
+- [AA-9] split into "what c and n₀ mean" (c always on the right, n₀ replaces n, why c exists, ceiling picture) and [AA-9b] fast steps per question type (incl. O(1) hiding c × 1, smallest-first for minus sign, check n = 100). Fixes R3.1, R3.3, R3.4, R3.5 reason.
+- v3 kept at revision/cheatsheets/versions/01-algorithm-analysis-v3.html.
