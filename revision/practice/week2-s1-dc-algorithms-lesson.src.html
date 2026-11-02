@@ -1,0 +1,93 @@
+<title>Week 2 Algorithms Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 · Week 2 · Section 1 of 3</div>
+  <h1>The idea and the three algorithms: fast steps</h1>
+  <p class="how">For each question type: what it means in plain English, the fast steps, and worked examples. The cheatsheet ([DC-…] entries) is this same page, condensed.</p>
+  <div class="meta"><span class="pill">4 exam questions</span><span class="pill">about 10 marks</span></div>
+</header>
+
+<div class="topic" style="font-family:var(--display);font-size:22px;margin-top:12px">Start here: words and symbols (sheet [DC-0])</div>
+<section><h2><span class="id">0</span> Words you need for this week</h2>
+<ol class="steps">
+<li><b>Recursive</b> means a function that calls <b>itself</b> on a smaller piece of the problem. Each of those calls is a <b>recursive call</b>.</li>
+<li>A <b>subproblem</b> is one of the smaller pieces. Sorting the left half of a list is a subproblem of sorting the whole list.</li>
+<li>The <b>base case</b> is the size where the function stops splitting and just answers directly (e.g. a list of 1 item is already sorted). Without it, the function would call itself forever.</li>
+<li><b>T(n)</b> is read "T of n": the time (number of steps) the algorithm takes on an input of size n. <b>T(n/2)</b> is "the time for an input half the size".</li>
+<li>A <b>recurrence</b> is an equation that describes T(n) using T of a smaller size. Example: <code>T(n) = 2T(n/2) + n</code> says "the time for n = two half-size jobs, plus n extra steps".</li>
+<li><b>⌊x⌋</b> (floor) means "round down". ⌊7/2⌋ = ⌊3.5⌋ = 3.</li>
+<li><b>log₂ n</b> means "how many times can I halve n until I reach 1?" log₂ 8 = 3 because 8 → 4 → 2 → 1 is 3 halvings. More generally <b>log_b a</b> means "what power of b gives a?": log₃ 9 = 2 because 3 × 3 = 9.</li>
+<li><b>Powers of n:</b> n⁰ = 1 (a constant), n¹ = n, n² = n × n. A decimal power sits in between: n^1.58 grows faster than n but slower than n². n^0.5 is the square root of n.</li>
+<li><b>Θ</b> means "grows exactly like" (from week 1, [AA-6]). Θ(1) means "a fixed number of steps", no matter how big n is.</li>
+</ol>
+</section>
+
+<div class="topic" style="font-family:var(--display);font-size:22px;margin-top:12px">Topic 1 · The divide and conquer idea and its three algorithms (sheet [DC-1] to [DC-4])</div>
+<section><h2><span class="id">1A</span> The three steps (definition questions)</h2>
+<ol class="steps">
+<li><b>Divide:</b> split the problem into smaller subproblems of the <b>same kind</b>.</li>
+<li><b>Conquer:</b> solve each subproblem by calling the same function on it (recursively). When a subproblem is small enough (the <b>base case</b>), solve it directly.</li>
+<li><b>Combine:</b> join the subproblem answers into the answer for the whole problem.</li>
+<li><b>Why it helps:</b> small problems are easy, and if splitting and joining are cheap, the total work can be much less than the obvious method.</li>
+</ol>
+<div class="tbl"><table><tr><th>Algorithm</th><th>Divide</th><th>Conquer</th><th>Combine</th></tr>
+<tr><td>Binary search</td><td>look at the middle item</td><td>search <b>one</b> half</td><td>nothing (the answer comes straight back)</td></tr>
+<tr><td>Merge sort</td><td>split the list into two halves</td><td>sort <b>both</b> halves</td><td>MERGE the two sorted halves</td></tr>
+<tr><td>Fast exponentiation</td><td>halve the power n</td><td>work out x to the half power</td><td>square it (times x once more if n is odd)</td></tr></table></div>
+<div class="ex"><h3>Example: "Which statement describes the base case?"</h3><p>Look for "the size where it stops dividing and solves directly". Wrong options usually describe the combine step, or say "checked after the recursive calls return".</p><p class="ans">The subproblem size at which the algorithm stops dividing and solves directly</p></div>
+</section>
+
+<section><h2><span class="id">1B</span> Trace binary search</h2>
+<ol class="steps">
+<li>The list must be <b>sorted</b>. Write the positions (indexes) under the values.</li>
+<li>mid = ⌊(low + high) ÷ 2⌋ (round down). Look at A[mid], the value at that position.</li>
+<li>If A[mid] = target: found. If target is <b>smaller</b>: high = mid − 1 (keep the left part). If <b>bigger</b>: low = mid + 1 (keep the right part).</li>
+<li>Repeat. If low becomes bigger than high, the target isn't there.</li>
+<li><b>Why it's fast:</b> each look throws away half of what's left, so it takes about log₂ n looks: Θ(log n). For 1,000 items that's only about 10 looks.</li>
+</ol>
+<img src="{{IMG_CHAIN}}" alt="Binary search: size 16, 8, 4, 2, 1, one compare at each size, so 5 compares in total" style="width:100%;max-width:640px">
+<div class="ex"><h3>Example: A = [3, 7, 11, 15, 19, 24, 30] (positions 0 to 6), target 24</h3>
+<div class="calc">low=0 high=6  mid=⌊6/2⌋=3  A[3]=15   24 bigger → low=4
+low=4 high=6  mid=⌊10/2⌋=5 A[5]=24   found at position 5</div>
+<p class="ans">Values checked: 15, then 24</p></div>
+</section>
+
+<section><h2><span class="id">1C</span> Trace MERGE (the combine step of merge sort)</h2>
+<ol class="steps">
+<li>You have two lists that are <b>already sorted</b>, L and R. Point at the front of each.</li>
+<li>Compare the two front items. Take the <b>smaller</b> one (if equal, take L's), add it to the result, and move that pointer along. That's <b>one comparison</b>.</li>
+<li>When one list is empty, copy the rest of the other list across. <b>No more comparisons</b> are needed for that.</li>
+<li><b>Count comparisons</b> = how many items were taken by comparing (not copied at the end).</li>
+<li><b>Why merge sort is Θ(n log n):</b> merging costs about n steps at every level, and there are log₂ n levels of halving.</li>
+</ol>
+<div class="ex"><h3>Example: L = [2, 5, 8], R = [3, 7] (from the lecture)</h3>
+<div class="calc">2 vs 3 → take 2   [2]
+5 vs 3 → take 3   [2,3]
+5 vs 7 → take 5   [2,3,5]
+8 vs 7 → take 7   [2,3,5,7]
+R empty → copy 8  [2,3,5,7,8]</div>
+<p class="ans">4 comparisons, result [2, 3, 5, 7, 8]</p></div>
+</section>
+
+<section><h2><span class="id">1D</span> Trace fast exponentiation POWER(x, n)</h2>
+<ol class="steps">
+<li>It works out xⁿ (x multiplied by itself n times).</li>
+<li>If n = 0, return 1 (base case).</li>
+<li>Otherwise first work out y = POWER(x, ⌊n/2⌋). So the n values go: n, then half of n rounded down, and so on down to 0.</li>
+<li>If n is <b>even</b>, return y × y. If n is <b>odd</b>, return x × y × y.</li>
+<li><b>Why it's fast:</b> the normal way needs n − 1 multiplications. This halves n each call, so about log₂ n calls: Θ(log n). For n = 1,000: 999 multiplications vs about 10 calls.</li>
+</ol>
+<div class="ex"><h3>Example: POWER(3, 13) (from the lecture)</h3>
+<div class="calc">n values:  13 → 6 → 3 → 1 → 0 (base case, returns 1)
+n=1  odd : 3 × 1 × 1     = 3
+n=3  odd : 3 × 3 × 3     = 27
+n=6  even: 27 × 27       = 729
+n=13 odd : 3 × 729 × 729 = 1,594,323</div>
+<p class="ans">The calls are 13, 6, 3, 1, 0 (5 calls). Answer 3¹³ = 1,594,323</p></div>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer <b>1.1 to 1.5</b> on the <a href="{{QLINK}}" target="_blank" rel="noopener">week 2 practice questions page</a> out loud in the chat, using only the cheatsheet.</p></section>
+<footer>Built from Lecture 2 Divide and Conquer (Week 2), the Class Master Theorem Example Solutions, and the Week 2 Lab and its answers. 2 November 2026.</footer>
+</div>

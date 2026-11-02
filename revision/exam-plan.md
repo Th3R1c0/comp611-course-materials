@@ -13,7 +13,7 @@ Page budget = share of one A4 side, by marks.
 | # | Week | Section | Qs | Marks | Sheet share | Status |
 |---|---|---|---|---|---|---|
 | 01 | 1 | Algorithm fundamentals & asymptotic analysis | 5 | 12 | ~12% | in progress (trial) |
-| 02 | 2 | Divide and conquer & recurrences (Master Theorem) | 4 | 10 | ~10% | |
+| 02 | 2 | Divide and conquer & recurrences (Master Theorem) | 4 | 10 | ~10% | in progress (sheet v1) |
 | 03 | 3 | Graph representation, BFS, Dijkstra | 5 | 10 | ~10% | |
 | 04 | 4 | Bellman-Ford, Floyd-Warshall | 3 | 6 | ~6% | |
 | 05 | 5 | DP, LIS, edit distance | 5 | 12 | ~12% | |
@@ -26,3 +26,15 @@ Page budget = share of one A4 side, by marks.
 | 12 | 11 | Disjoint set forests (union-find) | 2 | 5 | ~5% | |
 
 Question styles (from the exam info): definitions/properties, small calculations, tracing on a small input, reading pseudocode/graphs/trees, recurrences & Master Theorem, time/space best/worst case.
+
+## Week 2 sections (2026-11-02)
+
+Practice-quiz questions for week 2: Q26 (base case), Q36 (recurrence from pseudocode), Q40 and Q44 (Master Theorem). Held back for the final check.
+
+| Section | Topics | Sheet | Lesson | Practice Qs |
+|---|---|---|---|---|
+| 1 | D&C idea (divide/conquer/combine, base case); binary search, MERGE and fast exponentiation traces | [DC-0] to [DC-4] | practice/week2-s1-dc-algorithms-lesson.html | 1.1–1.5 |
+| 2 | Recurrence from pseudocode; recursion trees; substitution / tree / Master methods | [DC-5] to [DC-7] | practice/week2-s2-recurrences-lesson.html | 2.1–2.5, 3.1–3.5 |
+| 3 | Master Theorem (3 cases, regularity, when it doesn't apply); Karatsuba | [DC-8] to [DC-10] | practice/week2-s3-master-theorem-lesson.html | 4.1–4.5 |
+
+Note: the lecture and class solutions say 2T(n/2) + n log n is "Master Theorem does not apply"; the lab answer also gives extended Case 2 → Θ(n log² n). The sheet [DC-9] teaches both.
