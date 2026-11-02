@@ -77,3 +77,7 @@ Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).
 
 ### Sheet edits → version 3 (2026-11-02)
 - [DC-6] "levels same / shrinking / growing" line + a ÷ bᵏ shortcut rewritten as full English sentences with three worked examples (same, shrink, grow). Cause: sheet unclear (Misty couldn't read the arrow shorthand). v2 kept at versions/02-divide-and-conquer-v2.html.
+| 3.5 | asked where the sheet covers it; didn't understand log_b a | sheet unclear + concept gap (logs). Taught "divide a by b until 1, count steps" | v4 |
+
+### Sheet edits → version 4 (2026-11-02)
+- New match table [DC-M]: a, b → p = log_b a → leaves n^p (also the Case 1 answer). Replaces the [DC-8] log table so Misty looks up instead of working out logs (Misty asked for all combinations to match in the exam). [DC-6] and [DC-8] point to it. v3 kept at versions/02-divide-and-conquer-v3.html.

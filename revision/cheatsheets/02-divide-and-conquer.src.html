@@ -4,7 +4,7 @@
 <style>.sx { display: block; font-family: var(--mono); font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.45; }</style>
 <div class="wrap">
 <header>
-  <div class="eyebrow">COMP611 cheatsheet · Week 2 · version 3</div>
+  <div class="eyebrow">COMP611 cheatsheet · Week 2 · version 4</div>
   <h1>Divide and conquer &amp; recurrences</h1>
   <div class="meta"><span class="pill">4 exam questions</span><span class="pill">about 10 marks</span><span class="pill">same content as the fast lesson, condensed</span></div>
   <div class="modes" role="radiogroup" aria-label="View">
@@ -14,7 +14,7 @@
   </div>
   <p class="how" id="modeHelp"></p>
   <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
-  <div class="vers"><span>Older versions:</span><a href="https://claude.ai/artifact/YU7DmisYGRPr8xyny7jquY" target="_blank" rel="noopener">Version 2</a><a href="https://claude.ai/artifact/{{V1}}" target="_blank" rel="noopener">Version 1</a></div>
+  <div class="vers"><span>Older versions:</span><a href="https://claude.ai/artifact/GtdLF5abFsWJkf1UfZMGzc" target="_blank" rel="noopener">Version 3</a><a href="https://claude.ai/artifact/YU7DmisYGRPr8xyny7jquY" target="_blank" rel="noopener">Version 2</a><a href="https://claude.ai/artifact/{{V1}}" target="_blank" rel="noopener">Version 1</a></div>
 </header>
 
 <div class="topic">Start here: words and symbols</div>
@@ -68,25 +68,22 @@
 <section id="DC-6"><h2><span class="id">[DC-6]</span> Recursion tree</h2>
 <details open><summary><b>Draw it:</b> 1 box at the top (level 0, size n). Under every box draw <b>a</b> boxes. Each level down, divide the size by <b>b</b> again.<span class="sx">e.g. 2T(n/3), n = 27: level 0 one box 27 · level 1 two boxes 9 · level 2 four boxes 3 · level 3 eight boxes 1 (stop)</span></summary><div class="plain"><p>Think of each box as a worker with a job. The recurrence says how many smaller jobs each worker hands out (a) and how much smaller each one is (÷ b). The + f(n) part is only the worker's own effort, so you don't need it to count boxes or sizes.</p></div></details>
 <details open><summary>Level i: <b>aⁱ nodes</b>, each of <b>size n/bⁱ</b>, each costing <b>f(size)</b>. Level total = nodes × cost.<span class="sx">e.g. 3T(n/4) + n², level 2: nodes aⁱ = 3² = 9 · size n ÷ bⁱ = n ÷ 4² = n/16</span></summary><div class="plain"><p>Level 0 is the first call. For 3T(n/4) + n²: level 2 has 3 × 3 = 9 nodes of size n/16, each costing (n/16)² = n²/256.</p></div></details>
-<details open><summary><b>Height</b> = log_b n levels. <b>Leaves</b> = n^(log_b a).<span class="sx">e.g. 4T(n/2): leaves n^(log₂4) = n²</span></summary><div class="plain"><p>You divide by b until you reach 1, which takes log_b n steps. 4T(n/2) has n^(log₂4) = n² leaves: for n = 8, 3 levels and 4 × 4 × 4 = 64 = 8² leaves.</p></div></details>
+<details open><summary><b>Height</b> = log_b n levels. <b>Leaves</b> = n^(log_b a): look up a and b in the match table [DC-M].<span class="sx">e.g. 4T(n/2): leaves n^(log₂4) = n²</span></summary><div class="plain"><p>You divide by b until you reach 1, which takes log_b n steps. 4T(n/2) has n^(log₂4) = n² leaves: for n = 8, 3 levels and 4 × 4 × 4 = 64 = 8² leaves.</p></div></details>
 <details open><summary><b>To get T(n) from the tree:</b> compare how much work one whole level does with the level below it.<span class="sx" style="font-family:var(--body);font-size:14px;color:var(--ink)">• If every level does the <b>same</b> amount of work, the total is one level's work times the number of levels (log n).<br>• If each level does <b>less</b> work than the one above, the top level is most of the work, so T(n) = Θ(f(n)).<br>• If each level does <b>more</b> work than the one above, the bottom row (the leaves) is most of the work, so T(n) = Θ(n^(log_b a)).</span><span class="sx" style="font-family:var(--body);font-size:14px;color:var(--ink)"><b>Quick check</b> when f(n) is a power of n (n, n², n³…; call the power k): work out a ÷ bᵏ. If it is exactly 1, every level does the same work. If it is less than 1, the levels shrink. If it is more than 1, the levels grow.</span><span class="sx">e.g. 2T(n/2) + n²: a = 2, b = 2, k = 2, so 2 ÷ 2² = 2 ÷ 4 = ½. Less than 1 → levels shrink → top wins → Θ(n²).</span><span class="sx">e.g. 4T(n/2) + n: a = 4, b = 2, k = 1, so 4 ÷ 2 = 2. More than 1 → levels grow → leaves win → Θ(n^(log₂4)) = Θ(n²).</span><span class="sx">e.g. 2T(n/2) + n: 2 ÷ 2 = 1 → every level does n work, log n levels → Θ(n log n).</span></summary><div class="plain"><p>Why: the total time is all the levels added up. If they keep getting smaller, the first one is bigger than all the rest put together (like n + n/2 + n/4 + … which never reaches 2n). If they keep getting bigger, the last row is the biggest. If they're all equal, you just multiply.</p><p class="eg">a ÷ bᵏ is what level 1 costs compared with level 0: level 1 has a boxes, each doing (n/b)ᵏ work, which is a ÷ bᵏ times the root's nᵏ.</p></div></details>
 </section>
 <section id="DC-7"><h2><span class="id">[DC-7]</span> Three methods for recurrences</h2>
 <details open><summary><b>Substitution</b> = guess the answer, prove it by induction. <b>Recursion tree</b> = add each level, add the levels (makes the guess). <b>Master</b> = formula for aT(n/b) + f(n).</summary><div class="plain"><p>Induction means: show it works for small sizes, and show that if it works for the smaller sizes it works for n. Substitution is the most general; Master is the fastest when it applies.</p></div></details>
 </section>
 
+<section id="DC-M"><h2><span class="id">[DC-M]</span> Match table: look up a and b, read off the answer</h2>
+<details open><summary>Find the row with your <b>a</b> (number in front of T) and <b>b</b> (number n is divided by). <b>p</b> = log_b a. <b>Leaves</b> = n^p, which is also the Case 1 answer in the Master Theorem.<div class="tbl"><table><tr><th>a</th><th>b</th><th>p = log_b a</th><th>leaves = n^p</th></tr><tr><td>1</td><td>any</td><td>0</td><td>1 (constant)</td></tr><tr><td>2</td><td>2</td><td>1</td><td>n</td></tr><tr><td>3</td><td>2</td><td>≈1.585</td><td>n^1.585</td></tr><tr><td>4</td><td>2</td><td>2</td><td>n²</td></tr><tr><td>5</td><td>2</td><td>≈2.32</td><td>n^2.32</td></tr><tr><td>7</td><td>2</td><td>≈2.807</td><td>n^2.807</td></tr><tr><td>8</td><td>2</td><td>3</td><td>n³</td></tr><tr><td>16</td><td>2</td><td>4</td><td>n⁴</td></tr><tr><td>2</td><td>3</td><td>≈0.63</td><td>n^0.63</td></tr><tr><td>3</td><td>3</td><td>1</td><td>n</td></tr><tr><td>9</td><td>3</td><td>2</td><td>n²</td></tr><tr><td>27</td><td>3</td><td>3</td><td>n³</td></tr><tr><td>2</td><td>4</td><td>0.5</td><td>√n</td></tr><tr><td>3</td><td>4</td><td>≈0.79</td><td>n^0.79</td></tr><tr><td>4</td><td>4</td><td>1</td><td>n</td></tr><tr><td>16</td><td>4</td><td>2</td><td>n²</td></tr><tr><td>3</td><td>5</td><td>≈0.682</td><td>n^0.682</td></tr><tr><td>5</td><td>5</td><td>1</td><td>n</td></tr><tr><td>25</td><td>5</td><td>2</td><td>n²</td></tr></table></div><span class="sx">Not in the table? If a = b, p = 1. Otherwise count how many times you divide a by b to reach 1, or on the calculator: log a ÷ log b.</span><span class="sx">e.g. 4T(n/2) + n: a = 4, b = 2 → p = 2 → leaves n² · 9T(n/3) + n: a = 9, b = 3 → p = 2</span></summary><div class="plain"><p>log_b a means "how many times do I divide a by b to get to 1?" For 4 and 2: 4 → 2 → 1 is 2 steps, so p = 2. When it doesn't land exactly on 1 (like 3 and 2), the answer is a decimal, which is why the table gives it.</p><p>These rows cover every recurrence in the lecture, the class examples, the lab and the practice questions, plus the common neighbours.</p></div></details>
+</section>
+
 <div class="topic">Section 3: the Master Theorem</div>
 <section id="DC-8"><h2><span class="id">[DC-8]</span> Master Theorem fast steps</h2>
-<details open><summary>1. Read a (calls, at least 1), b (shrink, more than 1), f(n). 2. <b>p = log_b a</b> (calculator: log a ÷ log b). 3. Power of f: n² → 2, n → 1, √n → 0.5, constant → 0.</summary><div class="plain"><p>p is the power of n that the leaves of the recursion tree add up to ([DC-6]).</p></div></details>
+<details open><summary>1. Read a (calls, at least 1), b (shrink, more than 1), f(n). 2. <b>p = log_b a</b>: look it up in the match table [DC-M]. 3. Power of f: n² → 2, n → 1, √n → 0.5, constant → 0.</summary><div class="plain"><p>p is the power of n that the leaves of the recursion tree add up to ([DC-6]).</p></div></details>
 <details open><summary>f's power <b>smaller</b> than p → <b>Case 1: Θ(n^p)</b>. <b>Equal</b> → <b>Case 2: Θ(n^p log n)</b>. <b>Bigger</b> → <b>Case 3: Θ(f(n))</b>.<span class="sx">e.g. 8T(n/2)+n²: p = log₂8 = 3; 2 &lt; 3 → Case 1 Θ(n³) · 2T(n/2)+n: p = 1, equal → Case 2 Θ(n log n)</span></summary><div class="plain"><p>Why: n^p is the work at the leaves and f(n) is the work at the top. The bigger one wins. If equal, every level costs the same, so multiply by the log n levels.</p><p class="eg">8T(n/2)+n²: p=3, 2&lt;3 → Θ(n³). 2T(n/2)+n: p=1, equal → Θ(n log n). T(n/2)+1: p=0, equal → Θ(log n). 7T(n/2)+n³: p≈2.807, 3 bigger → Θ(n³).</p></div></details>
 <details open><summary>Case 3 also needs <b>regularity</b>: a·f(n/b) ≤ c·f(n), c &lt; 1. For f = nᵏ: check a ÷ bᵏ &lt; 1.</summary><div class="plain"><p>It means the work must shrink as you go down the tree. 7T(n/2)+n³: 7 ÷ 2³ = 7/8, less than 1, so it holds. For plain powers of n it always holds in Case 3.</p></div></details>
-<details open><summary><div class="tbl"><table><tr><th>log</th><th>=</th><th>log</th><th>=</th></tr>
-<tr><td>log_b 1</td><td>0</td><td>log₃ 9</td><td>2</td></tr>
-<tr><td>log_b b</td><td>1</td><td>log₃ 27</td><td>3</td></tr>
-<tr><td>log₂ 4</td><td>2</td><td>log₄ 2</td><td>0.5</td></tr>
-<tr><td>log₂ 8</td><td>3</td><td>log₄ 16</td><td>2</td></tr>
-<tr><td>log₂ 16</td><td>4</td><td>log₂ 3</td><td>≈1.585</td></tr>
-<tr><td>log₂ 7</td><td>≈2.807</td><td>log₅ 3</td><td>≈0.682</td></tr></table></div></summary><div class="plain"><p>log_b a asks "b to what power gives a?": 2 × 2 × 2 = 8, so log₂ 8 = 3. √4 = 2, so log₄ 2 = 0.5.</p></div></details>
 </section>
 
 <section id="DC-9"><h2><span class="id">[DC-9]</span> When the Master Theorem does NOT apply</h2>
@@ -100,6 +97,6 @@
 <details open><summary>Fewer subproblems → smaller p → faster. Speed-up = n² ÷ n^1.585 (n = 10,000: about 46×).</summary><div class="plain"><p>The saving happens at every level, so the number of leaves drops from n² to n^1.585.</p><p class="eg">10,000² = 100,000,000. 10,000^1.585 ≈ 2,190,000. Divide: ≈ 46.</p></div></details>
 </section>
 
-<footer>Sources: Lecture 2 Divide and Conquer (Week 2), Class Master Theorem Example Solutions, Week 2 Lab and model answers. Version 3, 2 November 2026: [DC-6] "levels same / shrink / grow" rewritten in full sentences with three worked examples (Misty couldn't read the shorthand). v2 added worked examples under the most-asked lines. Older versions are in versions/.</footer>
+<footer>Sources: Lecture 2 Divide and Conquer (Week 2), Class Master Theorem Example Solutions, Week 2 Lab and model answers. Version 4, 2 November 2026: new match table [DC-M] (a, b → p → leaves) replaces the log table, so you look up instead of working out logs. v3: [DC-6] "levels same / shrink / grow" rewritten in full sentences with three worked examples (Misty couldn't read the shorthand). v2 added worked examples under the most-asked lines. Older versions are in versions/.</footer>
 </div>
 {{SCRIPT}}
