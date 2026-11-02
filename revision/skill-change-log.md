@@ -1,7 +1,7 @@
 # Cheatsheet coach: requested changes log
 
 Misty's feedback from testing the `cheatsheet-coach` skill, to use when improving it.
-Status: **applied in trial** = done by hand in the test thread. **in SKILL.md** = written into `.claude/skills/cheatsheet-coach/SKILL.md` (all 28 entries on 2026-11-02).
+Status: **applied in trial** = done by hand in the test thread. **in SKILL.md** = written into `.claude/skills/cheatsheet-coach/SKILL.md` (entries 1–30 on 2026-11-02).
 
 | # | Date | Change requested | Status |
 |---|---|---|---|
@@ -33,6 +33,8 @@ Status: **applied in trial** = done by hand in the test thread. **in SKILL.md** 
 | 26 | 2026-11-02 | **Handle speech-to-text**: interpret garbled words ("circle" → ceiling, "0" → O, "4 in 2" → 4n²) and correct gently without losing the answer. | applied in trial; **in SKILL.md** |
 | 27 | 2026-11-02 | **Let the student group topics**: if they ask for several topics at once, make one combined lesson page. | applied in trial (topics 4–6); **in SKILL.md** |
 | 28 | 2026-11-02 | **Propose before logging**: when the student gives feedback, suggest improvements and log only the ones they pick. | applied; **in SKILL.md** |
+| 29 | 2026-11-02 | **Split into sections at the start of every session**: group the content into sections that fit it, show the list for the student to adjust, then teach each section as a group with a fast lesson page. | **in SKILL.md** |
+| 30 | 2026-11-02 | **Cheatsheet = fast lessons, condensed**: each sheet block follows its fast lesson (idea → steps per question type → tiny example) in dense paper-sheet text, so Paper view simulates the real exam sheet. Full sentences stay in the explanations. | **in SKILL.md** |
 
 ## Suggested SKILL.md edits (draft, now applied 2026-11-02)
 - Teach step: "Assume the student knows no mathematical notation unless they say otherwise. Introduce each symbol in plain words with a numeric example, and add a symbol-key entry at the top of each sheet."
