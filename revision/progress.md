@@ -65,3 +65,5 @@ Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).
 |---|---|---|---|
 | 1.4, 1.5 | blank, asked for powers explained | concept gap: what a power is; [DC-4] had no "build back up" shortcut (sheet unclear) | explained in chat (halve-to-0 list, then work up from 1: even square, odd square × x); consider adding to [DC-4] |
 | 2.1 | correct (D) | read 2T(n/2) as "2n": T notation (concept gap) | none yet; [DC-0] defines T |
+| 2.4 | correct (C) | wording: "n grows over n²" → loop in loop = n × n | none |
+| 3.1 | stuck: didn't know how to draw a recursion tree | lesson/sheet gap: [DC-6] assumes you can draw the tree; needs "jobs handing out jobs" story + concrete-number picture | taught in chat with figure w2-tree-2T-n3.png; fix [DC-6] in next sheet version |
