@@ -1,0 +1,103 @@
+<title>Topic 3 Worked Examples</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+
+.id { white-space: nowrap; }
+.steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.calc { font-family: var(--mono); font-size: 14px; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; overflow-x: auto; white-space: pre; line-height: 1.6; }
+.ans { font-weight: 700; color: var(--note-edge); margin: 0; }
+.tip { background: var(--accent-soft); border-radius: 6px; padding: 10px 12px; font-size: 15px; }
+.ex { display: flex; flex-direction: column; gap: 8px; padding: 10px 0; border-top: 1px solid var(--rule); }
+.ex h3 { font-size: 15.5px; margin: 0; }
+.ex p { margin: 0; }
+a { color: var(--accent); }
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 · Week 1 · Topic 3 · sheet [AA-9]</div>
+  <h1>Proving bounds with c and n₀: worked examples</h1>
+  <p class="how">Every topic 3 question from the <a href="https://claude.ai/artifact/9Y6mjfnbhmjkYFwyLXvGrR" target="_blank" rel="noopener">practice set</a>, solved with the same steps, plus extra examples.</p>
+</header>
+<section>
+<h2><span class="id">Step 1</span> Always unpack it into two sides first</h2>
+<ol class="steps">
+<li><b>Left = the function.</b></li>
+<li><b>Right = c × (whatever is inside the brackets).</b> c always goes on the right.</li>
+<li><b>The sign comes from the letter:</b> O → <b>≤</b> (at most, a ceiling) · Ω → <b>≥</b> (at least, a floor) · Θ → both.</li>
+<li><b>n₀ is the number you put in place of every n</b>, on both sides. It is not a multiplier.</li>
+</ol>
+<div class="calc">"f(n) = 4n + 9 is O(n)"         →   4n + 9        ≤  c × n
+"f(n) = 3n² + 5n + 2 is Ω(n²)"  →   3n² + 5n + 2  ≥  c × n²
+"2n² = O(n)"                    →   2n²           ≤  c × n</div>
+<div class="tip"><b>Golden rule for checking:</b> check at n = n₀ <b>and</b> at a big n like 100. A ceiling or floor must hold for every n, not just the first one.</div>
+</section><section><h2><span class="id">Case A</span> "Find c": use the recipe</h2><ol class="steps"><li><b>O (ceiling):</b> c = add up all the numbers (skip ones with a minus), n₀ = 1.</li><li><b>Ω (floor):</b> c = the front number of the biggest term, n₀ = 1.</li></ol><div class="ex"><h3>Example A1: 4n + 9 is O(n)</h3><p>Ceiling, so add up the numbers.</p><div class="calc">4 + 9 = 13   →   c = 13, n₀ = 1
+n = 1:    left 4×1 + 9 = 13     right 13 × 1 = 13      13 ≤ 13 ✓
+n = 100:  left 409               right 1,300            409 ≤ 1,300 ✓</div><p class="ans">c = 13, n₀ = 1</p></div><div class="ex"><h3>Example A2: 3n² + 5n + 2 is Ω(n²)</h3><p>Floor, so take the front number of the biggest term (3n²).</p><div class="calc">c = 3, n₀ = 1
+n = 1:    left 3 + 5 + 2 = 10   right 3 × 1 = 3        10 ≥ 3 ✓
+n = 100:  left 30,502            right 30,000           30,502 ≥ 30,000 ✓</div><p class="ans">c = 3, n₀ = 1</p></div></section><section><h2><span class="id">Case B</span> They give options: test each one</h2><ol class="steps"><li>Write the option's c into the right side.</li><li>Replace every n with the option's n₀ and work out both sides. Check the sign.</li><li>Then check n = 100. An option must pass both.</li><li>Shortcut: if the Case A recipe answer is one of the options, that's the answer.</li></ol><div class="ex"><h3>3.1: f(n) = 5n² + 2n + 7. Which (c, n₀) proves it's O(n²)?</h3><p>Unpack: 5n² + 2n + 7 ≤ c × n². Recipe: 5 + 2 + 7 = 14, and option A is c = 14, n₀ = 1. Checking all four anyway:</p><div class="calc">A  c=14, n₀=1:   left 5+2+7 = 14       right 14×1 = 14      14 ≤ 14 ✓  (n=100: 50,207 ≤ 140,000 ✓)
+B  c=5,  n₀=1:   left 14               right 5×1 = 5        14 ≤ 5 ✗
+C  c=7,  n₀=1:   left 14               right 7×1 = 7        14 ≤ 7 ✗
+D  c=4,  n₀=10:  left 500+20+7 = 527   right 4×100 = 400    527 ≤ 400 ✗</div><p class="ans">Answer A</p></div><div class="ex"><h3>3.2: f(n) = 3n² + 8n + 1. Which (c, n₀) proves it's Ω(n²)?</h3><p>Unpack: 3n² + 8n + 1 ≥ c × n². Recipe: the front number of 3n² is 3, and option B is c = 3, n₀ = 1. This one shows why you must check n = 100 too:</p><div class="calc">B  c=3,  n₀=1:   n=1: 12 ≥ 3 ✓     n=100: 30,801 ≥ 30,000 ✓
+C  c=4,  n₀=1:   n=1: 12 ≥ 4 ✓     n=100: 30,801 ≥ 40,000 ✗  (passes at n₀, breaks later!)
+D  c=12, n₀=1:   n=1: 12 ≥ 12 ✓    n=100: 30,801 ≥ 120,000 ✗
+A  'no such constants exist': wrong, because B works</div><p class="ans">Answer B</p></div><div class="ex"><h3>3.5: Which pair does NOT prove 3n + 10 = O(n)?</h3><p>Unpack: 3n + 10 ≤ c × n. Find the option that fails.</p><div class="calc">A  c=5,  n₀=5:    left 15+10 = 25     right 5×5 = 25      25 ≤ 25 ✓
+B  c=4,  n₀=10:   left 30+10 = 40     right 4×10 = 40     40 ≤ 40 ✓
+C  c=3,  n₀=100:  left 300+10 = 310   right 3×100 = 300   310 ≤ 300 ✗
+D  c=13, n₀=1:    left 3+10 = 13      right 13×1 = 13     13 ≤ 13 ✓</div><p class="ans">Answer C. With c = 3 the right side is 3n, and 3n + 10 is always 10 more.</p></div></section><section><h2><span class="id">Case C</span> "Why can't it be proven?"</h2><ol class="steps"><li>Find the function's growth (its fastest term, number dropped) and what's in the brackets.</li><li>Look both up in the growth order: 1 → log n → n → n log n → n² → n³ → 2ⁿ.</li><li>For O: if the brackets are <b>left of</b> (slower than) the function, it's impossible. Pick the answer that says "n keeps growing but c is fixed".</li></ol><div class="ex"><h3>3.3: Why can no constants prove 2n² = O(n)?</h3><p>Unpack: 2n² ≤ c × n. The function grows like n², and the brackets have n, which is slower, so it's impossible. To see it break with c = 1,000:</p><div class="calc">n = 1:      left 2            right 1,000        ✓
+n = 500:    left 500,000      right 500,000      ✓ (just)
+n = 1,000:  left 2,000,000    right 1,000,000    ✗
+Any c breaks once n passes c ÷ 2. You're comparing 2n against c: 2n keeps growing, c is stuck.</div><p class="ans">Answer C</p></div><div class="ex"><h3>Extra C2: Is n³ = O(n²)?</h3><p>n³ is right of n² in the growth order, so the brackets are slower.</p><div class="calc">n³ ≤ c × n² means n ≤ c, but n keeps growing past any fixed c.</div><p class="ans">Impossible. It's not O(n²).</p></div></section><section><h2><span class="id">Case D</span> There's a minus sign: find the smallest n₀</h2><ol class="steps"><li>Unpack as usual. <b>n²/2</b> means n × n ÷ 2. <b>(1/4)·n²</b> means n × n ÷ 4.</li><li>Test each n₀ option, <b>smallest first</b>, by replacing n with it.</li><li>The first option that passes is the answer.</li></ol><div class="ex"><h3>3.4: What's the smallest n₀ so that n²/2 − 4n ≥ (1/4)·n²?</h3><p>Options sorted: 1, 8, 16, 32.</p><div class="calc">n = 1:   left 1÷2 − 4 = −3.5      right 1÷4 = 0.25     −3.5 ≥ 0.25 ✗
+n = 8:   left 64÷2 − 32 = 0       right 64÷4 = 16      0 ≥ 16 ✗
+n = 16:  left 256÷2 − 64 = 64     right 256÷4 = 64     64 ≥ 64 ✓  ← first pass
+(n = 32 also passes, but it isn't the smallest)</div><p class="ans">Answer 16, which is option B</p></div><div class="ex"><h3>Extra D2: What's the smallest n₀ (from 1, 3, 6, 10) so that 2n² − 6n ≥ n²?</h3><p>Test smallest first.</p><div class="calc">n = 1:   left 2 − 6 = −4       right 1     ✗
+n = 3:   left 18 − 18 = 0      right 9     ✗
+n = 6:   left 72 − 36 = 36     right 36    ✓  ← first pass</div><p class="ans">Answer 6</p></div></section>
+<footer>Built from the Week 1 lecture (Asymptotic Analysis) and lab, 2 November 2026.</footer>
+</div>
