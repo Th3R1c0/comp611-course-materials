@@ -1,0 +1,36 @@
+<title>Week 11 Union-Find Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{SHEETSTYLE}}
+<style>.grid td, .grid th { text-align: center; padding: 2px 7px; border: 1px solid var(--rule); }</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 cheatsheet, Week 11 (disjoint sets part), version 1</div>
+  <h1>Disjoint sets (union-find)</h1>
+  <div class="meta"><span class="pill">about 2 exam questions</span><span class="pill">5 marks</span><span class="pill">Calculator: not needed</span></div>
+  <div class="modes" role="radiogroup" aria-label="View">
+    <button type="button" role="radio" data-mode="paper" id="m-paper">Paper</button>
+    <button type="button" role="radio" data-mode="full" id="m-full">Everything shown</button>
+    <button type="button" role="radio" data-mode="toggle" id="m-toggle">Tap to explain</button>
+  </div>
+  <p class="how" id="modeHelp"></p>
+  <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
+  <div class="vers"><span>Older versions:</span><span>none yet (this is the first)</span></div>
+</header>
+<section id="DS-1"><h2><span class="id">[DS-1]</span> Disjoint sets and the three operations</h2>
+<details open><summary>Groups that share no items. Each group has a <b>representative</b>. <b>MAKE-SET(x)</b> new group {x}. <b>FIND-SET(x)</b> gives x's representative. <b>UNION(x, y)</b> joins the two groups. Same representative means same group.<span class="sx">Example: {1, 2, 5}, {3, 4}, {6}. FIND-SET(5) and FIND-SET(1) match, so 1 and 5 are in the same group.</span></summary><div class="plain"><p>Uses: connected components (UNION both ends of every edge) and Kruskal's cycle check (same root for both ends means the edge would make a cycle).</p></div></details>
+</section>
+<section id="DS-2"><h2><span class="id">[DS-2]</span> Forest and FIND-SET</h2>
+<details open><summary>Each group is a tree. Every node points to its <b>parent</b>; the <b>root</b> points to itself and is the representative. FIND-SET: follow arrows up to the root.<span class="sx">Example: 1 to 2 to 4 to 6, and 6 is the root, so FIND-SET(1) = 6. The find path is 1, 2, 4, 6.</span></summary><div class="plain"><p>The nodes you pass on the way up are called the find path.</p></div></details>
+</section>
+<section id="DS-3"><h2><span class="id">[DS-3]</span> Path compression</h2>
+<details open><summary>After FIND-SET(x), every node on the find path points <b>straight at the root</b>. Nodes not on the path do not change. <b>Ranks do not change.</b><span class="sx">Example: FIND-SET(1) on path 1, 2, 4, 6: 1 and 2 now point to 6. 4 already did.</span></summary><div class="plain"><p>This makes later finds on those nodes take one step.</p></div></details>
+</section>
+<section id="DS-4"><h2><span class="id">[DS-4]</span> Union by rank</h2>
+<details open><summary>Find both roots first. Different ranks: <b>smaller rank goes under bigger</b>, no rank change. <b>Tie:</b> the first root goes under the second root, and the second root's rank goes <b>up 1</b>. New items have rank 0.<span class="sx">Example: UNION(a, b) with both rank 0: a under b, b rank 1. Then root 4 (rank 1) and root 9 (rank 3): 4 goes under 9, rank 9 stays 3.</span></summary><div class="plain"><p>Rank is an upper limit on the tree's height. Only a tie grows it.</p></div></details>
+</section>
+<section id="DS-5"><h2><span class="id">[DS-5]</span> Running times</h2>
+<details open><summary><div class='tbl'><table><tr><th>Version</th><th>m operations</th></tr><tr><td>Forest, no tricks</td><td>O(m n)</td></tr><tr><td>Union by rank only</td><td>O(m log n)</td></tr><tr><td>Rank + path compression</td><td>O(m α(n))</td></tr><tr><td>Linked lists, weighted union</td><td>O(m + n log n)</td></tr></table></div><span class="sx">Example: α(n) is the inverse Ackermann function, at most 4 for any real n, so almost O(m).</span></summary><div class="plain"><p>Linked lists: MAKE-SET and FIND-SET are O(1), UNION costs the length of the list that is moved.</p></div></details>
+</section>
+<footer>Condensed from the Week 11 disjoint sets fast lesson, which was built from the Week 11 lecture (disjoint set part) and Week 11 lab question 5. Version 1, 3 November 2026.</footer>
+</div>
+{{SHEETJS}}

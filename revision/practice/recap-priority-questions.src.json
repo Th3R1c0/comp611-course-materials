@@ -1,0 +1,253 @@
+{
+ "title": "Recap Everything So Far",
+ "eyebrow": "COMP611, recap quiz (spaced repetition)",
+ "h1": "Recap: everything learnt so far",
+ "sheet": "cheatsheet for each week (the Study Desk shows every week)",
+ "eg_ref": "[DP-8]",
+ "footer": "Two new questions for every topic done so far: weeks 1, 2, 3, 5, 7, 8, 9 (BST) and 11 (union-find). New numbers, not the practice quiz. Do this after the five new topics, then once more on exam eve.",
+ "sections": [
+  {
+   "label": "Weeks 1 to 3",
+   "name": "Analysis, divide and conquer, graphs",
+   "refs": "[AA], [DC], [GR]",
+   "qs": [
+    {
+     "id": "1.1",
+     "p": "Which of these grows the fastest as n gets very large?",
+     "opts": [
+      "n³",
+      "n log n",
+      "2ⁿ",
+      "n²"
+     ],
+     "ans": 2,
+     "ex": "From slowest to fastest: n log n, n², n³, 2ⁿ. Anything with n in the power (like 2ⁿ) beats every fixed power of n.",
+     "refs": "[AA-7], [AA-10]"
+    },
+    {
+     "id": "1.2",
+     "p": "f(n) = 3n² + 5n + 7. Which statement is TRUE?",
+     "opts": [
+      "f(n) = Θ(n)",
+      "f(n) = Θ(n²)",
+      "f(n) = Θ(n³)",
+      "f(n) = Θ(1)"
+     ],
+     "ans": 1,
+     "ex": "Keep the fastest-growing term (3n²) and drop its number: n². Θ means exactly that growth.",
+     "refs": "[AA-7], [AA-8]"
+    },
+    {
+     "id": "1.3",
+     "p": "Merge sort has the recurrence T(n) = 2T(n/2) + n. What does the Master Theorem give?",
+     "opts": [
+      "Θ(n)",
+      "Θ(n²)",
+      "Θ(log n)",
+      "Θ(n log n)"
+     ],
+     "ans": 3,
+     "ex": "a = 2, b = 2, so n to the power log base 2 of 2 is n¹ = n. f(n) = n is the same size, which is Case 2: multiply by log n, giving Θ(n log n).",
+     "refs": "[DC-8], [DC-M]"
+    },
+    {
+     "id": "1.4",
+     "p": "Binary search has the recurrence T(n) = T(n/2) + 1. What is its running time?",
+     "opts": [
+      "Θ(log n)",
+      "Θ(n)",
+      "Θ(1)",
+      "Θ(n log n)"
+     ],
+     "ans": 0,
+     "ex": "a = 1, b = 2, so n to the power log base 2 of 1 is n⁰ = 1. f(n) = 1 is the same size, Case 2: Θ(1 times log n) = Θ(log n).",
+     "refs": "[DC-8]"
+    },
+    {
+     "id": "1.5",
+     "p": "What is the running time of BFS on a graph stored as an adjacency list?",
+     "opts": [
+      "O(V²)",
+      "O(V + E)",
+      "O((V + E) log V)",
+      "O(V times E)"
+     ],
+     "ans": 1,
+     "ex": "Every vertex joins the queue once and every edge is looked at once (or twice if undirected), so O(V + E). O((V + E) log V) is Dijkstra.",
+     "refs": "[GR-6]"
+    },
+    {
+     "id": "1.6",
+     "p": "A graph has some negative edge weights (but no negative cycles). Which algorithm should find the shortest paths?",
+     "opts": [
+      "Dijkstra",
+      "BFS",
+      "Bellman-Ford",
+      "Prim"
+     ],
+     "ans": 2,
+     "ex": "Dijkstra can give wrong answers with negative edges, and BFS ignores weights. Bellman-Ford handles negative edges.",
+     "refs": "[GR-10]"
+    }
+   ]
+  },
+  {
+   "label": "Week 5",
+   "name": "Dynamic programming",
+   "refs": "[DP-1] to [DP-9]",
+   "qs": [
+    {
+     "id": "2.1",
+     "p": "What is the length of the longest increasing subsequence of 4, 10, 4, 3, 8, 9?",
+     "opts": [
+      "2",
+      "4",
+      "6",
+      "3"
+     ],
+     "ans": 3,
+     "ex": "L = 1, 2, 1, 1, 2, 3. For 8: the smaller numbers to its left (4, 4, 3) all have L 1, so 2. For 9: 8 has L 2, so 3. The answer is the biggest L: 3 (for example 4, 8, 9).",
+     "refs": "[DP-3], [DP-4]"
+    },
+    {
+     "id": "2.2",
+     "p": "An edit distance box has up = 2, left = 3, diagonal = 1, and its two letters are different. What goes in the box?",
+     "opts": [
+      "1",
+      "2",
+      "3",
+      "4"
+     ],
+     "ans": 1,
+     "ex": "up 2 + 1 = 3, left 3 + 1 = 4, diagonal 1 + 1 = 2 (different letters, so plus 1). Smallest is 2.",
+     "refs": "[DP-8]"
+    }
+   ]
+  },
+  {
+   "label": "Week 7",
+   "name": "Greedy, Prim and Kruskal",
+   "refs": "[GA-1] to [GA-8]",
+   "qs": [
+    {
+     "id": "3.1",
+     "p": "A graph has edges A–B (1), B–C (2), A–C (3) and C–D (4). Kruskal's algorithm runs on it. Which edge is rejected, and what is the MST weight?",
+     "opts": [
+      "A–C rejected, weight 7",
+      "C–D rejected, weight 6",
+      "B–C rejected, weight 8",
+      "Nothing rejected, weight 10"
+     ],
+     "ans": 0,
+     "ex": "A–B 1 accept, B–C 2 accept, A–C 3 reject (A and C are already joined through B), C–D 4 accept. Total 1 + 2 + 4 = 7.",
+     "refs": "[GA-7]"
+    },
+    {
+     "id": "3.2",
+     "p": "Activities [0, 6), [1, 3), [3, 5), [5, 8). Which does the earliest finish time rule pick?",
+     "opts": [
+      "[0, 6) and [5, 8)",
+      "[1, 3), [3, 5), [5, 8)",
+      "[0, 6) only",
+      "[1, 3) and [5, 8)"
+     ],
+     "ans": 1,
+     "ex": "Sort by finish: [1, 3) finishes 3, [3, 5) finishes 5, [0, 6) finishes 6, [5, 8) finishes 8. Pick [1, 3). [3, 5) starts at 3, pick. [0, 6) starts at 0, skip. [5, 8) starts at 5, pick. 3 activities.",
+     "refs": "[GA-2]"
+    }
+   ]
+  },
+  {
+   "label": "Week 8",
+   "name": "Flow networks",
+   "refs": "[FN-1] to [FN-8]",
+   "qs": [
+    {
+     "id": "4.1",
+     "p": "An augmenting path has residual room 6, 2 and 9 on its three edges. How much flow can be pushed along it?",
+     "opts": [
+      "17",
+      "9",
+      "6",
+      "2"
+     ],
+     "ans": 3,
+     "ex": "The bottleneck is the smallest room on the path: 2.",
+     "refs": "[FN-6]"
+    },
+    {
+     "id": "4.2",
+     "p": "An edge has label 4/7 (flow 4, capacity 7). What are its residual capacities?",
+     "opts": [
+      "Forward 3, reverse 4",
+      "Forward 4, reverse 3",
+      "Forward 7, reverse 0",
+      "Forward 3, reverse 7"
+     ],
+     "ans": 0,
+     "ex": "Forward room = capacity minus flow = 7 − 4 = 3. Reverse room = the flow = 4.",
+     "refs": "[FN-5]"
+    }
+   ]
+  },
+  {
+   "label": "Week 9 and 11",
+   "name": "BST and union-find",
+   "refs": "[BS-1] to [BS-6], [DS-1] to [DS-5]",
+   "qs": [
+    {
+     "id": "5.1",
+     "p": "The keys 15, 10, 20, 12 are inserted into an empty BST in that order. Where is 12?",
+     "opts": [
+      "Left child of 10",
+      "Right child of 15",
+      "Right child of 10",
+      "Left child of 20"
+     ],
+     "ans": 2,
+     "ex": "15 is the root. 10 goes left of 15. 20 goes right of 15. 12: smaller than 15 so go left to 10, bigger than 10 so go right: empty, so 12 is the right child of 10.",
+     "refs": "[BS-5]"
+    },
+    {
+     "id": "5.2",
+     "p": "In the preorder walk of any BST, which key comes first?",
+     "opts": [
+      "The smallest key",
+      "The root",
+      "The largest key",
+      "The deepest leaf"
+     ],
+     "ans": 1,
+     "ex": "Preorder is root, left, right, so the root is always written first. In postorder the root is last. Inorder starts with the smallest key.",
+     "refs": "[BS-2]"
+    },
+    {
+     "id": "5.3",
+     "p": "Union by rank joins two roots that both have rank 2. What is the rank of the new root?",
+     "opts": [
+      "2",
+      "4",
+      "3",
+      "1"
+     ],
+     "ans": 2,
+     "ex": "A tie: one root goes under the other, and the new root's rank goes up by 1, from 2 to 3. Different ranks never raise a rank.",
+     "refs": "[DS-4]"
+    },
+    {
+     "id": "5.4",
+     "p": "FIND-SET(x) is run with path compression. What happens to the ranks?",
+     "opts": [
+      "Every rank on the path drops to 0",
+      "The root's rank goes up by 1",
+      "Ranks do not change",
+      "Ranks are recalculated as exact heights"
+     ],
+     "ans": 2,
+     "ex": "Path compression only changes parent arrows: every node on the find path points straight at the root. Ranks stay the same.",
+     "refs": "[DS-3]"
+    }
+   ]
+  }
+ ]
+}

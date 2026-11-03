@@ -1,0 +1,97 @@
+{
+ "title": "Week 11 Union-Find Drill",
+ "eyebrow": "COMP611, Week 11, practice questions",
+ "h1": "Disjoint sets (union-find) drill",
+ "sheet": "Week 11 cheatsheet (Study Desk, Week 11, Cheatsheet)",
+ "eg_ref": "[DS-3]",
+ "footer": "Written from the Week 11 lecture and lab (disjoint set part only). New forest, not the practice quiz.",
+ "sections": [
+  {
+   "label": "Section 1",
+   "name": "Disjoint-set forests",
+   "refs": "[DS-1] to [DS-5]",
+   "fig": "w11-q-forest.png",
+   "figcap": "Two trees. Arrows point from a node to its parent. Root 9 has rank 3 and root 4 has rank 1. Use this for 1.1 to 1.4.",
+   "qs": [
+    {
+     "id": "1.1",
+     "p": "What does FIND-SET(2) return, and which nodes are on its find path?",
+     "opts": [
+      "Returns 1; path 2, 1",
+      "Returns 9; path 2, 1, 3, 9",
+      "Returns 3; path 2, 1, 3",
+      "Returns 4; path 2, 4"
+     ],
+     "ans": 1,
+     "ex": "Follow the arrows up: 2 goes to 1, 1 goes to 3, 3 goes to 9, and 9 is the root (it points to itself). The root is the representative.",
+     "refs": "[DS-2]"
+    },
+    {
+     "id": "1.2",
+     "p": "FIND-SET(2) is run with path compression. Which nodes have their parent arrow CHANGED?",
+     "opts": [
+      "2 and 1",
+      "2, 1 and 3",
+      "Only 2",
+      "2, 1, 3 and 5"
+     ],
+     "ans": 0,
+     "ex": "Every node on the find path (2, 1, 3) must end up pointing at the root 9. Node 3 already points at 9, so only 2 (it pointed to 1) and 1 (it pointed to 3) change. Node 5 is not on the path, so it keeps pointing at 3. Ranks do not change.",
+     "refs": "[DS-3]"
+    },
+    {
+     "id": "1.3",
+     "p": "UNION(6, 8) is done with union by rank. What happens?",
+     "opts": [
+      "Root 4 (rank 1) goes under root 9 (rank 3); rank 9 stays 3",
+      "Root 9 goes under root 4; rank 4 becomes 4",
+      "6 goes under 8; no ranks change",
+      "Root 4 goes under root 9; rank 9 becomes 4"
+     ],
+     "ans": 0,
+     "ex": "First find the roots: FIND-SET(6) is 4 (rank 1) and FIND-SET(8) is 9 (rank 3). The ranks are different, so the smaller-rank root 4 goes under 9. Only a tie raises a rank, so 9 stays at rank 3. Option C links the items instead of their roots.",
+     "refs": "[DS-4]"
+    },
+    {
+     "id": "1.4",
+     "p": "Are 5 and 2 in the same set?",
+     "opts": [
+      "No, because they are not joined by one arrow",
+      "Yes, because FIND-SET(5) and FIND-SET(2) both return 9",
+      "No, because 5 is a leaf",
+      "Only after path compression"
+     ],
+     "ans": 1,
+     "ex": "Two items are in the same set exactly when they have the same representative. 5 goes to 3 then 9. 2 goes to 1, 3, then 9. Same root, same set.",
+     "refs": "[DS-1], [DS-2]"
+    },
+    {
+     "id": "1.5",
+     "p": "Starting with MAKE-SET for p, q, r, s (all rank 0), you do UNION(p, q), UNION(r, s), then UNION(q, s), using union by rank where a tie puts the first root under the second. What is the final root and its rank?",
+     "opts": [
+      "q with rank 1",
+      "s with rank 1",
+      "s with rank 2",
+      "p with rank 3"
+     ],
+     "ans": 2,
+     "ex": "UNION(p, q): tie at 0, p goes under q, q becomes rank 1. UNION(r, s): tie, r under s, s becomes rank 1. UNION(q, s): roots q (1) and s (1) tie, so q goes under s and s becomes rank 2.",
+     "refs": "[DS-4]"
+    },
+    {
+     "id": "1.6",
+     "p": "What is the total running time of m operations on n items using a forest with BOTH union by rank and path compression?",
+     "opts": [
+      "O(m n)",
+      "O(m log n)",
+      "O(n²)",
+      "O(m α(n)), where α(n) is the inverse Ackermann function"
+     ],
+     "ans": 3,
+     "ex": "With both tricks the total is O(m α(n)), and α(n) is at most 4 for any real n, so it is almost O(m). Union by rank alone gives O(m log n). No tricks gives O(m n).",
+     "refs": "[DS-5]"
+    }
+   ]
+  }
+ ]
+}

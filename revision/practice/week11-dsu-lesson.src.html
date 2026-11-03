@@ -1,0 +1,73 @@
+<title>Week 11 Union-Find Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611, Week 11, Disjoint sets (one section)</div>
+  <h1>Disjoint sets (union-find): fast steps</h1>
+  <p class="how">About 2 exam questions and 5 marks. You follow arrows up to the top, and join two trees with one simple rule. The cheatsheet ([DS-1] to [DS-5]) is this page, condensed.</p>
+  <div class="meta"><span class="pill">about 2 exam questions, 5 marks</span><span class="pill">Calculator: not needed</span></div>
+</header>
+
+<section><h2><span class="id">A</span> Plain English: what disjoint sets are</h2>
+<ol class="steps">
+<li><b>Disjoint sets</b> are groups that never share an item. Every item is in exactly one group. Example: {1, 2, 5}, {3, 4} and {6} are disjoint sets.</li>
+<li>Each group has one member chosen as its <b>representative</b> (its "name tag"). Two items are in the same group exactly when they have the same representative.</li>
+<li>There are three operations. <b>MAKE-SET(x)</b> makes a new group holding only x. <b>FIND-SET(x)</b> returns the representative of x's group. <b>UNION(x, y)</b> joins x's group and y's group into one.</li>
+<li>The fast way to store them is a <b>disjoint-set forest</b>: each group is a tree, every item has an arrow to its <b>parent</b>, and the <b>root</b> (the top, which is its own parent) is the representative.</li>
+<li>Uses: finding <b>connected components</b> of a graph (UNION the two ends of every edge), and the cycle check in <b>Kruskal's algorithm</b> (week 7): an edge makes a cycle exactly when FIND-SET gives the same root for both ends.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">B</span> Fast steps for each question type</h2>
+<p><b>Case A: "What does FIND-SET(x) return?"</b> Follow the arrows up from x until you reach the root. The root is the answer. The nodes you pass are the <b>find path</b>.</p>
+<p><b>Case B: "What changes after FIND-SET(x) with path compression?"</b></p>
+<ol class="steps">
+<li>Write the find path from x up to the root.</li>
+<li>Every node on that path now points <b>straight at the root</b>.</li>
+<li>Nodes that already pointed at the root do not change. Nodes <b>not</b> on the path do not change. <b>Ranks do not change.</b></li>
+</ol>
+<p><b>Case C: "What happens after UNION(x, y) with union by rank?"</b> Each root stores a <b>rank</b>, which is roughly the height of its tree. A new item has rank 0.</p>
+<ol class="steps">
+<li>Find the two roots: rx = FIND-SET(x) and ry = FIND-SET(y). If they are the same, nothing happens.</li>
+<li>If the ranks are <b>different</b>: the root with the <b>smaller rank</b> goes under the root with the bigger rank. No rank changes.</li>
+<li>If the ranks are <b>equal</b> (a tie): rx goes under ry (the root of the <b>second</b> argument becomes the parent), and ry's rank goes <b>up by 1</b>. Only a tie ever raises a rank.</li>
+<li><b>Why:</b> hanging the shorter tree under the taller one keeps trees short, so FIND-SET stays fast.</li>
+</ol>
+<p><b>Case D: "Running time?"</b></p>
+<div class="tbl"><table>
+<tr><th>Way of storing</th><th>Time for m operations on n items</th></tr>
+<tr><td>Forest, no tricks</td><td>O(m n): trees can become one long chain</td></tr>
+<tr><td>Forest, union by rank only</td><td>O(m log n)</td></tr>
+<tr><td>Forest, union by rank <b>and</b> path compression</td><td><b>O(m α(n))</b>, almost O(m)</td></tr>
+<tr><td>Linked lists with weighted union (append the shorter list)</td><td>O(m + n log n)</td></tr>
+</table></div>
+<p>α(n) is the <b>inverse Ackermann function</b>. It grows so slowly that it is at most 4 for any real n, so in practice each operation is almost constant time.</p>
+<p><b>Case E: "Linked list version: costs?"</b> Each group is a list, and the head is the representative. MAKE-SET and FIND-SET are <b>O(1)</b> (every node points back to its list). UNION appends one list to the other and must update every moved node, so it costs the length of the moved list. Without care, n − 1 unions can cost about n²/2 in total.</p>
+</section>
+
+<section><h2><span class="id">C</span> Worked examples</h2>
+{{IMG:w11-lesson-forest.png|Disjoint set forest with root 6}}
+<p class="figcap">The week 11 lab forest. Arrows point from a node to its parent. Root 6 has rank 3.</p>
+<div class="ex"><h3>Example: FIND-SET (Case A)</h3>
+<div class="calc">FIND-SET(1): 1 goes to 2, 2 goes to 4, 4 goes to 6, and 6 is the root.
+FIND-SET(8): 8 goes to 7, 7 goes to 6.</div>
+<p class="ans">Both return 6, so 1 and 8 are in the same set.</p></div>
+<div class="ex"><h3>Example: path compression (Case B)</h3>
+<p>FIND-SET(1) with path compression. The find path is 1, 2, 4, 6. Node 1 now points to 6 (it pointed to 2) and node 2 now points to 6 (it pointed to 4). Node 4 already pointed to 6. Node 3 is not on the path, so it still points to 4. Rank of 6 stays 3.</p>
+{{IMG:w11-lesson-compressed.png|Forest after path compression, 1 and 2 now point to 6}}</div>
+<div class="ex"><h3>Example: union by rank from scratch (Case C)</h3>
+<div class="tbl"><table>
+<tr><th>Operation</th><th>Roots and ranks</th><th>Result</th></tr>
+<tr><td>MAKE-SET a, b, c, d, e</td><td>all rank 0</td><td>five one-item trees</td></tr>
+<tr><td>UNION(a, b)</td><td>a 0, b 0: tie</td><td>a goes under b. b rank becomes 1</td></tr>
+<tr><td>UNION(c, d)</td><td>c 0, d 0: tie</td><td>c goes under d. d rank becomes 1</td></tr>
+<tr><td>UNION(b, d)</td><td>b 1, d 1: tie</td><td>b goes under d. d rank becomes 2</td></tr>
+<tr><td>UNION(e, a)</td><td>e 0, and FIND-SET(a) is d with rank 2</td><td>e (smaller) goes under d. No rank change</td></tr>
+</table></div>
+<p class="ans">One tree with root d, rank 2.</p></div>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer the <b>week 11 practice questions</b> (Study Desk, Week 11, Questions) out loud in the chat, using only the cheatsheet. For example: "1.2: C, because I looked at [DS-3]".</p></section>
+<footer>Built from the Week 11 lecture "B-Trees and Disjoint Set Forest" (the disjoint set part: operations, linked lists, forests, union by rank, path compression and the running time table) and Week 11 lab question 5 with its model solution. B-trees are skipped on purpose. 3 November 2026.</footer>
+</div>
