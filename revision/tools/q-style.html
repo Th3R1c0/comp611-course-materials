@@ -46,6 +46,7 @@ th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var
 th { color: var(--muted); font-weight: 400; }
 footer { color: var(--muted); font-size: 13px; }
 @media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+[hidden] { display: none !important; }
 </style>
 <style>
 .q { border-top: 1px solid var(--rule); padding: 12px 0; display: flex; flex-direction: column; gap: 8px; }
@@ -69,4 +70,5 @@ a { color: var(--accent); }
 :root[data-theme="dark"] { --bad: #e38672; --bad-soft: #2b1c19; }
 
 .fig { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 6px; max-width: 100%; height: auto; display: block; margin-top: 6px; }
+[hidden] { display: none !important; }
 </style>
