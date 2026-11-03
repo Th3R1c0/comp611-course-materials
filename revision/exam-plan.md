@@ -48,3 +48,17 @@ Note: the lecture and class solutions say 2T(n/2) + n log n is "Master Theorem d
 | 3 | Relaxation; Dijkstra trace with lazy deletion (stale pairs); path and cost; running time (array vs heap); negative edges; which algorithm | [GR-7] to [GR-10] | practice/week3-s3-dijkstra-lesson.html | 3.1–3.5, 4.1–4.5 |
 
 Note: the Week 3 lab solution's step 3 note mentions an edge from A to B that is not in its own code or trace. The lesson follows the code (A to C 2, A to D 3).
+
+## Priority topics (2026-11-03, exam in 3 days)
+
+Misty can't study everything, so these five are taught next, in this order, one fast lesson each. Red-black trees, interval trees, B-trees and Bellman-Ford / Floyd-Warshall are skipped unless Misty asks.
+
+| Topic | Marks | Sheet entries | Lesson | Questions | Status |
+|---|---|---|---|---|---|
+| DP, LIS, edit distance (wk 5) | 12 | [DP-1] to [DP-9] | practice/week5-dp-lesson.html | week5-questions.html (13) | sheet v1, not drilled yet |
+| Flow networks (wk 8) | 10 | [FN-1] to [FN-8] | practice/week8-flow-lesson.html | week8-questions.html (11) | sheet v1, not drilled yet |
+| Greedy, Prim, Kruskal (wk 7) | 8 | [GA-1] to [GA-8] | practice/week7-greedy-lesson.html | week7-questions.html (14) | sheet v1, not drilled yet |
+| BST (wk 9) | 6 | [BS-1] to [BS-6] | practice/week9-bst-lesson.html | week9-questions.html (11) | sheet v1, not drilled yet |
+| Disjoint sets (wk 11) | 5 | [DS-1] to [DS-5] | practice/week11-dsu-lesson.html | week11-questions.html (6) | sheet v1, not drilled yet |
+
+Recap over every topic so far: practice/recap-priority-questions.html (16 Qs). Sources (.src.html / .src.json) rebuild with tools/build_lessons.py and tools/build_questions.py.

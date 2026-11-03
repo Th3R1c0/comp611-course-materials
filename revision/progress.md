@@ -92,3 +92,7 @@ Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).
 
 Sheet v1: revision/cheatsheets/03-graphs-bfs-dijkstra.html (condensed from the three section lessons). Question bank: revision/practice/week3-questions.html (20 Qs, new graphs in revision/figures/w3-q-*.dot), key week3-answer-key.json. Coverage check done: every question is tagged with the [GR-…] entry that answers it. Traces were checked by running BFS and Dijkstra in Python.
 Practice-quiz Qs for week 3: not mapped yet (the quiz is local-only on the Mac).
+
+## Priority topics (started 2026-11-03)
+
+Built lesson, sheet v1 and question bank for DP (wk 5), flow networks (wk 8), greedy (wk 7), BST (wk 9) and union-find (wk 11), plus a 16-question recap over everything so far. Every answer key was checked with Python (LIS and edit distance tables, Edmonds-Karp in tools/flow_check.py, Prim and Kruskal, BST walks in tools/w9_bst.py). No answers from Misty yet.
