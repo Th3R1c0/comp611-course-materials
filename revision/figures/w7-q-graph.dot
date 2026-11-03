@@ -1,0 +1,24 @@
+// Practice questions graph, MST 30
+graph G {
+  layout=neato; overlap=false; splines=true; pad=0.25; inputscale=1;
+  node [shape=circle, style=filled, fillcolor="#ffffff", fontname="Helvetica", fontsize=15, width=0.5, fixedsize=true];
+  edge [fontname="Helvetica", fontsize=13, color="#555555"];
+  A [pos="0,70"];
+  B [pos="128.0,154.0"];
+  C [pos="128.0,-14.0"];
+  D [pos="272.0,154.0"];
+  E [pos="272.0,-14.0"];
+  F [pos="416.0,154.0"];
+  G [pos="416.0,-14.0"];
+  A -- B [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">4</FONT></TD></TR></TABLE>>];
+  A -- C [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">1</FONT></TD></TR></TABLE>>];
+  B -- C [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">3</FONT></TD></TR></TABLE>>];
+  B -- D [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">2</FONT></TD></TR></TABLE>>];
+  C -- D [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">5</FONT></TD></TR></TABLE>>];
+  C -- E [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">7</FONT></TD></TR></TABLE>>];
+  D -- E [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">6</FONT></TD></TR></TABLE>>];
+  D -- F [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">9</FONT></TD></TR></TABLE>>];
+  E -- F [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">8</FONT></TD></TR></TABLE>>];
+  E -- G [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">10</FONT></TD></TR></TABLE>>];
+  F -- G [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">11</FONT></TD></TR></TABLE>>];
+}

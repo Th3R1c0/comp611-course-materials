@@ -1,0 +1,145 @@
+<title>Week 7 Greedy Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+.id { white-space: nowrap; }
+[hidden] { display: none !important; }
+.modes { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; align-self: flex-start; }
+.modes button { border: 0; border-radius: 0; background: var(--card); }
+.modes button + button { border-left: 1px solid var(--rule); }
+.modes button[aria-checked="true"] { background: var(--accent); color: var(--card); font-weight: 700; }
+body.paper .plain, body.paper details:not([open]) .plain { display: none; }
+body.paper summary, body.full summary { cursor: default; }
+body.paper summary::before { content: "•"; }
+body.full summary::before { content: "•"; }
+body.paper section { gap: 0; }
+body.paper summary { padding-block: 4px; }
+body.paper .topic { font-size: 18px; }
+.topic { font-family: var(--display); font-size: 21px; margin-top: 10px; text-wrap: balance; }
+.vers { display:flex; flex-wrap:wrap; gap:8px 14px; font-size:14px; }
+a { color: var(--accent); }
+</style>
+
+<style>.sx { display: block; font-size: 14px; color: var(--muted); font-style: italic; margin-top: 3px; line-height: 1.45; }</style>
+<style>
+:root { --cu: #1f5fa8; --cw: #b5590f; --cv: #2f7d3a; --cu-bg: #e6eef8; --cw-bg: #fbeee2; --cv-bg: #e7f3e8; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --cu: #8bb8ee; --cw: #f0a868; --cv: #8fd19a; --cu-bg: #1e2a3a; --cw-bg: #33251a; --cv-bg: #1a2b1d; } }
+:root[data-theme="dark"] { --cu: #8bb8ee; --cw: #f0a868; --cv: #8fd19a; --cu-bg: #1e2a3a; --cw-bg: #33251a; --cv-bg: #1a2b1d; }
+.cu, .cw, .cv { font-weight: 700; padding: 0 3px; border-radius: 3px; }
+.cu { color: var(--cu); background: var(--cu-bg); } .cw { color: var(--cw); background: var(--cw-bg); } .cv { color: var(--cv); background: var(--cv-bg); }
+</style>
+
+<style>.grid td, .grid th { text-align: center; padding: 2px 7px; border: 1px solid var(--rule); }</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 cheatsheet, Week 7, version 1</div>
+  <h1>Greedy, interval scheduling, Prim and Kruskal</h1>
+  <div class="meta"><span class="pill">about 4 exam questions</span><span class="pill">8 marks</span><span class="pill">Calculator: not needed</span></div>
+  <div class="modes" role="radiogroup" aria-label="View">
+    <button type="button" role="radio" data-mode="paper" id="m-paper">Paper</button>
+    <button type="button" role="radio" data-mode="full" id="m-full">Everything shown</button>
+    <button type="button" role="radio" data-mode="toggle" id="m-toggle">Tap to explain</button>
+  </div>
+  <p class="how" id="modeHelp"></p>
+  <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
+  <div class="vers"><span>Older versions:</span><span>none yet (this is the first)</span></div>
+</header>
+<div class="topic">Section 1: greedy idea and interval scheduling</div>
+<section id="GA-1"><h2><span class="id">[GA-1]</span> Greedy idea</h2>
+<details open><summary><b>Greedy:</b> take what looks best now, never go back. Correct only with the <b>greedy choice property</b> and <b>optimal substructure</b>. Proofs: exchange argument, staying ahead, cut property.<span class="sx">Example: coins 1, 3, 4 to pay 6. Greedy gives 4, 1, 1 (3 coins) but 3, 3 (2 coins) is best.</span></summary><div class="plain"><p>D&amp;C solves several independent subproblems. DP solves every subproblem and stores them. Greedy makes one choice and solves one subproblem.</p></div></details>
+</section>
+<section id="GA-2"><h2><span class="id">[GA-2]</span> Interval scheduling: earliest finish time</h2>
+<details open><summary>Sort by <b>finish time</b>. Pick the first. Then pick each activity that <b>starts at or after</b> the last picked finish. Only earliest finish is always optimal (earliest start, shortest, fewest conflicts can fail).<span class="sx">Example: A [1,3), F [3,4), B [2,5), C [4,7): pick A, then F (3 is at or after 3), skip B, pick C.</span></summary><div class="plain"><p>[4, 6) means it starts at 4 and finishes at 6, and another activity may start at exactly 6.</p></div></details>
+</section>
+<section id="GA-3"><h2><span class="id">[GA-3]</span> Interval scheduling: running time</h2>
+<details open><summary><b>O(n log n)</b> because of sorting. Already sorted by finish time: O(n). Trying every subset: O(2ⁿ).</summary><div class="plain"><p>After sorting, each activity is checked once against the last finish time.</p></div></details>
+</section>
+<div class="topic">Section 2: MSTs and Prim's algorithm</div>
+<section id="GA-4"><h2><span class="id">[GA-4]</span> MST facts, cut and cycle properties</h2>
+<details open><summary>A <b>spanning tree</b> connects every vertex with no cycle and has <b>V − 1 edges</b>. <b>MST</b> = smallest total weight. Different weights means a unique MST.<span class="sx">Example: 7 vertices means 6 edges in any spanning tree.</span></summary><div class="plain"><p>Removing a tree edge disconnects it. Adding any edge makes a cycle.</p></div></details>
+<details open><summary><b>Cut property:</b> the lightest edge crossing between two groups is in every MST. <b>Cycle property:</b> the heaviest edge on a cycle is in no MST.<span class="sx">Example: groups {A, B, C} and the rest, crossing edges 2, 5, 7, so the 2 edge is in the MST.</span></summary><div class="plain"><p>Only count edges with one end in each group as crossing.</p></div></details>
+</section>
+<section id="GA-5"><h2><span class="id">[GA-5]</span> Prim's algorithm</h2>
+<details open><summary>Start at one vertex. Repeat: add the <b>lightest edge</b> from a vertex in the tree to a vertex <b>not</b> in the tree. Stop at V − 1 edges.<span class="sx">Example: from P, crossing edges P–Q 4, P–R 2, so add P–R. Then the lightest out of {P, R} is R–Q 1.</span></summary><div class="plain"><p>Keep a table: tree so far, crossing edges, lightest. The start vertex does not change the total weight.</p></div></details>
+</section>
+<section id="GA-6"><h2><span class="id">[GA-6]</span> Prim running time</h2>
+<details open><summary><b>O(E log V)</b> with an adjacency list and binary heap. <b>O(V²)</b> with an adjacency matrix and a simple minimum search.</summary><div class="plain"><p>The heap holds the crossing edges and hands back the lightest in O(log) time.</p></div></details>
+</section>
+<div class="topic">Section 3: Kruskal's algorithm</div>
+<section id="GA-7"><h2><span class="id">[GA-7]</span> Kruskal's algorithm</h2>
+<details open><summary>Sort <b>all edges</b>, lightest first. Accept an edge unless its ends are <b>already connected</b> (that would make a cycle), in which case reject it. Stop at V − 1 edges.<span class="sx">Example: Q–R 1 accept, P–R 2 accept, S–T 3 accept, P–Q 4 reject (P and Q already joined through R).</span></summary><div class="plain"><p>Prim grows one tree. Kruskal merges a forest of groups. Same total weight, and the same edges if the weights are all different.</p></div></details>
+</section>
+<section id="GA-8"><h2><span class="id">[GA-8]</span> Kruskal running time</h2>
+<details open><summary><b>O(E log V)</b> with a disjoint set forest (union-find), because sorting dominates. With a simple label array: O(E log V + V²).</summary><div class="plain"><p>O(E log E) and O(E log V) are the same thing, because E is at most V², so log E is at most 2 log V.</p></div></details>
+</section>
+<footer>Condensed from the Week 7 fast lesson, which was built from the Week 7 lecture (Greedy Algorithms) and the Week 7 lab with its model solutions. Version 1, 3 November 2026.</footer>
+</div>
+<script>
+const help = {
+  paper: "Paper view: just the lines, exactly what the printed sheet will show. Practise with this one for the exam.",
+  full: "Everything shown: every line with its plain-English explanation, reason and example underneath. Nothing to tap.",
+  toggle: "Tap to explain: just the lines, and tapping a line opens its explanation."
+};
+const all = () => document.querySelectorAll('details');
+function setMode(m) {
+  document.body.classList.remove('paper', 'full', 'toggle'); document.body.classList.add(m);
+  document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-checked', b.dataset.mode === m));
+  document.getElementById('modeHelp').textContent = help[m];
+  document.getElementById('toggleTools').hidden = m !== 'toggle';
+  all().forEach(d => d.open = (m !== 'toggle'));
+  try { localStorage.setItem('sheet-mode', m); } catch (e) {}
+}
+document.querySelectorAll('summary').forEach(s => s.addEventListener('click', e => { if (!document.body.classList.contains('toggle')) e.preventDefault(); }));
+document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+document.getElementById('openAll').addEventListener('click', () => all().forEach(d => d.open = true));
+document.getElementById('closeAll').addEventListener('click', () => all().forEach(d => d.open = false));
+let start = 'paper'; try { start = localStorage.getItem('sheet-mode') || 'paper'; } catch (e) {}
+setMode(help[start] ? start : 'paper');
+</script>
+

@@ -1,0 +1,112 @@
+<title>Week 7 Greedy Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611, Week 7, Greedy algorithms (3 sections on one page)</div>
+  <h1>Greedy, interval scheduling, Prim and Kruskal: fast steps</h1>
+  <p class="how">About 4 exam questions and 8 marks. Every trace is "keep picking the smallest thing that is allowed". The cheatsheet ([GA-1] to [GA-8]) is this page, condensed.</p>
+  <div class="meta"><span class="pill">about 4 exam questions, 8 marks</span><span class="pill">Calculator: not needed</span></div>
+</header>
+
+<section><h2><span class="id">1A</span> Plain English: what a greedy algorithm is</h2>
+<ol class="steps">
+<li>A <b>greedy</b> algorithm builds the answer one choice at a time. At each step it takes whatever <b>looks best right now</b>, and it <b>never goes back</b> to change a choice.</li>
+<li>Compared with the other methods: divide and conquer splits into several subproblems, dynamic programming solves every subproblem and keeps the best, and greedy makes one choice and solves only <b>one</b> smaller problem.</li>
+<li>Greedy does <b>not always</b> give the best answer. Example: coins worth 1, 3 and 4, and you must pay 6 with as few coins as possible. Greedy takes the biggest coin first: 4, then 1, then 1, which is 3 coins. The best is 3 and 3, which is 2 coins.</li>
+<li>Greedy is correct only when the problem has two properties. <b>Greedy choice property:</b> some best answer contains the greedy choice. <b>Optimal substructure:</b> after that choice, the rest of a best answer is a best answer to the smaller problem.</li>
+<li>Ways to prove a greedy algorithm correct: an <b>exchange argument</b> (swap one piece of a best answer for the greedy choice and show it is still best), <b>staying ahead</b> (show greedy is at least as good after every step), and for MSTs, the <b>cut property</b>.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">1B</span> Interval scheduling: fast steps</h2>
+<p>You have one room and many activities, each with a start time and a finish time. Pick the <b>most activities</b> that do not overlap. An activity written [4, 6) starts at 4 and finishes at 6, and another activity may start at exactly 6.</p>
+<p><b>Case A: "Which activities does the greedy algorithm pick?"</b></p>
+<ol class="steps">
+<li>Sort the activities by <b>finish time</b>, earliest first.</li>
+<li>Pick the first one. Remember its finish time.</li>
+<li>Go down the list. Pick an activity only if it <b>starts at or after</b> the last picked finish time, then update that finish time. Otherwise skip it.</li>
+</ol>
+<p><b>Case B: "Which rule is NOT always optimal?"</b> Earliest <b>start</b> time, <b>shortest</b> length, and fewest conflicts can all fail. Only <b>earliest finish time</b> is always optimal. Counterexample for earliest start: [0, 10) starts first and blocks [1, 2), [2, 3) and [3, 4).</p>
+<p><b>Case C: "Running time?"</b> <b>O(n log n)</b>, because sorting dominates. If the activities are already sorted by finish time, it is O(n).</p>
+<div class="ex"><h3>Example: the week 7 lab activities (Case A)</h3>
+<div class="tbl"><table>
+<tr><th>Sorted by finish</th><th>Interval</th><th>Last finish before</th><th>Pick or skip</th></tr>
+<tr><td>a2</td><td>[1, 4)</td><td>none</td><td>pick, last finish 4</td></tr>
+<tr><td>a3</td><td>[4, 6)</td><td>4</td><td>pick (4 is at or after 4), last finish 6</td></tr>
+<tr><td>a4</td><td>[5, 8)</td><td>6</td><td>skip (5 is before 6)</td></tr>
+<tr><td>a5</td><td>[7, 11)</td><td>6</td><td>pick, last finish 11</td></tr>
+<tr><td>a1</td><td>[0, 12)</td><td>11</td><td>skip</td></tr>
+<tr><td>a6</td><td>[9, 13)</td><td>11</td><td>skip</td></tr>
+<tr><td>a7</td><td>[10, 14)</td><td>11</td><td>skip</td></tr>
+<tr><td>a8</td><td>[12, 15)</td><td>11</td><td>pick, last finish 15</td></tr>
+<tr><td>a9</td><td>[13, 16)</td><td>15</td><td>skip</td></tr>
+</table></div>
+<p class="ans">Picked a2, a3, a5, a8: 4 activities.</p></div>
+</section>
+
+<div class="topic">Section 2: Minimum spanning trees and Prim's algorithm</div>
+<section><h2><span class="id">2A</span> Plain English: what a minimum spanning tree is</h2>
+<ol class="steps">
+<li>The graph is <b>undirected</b> and <b>weighted</b>. A <b>spanning tree</b> uses some of the edges to connect <b>every</b> vertex with <b>no cycles</b> (no loops).</li>
+<li>A <b>minimum spanning tree</b> (MST) is a spanning tree whose edge weights add up to the smallest total.</li>
+<li>Facts that are asked as true or false: a spanning tree on V vertices has exactly <b>V − 1 edges</b>. Removing any tree edge disconnects it. Adding any extra edge makes a cycle. If all weights are <b>different</b>, the MST is <b>unique</b>.</li>
+<li><b>Cut property:</b> split the vertices into two groups. The <b>lightest edge crossing</b> between the groups is in every MST (when weights are different), so it is always safe to add.</li>
+<li><b>Cycle property:</b> the <b>heaviest edge on any cycle</b> is in no MST.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">2B</span> Prim's algorithm: fast steps</h2>
+<p>Prim grows <b>one tree</b> outward from a start vertex, like a cloud spreading.</p>
+<p><b>Case D: "In what order does Prim add vertices or edges?"</b></p>
+<ol class="steps">
+<li>Put the start vertex in the tree.</li>
+<li>Look at every edge that joins a vertex <b>in</b> the tree to a vertex <b>not yet in</b> the tree.</li>
+<li>Add the <b>lightest</b> of those edges, and the new vertex it reaches.</li>
+<li>Repeat until every vertex is in. You add V − 1 edges.</li>
+<li>Edges between two vertices already in the tree are ignored, since they would make a cycle.</li>
+</ol>
+<p><b>Case E: "Running time?"</b> <b>O(E log V)</b> with an adjacency list and a binary heap (priority queue). <b>O(V²)</b> with an adjacency matrix and a simple search for the smallest. The start vertex does not change the total weight.</p>
+{{IMG:w7-lesson-graph.png|Undirected weighted graph P, Q, R, S, T, U}}
+<p class="figcap">The week 7 lab graph.</p>
+<div class="ex"><h3>Example: Prim from P (Case D)</h3>
+<div class="tbl"><table>
+<tr><th>Step</th><th>In the tree</th><th>Crossing edges to choose from</th><th>Add (lightest)</th></tr>
+<tr><td>1</td><td>P</td><td>P–Q 4, P–R 2</td><td>P–R (2)</td></tr>
+<tr><td>2</td><td>P, R</td><td>P–Q 4, R–Q 1, R–S 8, R–U 10</td><td>R–Q (1)</td></tr>
+<tr><td>3</td><td>P, R, Q</td><td>Q–S 5, R–S 8, R–U 10</td><td>Q–S (5)</td></tr>
+<tr><td>4</td><td>P, R, Q, S</td><td>S–T 3, S–U 6, R–U 10</td><td>S–T (3)</td></tr>
+<tr><td>5</td><td>P, R, Q, S, T</td><td>S–U 6, T–U 7, R–U 10</td><td>S–U (6)</td></tr>
+</table></div>
+<p class="ans">Vertex order P, R, Q, S, T, U. MST edges P–R, R–Q, Q–S, S–T, S–U with total 2 + 1 + 5 + 3 + 6 = 17.</p></div>
+</section>
+
+<div class="topic">Section 3: Kruskal's algorithm</div>
+<section><h2><span class="id">3A</span> Kruskal's algorithm: fast steps</h2>
+<p>Kruskal does not grow from one vertex. It looks at <b>all edges from lightest to heaviest</b> and keeps any edge that does not make a cycle. Small groups of joined vertices (called clusters or components) slowly merge into one tree.</p>
+<p><b>Case F: "In what order does Kruskal accept edges?" or "Which edge is rejected?"</b></p>
+<ol class="steps">
+<li>Sort all edges by weight, smallest first.</li>
+<li>Take the next edge. If its two ends are <b>already connected</b> by edges you have accepted, <b>reject</b> it (it would make a cycle). Otherwise <b>accept</b> it.</li>
+<li>Stop when you have V − 1 edges.</li>
+</ol>
+<p><b>Case G: "Running time?"</b> <b>O(E log V)</b> using a disjoint set forest (union-find, week 11), because sorting the edges dominates. With a simple label array it is O(E log V + V²).</p>
+<p><b>Case H: "Prim or Kruskal: what is the difference?"</b> Prim grows one tree from a start vertex. Kruskal sorts all edges and merges a forest of clusters. Both give an MST with the <b>same total weight</b>, and the same edges when all weights are different.</p>
+{{IMG:w7-lesson-mst.png|The same graph with the MST edges in green}}
+<p class="figcap">The MST of the lab graph is shown in green (total 17).</p>
+<div class="ex"><h3>Example: Kruskal on the lab graph (Case F)</h3>
+<div class="tbl"><table>
+<tr><th>Edge (sorted)</th><th>Accept or reject</th><th>Groups after</th></tr>
+<tr><td>Q–R 1</td><td>accept</td><td>{Q, R}, P, S, T, U</td></tr>
+<tr><td>P–R 2</td><td>accept</td><td>{P, Q, R}, S, T, U</td></tr>
+<tr><td>S–T 3</td><td>accept</td><td>{P, Q, R}, {S, T}, U</td></tr>
+<tr><td>P–Q 4</td><td><b>reject</b>: P and Q are already joined through R</td><td>no change</td></tr>
+<tr><td>Q–S 5</td><td>accept</td><td>{P, Q, R, S, T}, U</td></tr>
+<tr><td>S–U 6</td><td>accept, now 5 edges = V − 1, stop</td><td>one group</td></tr>
+</table></div>
+<p class="ans">Accepted in order 1, 2, 3, 5, 6. Same MST as Prim, total 17.</p></div>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer the <b>week 7 practice questions</b> (Study Desk, Week 7, Questions) out loud in the chat, using only the cheatsheet. For example: "2.1: D, because I looked at [GA-5]".</p></section>
+<footer>Built from the Week 7 lecture "Greedy Algorithms: Interval Scheduling and Minimum Spanning Trees" (coin change, greedy properties, earliest finish time, cut and cycle properties, Prim, Kruskal and their running times) and the Week 7 lab with its model solutions (the activities and the graph used here). 3 November 2026.</footer>
+</div>

@@ -1,0 +1,21 @@
+// Week 7 lab Q2 graph
+graph G {
+  layout=neato; overlap=false; splines=true; pad=0.25; inputscale=1;
+  node [shape=circle, style=filled, fillcolor="#ffffff", fontname="Helvetica", fontsize=15, width=0.5, fixedsize=true];
+  edge [fontname="Helvetica", fontsize=13, color="#555555"];
+  P [pos="0,70"];
+  Q [pos="144.0,140"];
+  R [pos="144.0,0"];
+  S [pos="288.0,112.0"];
+  U [pos="288.0,-28.0"];
+  T [pos="432.0,126.0"];
+  P -- Q [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">4</FONT></TD></TR></TABLE>>];
+  P -- R [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">2</FONT></TD></TR></TABLE>>];
+  Q -- R [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">1</FONT></TD></TR></TABLE>>];
+  Q -- S [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">5</FONT></TD></TR></TABLE>>];
+  R -- S [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">8</FONT></TD></TR></TABLE>>];
+  R -- U [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">10</FONT></TD></TR></TABLE>>];
+  S -- T [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">3</FONT></TD></TR></TABLE>>];
+  S -- U [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">6</FONT></TD></TR></TABLE>>];
+  T -- U [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">7</FONT></TD></TR></TABLE>>];
+}
