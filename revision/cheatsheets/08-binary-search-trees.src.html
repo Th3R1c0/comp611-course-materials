@@ -1,0 +1,40 @@
+<title>Week 9 BST Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{SHEETSTYLE}}
+<style>.grid td, .grid th { text-align: center; padding: 2px 7px; border: 1px solid var(--rule); }</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 cheatsheet, Week 9 (BST part), version 1</div>
+  <h1>Binary search trees</h1>
+  <div class="meta"><span class="pill">about 3 exam questions</span><span class="pill">6 marks</span><span class="pill">Calculator: not needed</span></div>
+  <div class="modes" role="radiogroup" aria-label="View">
+    <button type="button" role="radio" data-mode="paper" id="m-paper">Paper</button>
+    <button type="button" role="radio" data-mode="full" id="m-full">Everything shown</button>
+    <button type="button" role="radio" data-mode="toggle" id="m-toggle">Tap to explain</button>
+  </div>
+  <p class="how" id="modeHelp"></p>
+  <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
+  <div class="vers"><span>Older versions:</span><span>none yet (this is the first)</span></div>
+</header>
+<section id="BS-1"><h2><span class="id">[BS-1]</span> BST rule and height</h2>
+<details open><summary>Every node: left part <b>smaller</b>, right part <b>bigger</b>. <b>Height</b> = number of <b>edges</b> on the longest root-to-leaf path.<span class="sx">Example: the path 41, 20, 29, 26 has 4 nodes but 3 edges, so height 3. A root alone has height 0.</span></summary><div class="plain"><p>A leaf is a node with no children. NIL means an empty child spot.</p></div></details>
+</section>
+<section id="BS-2"><h2><span class="id">[BS-2]</span> Walks: inorder, preorder, postorder</h2>
+<details open><summary><b>Inorder</b> = left, root, right = the keys <b>sorted</b>. <b>Preorder</b> = root, left, right (root comes <b>first</b>). <b>Postorder</b> = left, right, root (root comes <b>last</b>).<span class="sx">Example: root 50 with 30 (children 20, 40) and 70. Preorder 50, 30, 20, 40, 70. Postorder 20, 40, 30, 70, 50.</span></summary><div class="plain"><p>Trace around the outside anticlockwise from the root. Preorder writes a node as you pass its left side, postorder as you pass its right side.</p></div></details>
+</section>
+<section id="BS-3"><h2><span class="id">[BS-3]</span> Search, minimum, maximum</h2>
+<details open><summary>Search: smaller go left, bigger go right, until found or you fall off. <b>Minimum</b> = keep going left. <b>Maximum</b> = keep going right.<span class="sx">Example: search 32 in root 41: 41, then 20, then 29, then 32.</span></summary><div class="plain"><p>Each step throws away a whole half of what is left, so it follows only one path.</p></div></details>
+</section>
+<section id="BS-4"><h2><span class="id">[BS-4]</span> Successor and predecessor</h2>
+<details open><summary><b>Successor</b> (next bigger): has a right child, so go right once then left all the way. No right child: climb until you step up from a <b>left</b> child; that parent is it. <b>Predecessor</b> is the mirror.<span class="sx">Example: successor of 41 (right child 65) is 50. Successor of 32 (no right child) climbs 29, 20, then 20 is a left child of 41, so 41.</span></summary><div class="plain"><p>Check with the sorted list: the successor is the key right after it.</p></div></details>
+</section>
+<section id="BS-5"><h2><span class="id">[BS-5]</span> Insert and delete</h2>
+<details open><summary><b>Insert:</b> search for it and attach it as a <b>leaf</b> where you fall off. The first key inserted is the root.<span class="sx">Example: insert 30: 41 left, 20 right, 29 right, 32 left, empty, so left child of 32.</span></summary><div class="plain"><p>Nothing else moves, so insertion order decides the shape.</p></div></details>
+<details open><summary><b>Delete:</b> 0 children, remove it. 1 child, the child moves up. 2 children, replace with the <b>successor</b> (right once, then left all the way) and remove the successor from its old spot.<span class="sx">Example: delete 65 (children 50 and 91): successor is 72, so 72 takes 65's place.</span></summary><div class="plain"><p>The successor has no left child, so removing it from its old spot is always the easy case.</p></div></details>
+</section>
+<section id="BS-6"><h2><span class="id">[BS-6]</span> Running times</h2>
+<details open><summary>Search, insert, delete, min, max, successor: <b>O(h)</b>. Balanced: <b>O(log n)</b>. Worst case, a chain from sorted inserts: <b>O(n)</b>. Full walk: <b>Θ(n)</b>.<span class="sx">Example: inserting 10, 20, 30, 40, 50 makes a chain of height 4.</span></summary><div class="plain"><p>Red-black trees (skipped) exist to keep h at O(log n).</p></div></details>
+</section>
+<footer>Condensed from the Week 9 BST fast lesson, which was built from the Week 9 lecture (BST part) and Week 9 lab questions 1 and 2. Version 1, 3 November 2026.</footer>
+</div>
+{{SHEETJS}}

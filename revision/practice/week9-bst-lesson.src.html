@@ -1,0 +1,72 @@
+<title>Week 9 BST Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611, Week 9, Binary search trees (one section)</div>
+  <h1>Binary search trees: fast steps</h1>
+  <p class="how">About 3 exam questions and 6 marks, and the easiest topic left. Every question is "go left if smaller, right if bigger" or "list the keys in a set order". The cheatsheet ([BS-1] to [BS-6]) is this page, condensed.</p>
+  <div class="meta"><span class="pill">about 3 exam questions, 6 marks</span><span class="pill">Calculator: not needed</span></div>
+</header>
+
+<section><h2><span class="id">A</span> Plain English: what a binary search tree is</h2>
+<ol class="steps">
+<li>A <b>binary tree</b> is made of <b>nodes</b>. Each node holds a number (its <b>key</b>) and has at most two children: a <b>left child</b> and a <b>right child</b>. The top node is the <b>root</b>. A node with no children is a <b>leaf</b>. NIL means "no child here".</li>
+<li>A <b>binary search tree</b> (BST) follows one rule at every node: everything in its <b>left</b> part (left subtree) is <b>smaller</b>, and everything in its <b>right</b> part is <b>bigger</b>.</li>
+<li>The <b>height</b> h is the number of <b>edges</b> (lines) on the longest path from the root down to a leaf. A tree with only a root has height 0.</li>
+<li>Almost every operation walks one path from the root downward, so it takes <b>O(h)</b> time. If the tree is bushy (balanced), h is about log n, which is fast. If the keys were inserted in sorted order, the tree is one long chain and h is n − 1, which is slow, so the worst case is <b>O(n)</b>.</li>
+</ol>
+{{IMG:w9-lesson-bst.png|BST with root 50}}
+<p class="figcap">The week 9 lab tree. Its height is 3 (the path 50, 30, 40, 45 has 3 edges).</p>
+</section>
+
+<section><h2><span class="id">B</span> Fast steps for each question type</h2>
+<p><b>Case A: "Give the inorder, preorder or postorder walk."</b> The name says <b>when the root is written</b>.</p>
+<ol class="steps">
+<li><b>Inorder</b> is left, root, right. For a BST this is just the keys <b>sorted smallest to largest</b>, so you do not need to walk it at all.</li>
+<li><b>Preorder</b> is root, left, right: write the node <b>before</b> its children. The first key is always the root.</li>
+<li><b>Postorder</b> is left, right, root: write the node <b>after</b> both its children. The last key is always the root.</li>
+<li>Trick for pre and post: trace around the outside of the tree anticlockwise starting at the root. Preorder writes each node when you pass its left side. Postorder writes each node when you pass its right side.</li>
+</ol>
+<p><b>Case B: "Search for k", "minimum" or "maximum".</b> Search: start at the root; if k is smaller go left, if bigger go right, until you find k or fall off (not found). Minimum: keep going <b>left</b>. Maximum: keep going <b>right</b>.</p>
+<p><b>Case C: "Successor of x"</b> (the next bigger key).</p>
+<ol class="steps">
+<li>If x has a <b>right child</b>: go right once, then left as far as you can.</li>
+<li>If not: climb up until you step up from a <b>left</b> child. That parent is the successor.</li>
+<li>Quick check: it is the key that comes straight after x in the sorted list. <b>Predecessor</b> is the mirror (the key just before x).</li>
+</ol>
+<p><b>Case D: "Insert k" or "Draw the tree after inserting these keys".</b> Search for k as in Case B. Where you fall off the tree, attach k there as a new <b>leaf</b>. Nothing else moves. The <b>first key inserted is the root</b>, so the order of insertion decides the shape.</p>
+<p><b>Case E: "Delete z".</b> Count z's children.</p>
+<ol class="steps">
+<li><b>No children:</b> just remove it.</li>
+<li><b>One child:</b> that child moves up into z's place (with everything under it).</li>
+<li><b>Two children:</b> find z's <b>successor</b> (go right once, then left as far as possible). Put the successor's key in z's place, and remove the successor from its old spot (it has at most a right child, which moves up).</li>
+</ol>
+<p><b>Case F: "Running time?"</b> Search, insert, delete, minimum, maximum, successor and predecessor are all <b>O(h)</b>: <b>O(log n)</b> when balanced, <b>O(n)</b> in the worst case (a chain). A full inorder, preorder or postorder walk is <b>Θ(n)</b>, because it visits every node once whatever the shape.</p>
+</section>
+
+<section><h2><span class="id">C</span> Worked examples (using the tree above)</h2>
+<div class="ex"><h3>Example: the three walks (Case A)</h3>
+<div class="calc">Inorder (sorted):  20, 30, 40, 45, 50, 60, 70, 75, 80
+Preorder:          50, 30, 20, 40, 45, 70, 60, 80, 75
+Postorder:         20, 45, 40, 30, 60, 75, 80, 70, 50</div>
+<p>Preorder starts with the root 50. Postorder ends with the root 50.</p></div>
+<div class="ex"><h3>Example: successor (Case C)</h3>
+<div class="calc">Successor of 70: it has a right child 80. Go right to 80, then left as far as possible: 75.
+Successor of 45: no right child. Climb: 45 is the right child of 40, keep climbing.
+   40 is the right child of 30, keep climbing. 30 is the LEFT child of 50, so stop: 50.</div>
+<p class="ans">Successor of 70 is 75. Successor of 45 is 50. Check with the sorted list: 75 comes after 70, and 50 comes after 45.</p></div>
+<div class="ex"><h3>Example: insert 65 (Case D)</h3>
+<div class="calc">65 > 50, go right to 70.   65 < 70, go left to 60.   65 > 60, go right: empty.</div>
+<p class="ans">65 becomes the right child of 60.</p></div>
+<div class="ex"><h3>Example: the three delete cases (Case E)</h3>
+<div class="calc">Delete 20: no children, just remove it.
+Delete 40: one child (45), so 45 moves up and becomes the right child of 30.
+Delete 50: two children. Successor = right once (70), then left as far as possible (60).
+   60 takes the root's place. 70's left child becomes empty.</div>
+<p class="ans">After deleting 50 the root is 60, with 30 on its left and 70 on its right.</p></div>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer the <b>week 9 BST practice questions</b> (Study Desk, Week 9, Questions) out loud in the chat, using only the cheatsheet. For example: "1.2: A, because I looked at [BS-2]".</p></section>
+<footer>Built from the Week 9 lecture "Binary Search Trees and Red-Black Trees" (the BST part: walks, search, minimum, maximum, successor, insert, the three delete cases and running times) and Week 9 lab questions 1 and 2 with model solutions. Red-black trees are skipped on purpose. 3 November 2026.</footer>
+</div>

@@ -1,0 +1,22 @@
+digraph T {
+  layout=neato; pad=0.2;
+  node [shape=circle, style=filled, fillcolor="#ffffff", fontname="Helvetica", fontsize=15, width=0.5, fixedsize=true];
+  edge [color="#555555", arrowhead=none];
+  n50 [label="50", pos="184,0"];
+  n30 [label="30", pos="46,-62"];
+  n20 [label="20", pos="0,-124"];
+  n30 -> n20;
+  n40 [label="40", pos="92,-124"];
+  n45 [label="45", pos="138,-186"];
+  n40 -> n45;
+  n30 -> n40;
+  n50 -> n30;
+  n70 [label="70", pos="276,-62"];
+  n60 [label="60", pos="230,-124"];
+  n70 -> n60;
+  n80 [label="80", pos="368,-124"];
+  n75 [label="75", pos="322,-186"];
+  n80 -> n75;
+  n70 -> n80;
+  n50 -> n70;
+}
