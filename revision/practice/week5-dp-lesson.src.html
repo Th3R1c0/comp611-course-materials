@@ -1,0 +1,132 @@
+<title>Week 5 DP Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<style>
+.grid td, .grid th { text-align: center; padding: 3px 8px; border: 1px solid var(--rule); }
+.grid td.fin { outline: 2px solid var(--note-edge); font-weight: 700; }
+.grid td.cu, .grid td.cw, .grid td.cv { border-radius: 0; }
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611, Week 5, Dynamic Programming (3 sections on one page)</div>
+  <h1>Dynamic programming, LIS and edit distance: fast steps</h1>
+  <p class="how">About 5 exam questions and 12 marks. Almost every question is "fill in a small table by counting". The cheatsheet ([DP-0] to [DP-9]) is this page, condensed.</p>
+  <div class="meta"><span class="pill">about 5 exam questions, 12 marks</span><span class="pill">Calculator: not needed</span></div>
+</header>
+
+<section><h2><span class="id">1A</span> Plain English: what dynamic programming is</h2>
+<ol class="steps">
+<li><b>Dynamic programming</b> (DP) solves a big problem by solving smaller versions of it first, writing each answer in a <b>table</b>, and reusing those answers instead of working them out again.</li>
+<li>It works when the small problems <b>overlap</b>, which means the same small problem is needed again and again. Writing the answer down once saves all that repeated work.</li>
+<li><b>Divide and conquer</b> (week 2) also splits a problem into smaller ones, but there the pieces are <b>independent</b> (they never share work), so it goes top down. DP pieces <b>overlap</b>, so DP fills the table from the smallest problem upward, which is called <b>bottom up</b>.</li>
+<li><b>Optimal substructure</b> means the best answer to the big problem is built out of best answers to smaller problems. Example: any piece of a shortest path is itself a shortest path. Both D&amp;C and DP need this.</li>
+<li><b>The four steps of DP</b> from the lecture: 1. split into subproblems named by a number (the <b>parameter</b>). 2. write the <b>base case</b>, the smallest problem you can answer straight away. 3. write the <b>recurrence</b>, the rule that builds a bigger answer from smaller ones. 4. <b>fill the table bottom up</b>.</li>
+<li>Bellman-Ford and Floyd-Warshall (week 4) are also DP algorithms. That is a common true or false question.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">1B</span> Fast steps: DP idea questions</h2>
+<p><b>Case A: "Which property makes DP a good choice?"</b> Answer: <b>overlapping subproblems</b> plus <b>optimal substructure</b>.</p>
+<p><b>Case B: "How is DP different from divide and conquer?"</b> Answer: D&amp;C subproblems are independent and solved top down. DP subproblems overlap, so their answers are stored in a table and it is filled bottom up.</p>
+<p><b>Case C: "Which is the base case / recurrence?"</b> The base case is the smallest problem with an answer you can write straight away (like "a list of one number has LIS 1"). The recurrence is the line that uses earlier table entries.</p>
+</section>
+
+<div class="topic">Section 2: Longest increasing subsequence (LIS)</div>
+<section><h2><span class="id">2A</span> Plain English: what LIS means</h2>
+<ol class="steps">
+<li>A <b>subsequence</b> is some of the numbers of a list, kept <b>in their original order</b>, but you are allowed to skip numbers. They do not have to be next to each other.</li>
+<li>An <b>increasing subsequence</b> is one where every number is <b>bigger</b> than the one before it. Equal numbers do not count as increasing.</li>
+<li>The <b>LIS</b> is the longest increasing subsequence. There can be more than one with the same longest length.</li>
+<li>Example: in the list 5, 2, 8, 6, 3, 6, 9, 7, the numbers 2, 3, 6, 9 are an increasing subsequence of length 4. The numbers 5, 3, 9 are not increasing, because 3 is smaller than 5. The numbers 8, 5 are not a subsequence at all, because in the list the 5 comes before the 8, and you may not change the order.</li>
+<li>The DP table is one row called <b>L</b>. <b>L(i)</b> means "the length of the longest increasing subsequence that <b>ends exactly at</b> the number in position i".</li>
+</ol>
+</section>
+
+<section><h2><span class="id">2B</span> Fast steps for each LIS question type</h2>
+<p><b>Case A: "Fill in the L values"</b> (the most common question). Go left to right. For each number:</p>
+<ol class="steps">
+<li>Look at every number to its <b>left</b> that is <b>smaller</b> than it.</li>
+<li>If there are none, write <b>L = 1</b> (the number on its own).</li>
+<li>Otherwise, find the <b>biggest L</b> among those smaller numbers, and write <b>that plus 1</b>.</li>
+<li><b>Why:</b> you are taking the best increasing run that ends at a smaller earlier number, and adding this number on the end.</li>
+</ol>
+<p><b>Case B: "What is the length of the LIS?"</b> It is the <b>biggest number in the L row</b>. It is <b>not</b> always the last L.</p>
+<p><b>Case C: "Which of these is a longest increasing subsequence?"</b></p>
+<ol class="steps">
+<li>Start at a position with the biggest L. Write its number down.</li>
+<li>Move left to a smaller number whose L is exactly <b>one less</b>. Write it down. Repeat until you reach an L of 1.</li>
+<li>You wrote it backwards, so read it in reverse. Quick check for an option: it must be in the original order, strictly increasing, and as long as the biggest L.</li>
+</ol>
+<p><b>Case D: "Running time and space?"</b> Time <b>O(n²)</b>, because each of the n numbers looks back at up to n earlier numbers (a loop inside a loop). Space <b>O(n)</b> for the L row (and the P row of predecessors if you keep one). Keeping P to rebuild the answer does not change either.</p>
+</section>
+
+<section><h2><span class="id">2C</span> Worked examples (LIS)</h2>
+<div class="ex"><h3>Example: fill in L for 5, 2, 8, 6, 3, 6, 9, 7 (Case A)</h3>
+<div class="tbl"><table>
+<tr><th>Position</th><th>Number</th><th>Smaller numbers to its left, with their L</th><th>L</th></tr>
+<tr><td>1</td><td>5</td><td>none</td><td>1</td></tr>
+<tr><td>2</td><td>2</td><td>none (5 is bigger)</td><td>1</td></tr>
+<tr><td>3</td><td>8</td><td>5 (L 1), 2 (L 1). Biggest L is 1.</td><td>1 + 1 = 2</td></tr>
+<tr><td>4</td><td>6</td><td>5 (1), 2 (1). Biggest is 1.</td><td>2</td></tr>
+<tr><td>5</td><td>3</td><td>2 (1). Biggest is 1.</td><td>2</td></tr>
+<tr><td>6</td><td>6</td><td>5 (1), 2 (1), 3 (2). The other 6 is equal, so it does not count. Biggest is 2.</td><td>3</td></tr>
+<tr><td>7</td><td>9</td><td>5 (1), 2 (1), 8 (2), 6 (2), 3 (2), 6 (3). Biggest is 3.</td><td>4</td></tr>
+<tr><td>8</td><td>7</td><td>5 (1), 2 (1), 6 (2), 3 (2), 6 (3). Biggest is 3.</td><td>4</td></tr>
+</table></div>
+<p class="ans">L = 1, 1, 2, 2, 2, 3, 4, 4. The LIS length is the biggest L, which is 4 (Case B).</p></div>
+<div class="ex"><h3>Example: rebuild one LIS (Case C)</h3>
+<div class="calc">Start at 9 (position 7, L 4).
+Go left to a smaller number with L 3: the second 6 (position 6).
+Go left to a smaller number with L 2: 3 (position 5).
+Go left to a smaller number with L 1: 2 (position 2).
+Written backwards: 9, 6, 3, 2. Reversed: 2, 3, 6, 9.</div>
+<p class="ans">One LIS is 2, 3, 6, 9. Starting at 7 instead gives 2, 3, 6, 7, which is also correct.</p></div>
+</section>
+
+<div class="topic">Section 3: Edit distance</div>
+<section><h2><span class="id">3A</span> Plain English: what edit distance means</h2>
+<ol class="steps">
+<li>The <b>edit distance</b> between two words is the <b>smallest number of single-letter changes</b> that turns the first word into the second.</li>
+<li>There are three kinds of change, and each costs 1: <b>insert</b> a letter, <b>delete</b> a letter, or <b>replace</b> one letter with another. Keeping a letter that already matches is called a <b>match</b> and costs 0.</li>
+<li>Example: CAT to CUT is 1, because you replace A with U.</li>
+<li>The DP table is a grid. The first word goes <b>down the side</b> (rows), the second word goes <b>across the top</b> (columns), and each has an extra "empty" row and column at the start. A box says "the edit distance between the first part of word 1 up to this row, and the first part of word 2 up to this column". The <b>answer is the bottom-right box</b>.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">3B</span> Fast steps for each edit distance question type</h2>
+<p><b>Case A: "What goes in the first row and first column?"</b> (the base case). Count up from 0: <b>0, 1, 2, 3, …</b>. <b>Why:</b> turning nothing into 3 letters needs 3 inserts, and turning 3 letters into nothing needs 3 deletes.</p>
+<p><b>Case B: "What number goes in this box?"</b> Colour key: <span class="cu">up</span> is the box above, <span class="cw">left</span> is the box to the left, <span class="cv">diagonal</span> is the box up and to the left.</p>
+<ol class="steps">
+<li>Read off the three neighbours: <span class="cu">up</span>, <span class="cw">left</span> and <span class="cv">diagonal</span>.</li>
+<li>Work out three numbers: <span class="cu">up</span> plus 1 (a delete), <span class="cw">left</span> plus 1 (an insert), and <span class="cv">diagonal</span> plus 0 if the row letter and column letter are the <b>same</b>, or plus 1 if they are <b>different</b> (a match or a replace).</li>
+<li>Write the <b>smallest</b> of the three.</li>
+<li>Shortcut: if the two letters are the same, the answer is just the <span class="cv">diagonal</span> number (it can never be beaten).</li>
+</ol>
+<p><b>Case C: "What is the edit distance of these two words?"</b> Fill the grid row by row with Case B and read the <b>bottom-right box</b>. For very short words you can often see it directly: count the letters you would change.</p>
+<p><b>Case D: "Which edit sequence is optimal?"</b> Any list of changes is correct if its number of changes equals the bottom-right box and it really produces the second word.</p>
+<p><b>Case E: "Running time and space?"</b> For words of length m and n, the grid has (m + 1) times (n + 1) boxes and each box is 3 quick checks, so time <b>O(mn)</b> and space <b>O(mn)</b>.</p>
+</section>
+
+<section><h2><span class="id">3C</span> Worked examples (edit distance)</h2>
+<div class="ex"><h3>Example: one box, SNOWY down the side, SUNNY across the top (Case B)</h3>
+<div class="tbl"><table class="grid"><tr><th></th><th>empty</th><th>S</th><th>U</th><th>N</th><th>N</th><th>Y</th></tr><tr><th>empty</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><th>S</th><td>1</td><td>0</td><td class="cv">1</td><td class="cu">2</td><td>3</td><td>4</td></tr><tr><th>N</th><td>2</td><td>1</td><td class="cw">1</td><td class="fin">1</td><td>2</td><td>3</td></tr><tr><th>O</th><td>3</td><td>2</td><td>2</td><td>2</td><td>2</td><td>3</td></tr><tr><th>W</th><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr><tr><th>Y</th><td>5</td><td>4</td><td>4</td><td>4</td><td>4</td><td>3</td></tr></table></div>
+<div class="calc">Box: row N, first column N (outlined).
+1. Read off: <span class="cu">up = 2</span>, <span class="cw">left = 1</span>, <span class="cv">diagonal = 1</span>. Row letter N, column letter N: same.
+2. Plug in: <span class="cu">2</span> + 1 = 3.   <span class="cw">1</span> + 1 = 2.   <span class="cv">1</span> + 0 = 1 (same letter, so plus 0).
+3. Smallest of 3, 2 and 1 is 1.</div>
+<p class="ans">The box is 1.</p></div>
+<div class="ex"><h3>Example: one box with different letters (Case B)</h3>
+<div class="calc">Box: row O, column U.
+1. Read off: <span class="cu">up = 1</span>, <span class="cw">left = 2</span>, <span class="cv">diagonal = 1</span>. O and U are different.
+2. Plug in: <span class="cu">1</span> + 1 = 2.   <span class="cw">2</span> + 1 = 3.   <span class="cv">1</span> + 1 = 2 (different, so plus 1).
+3. Smallest is 2.</div>
+<p class="ans">The box is 2.</p></div>
+<div class="ex"><h3>Example: the full grid and the answer (Cases A, C and D)</h3>
+<div class="tbl"><table class="grid"><tr><th></th><th>empty</th><th>S</th><th>U</th><th>N</th><th>N</th><th>Y</th></tr><tr><th>empty</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><th>S</th><td>1</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr><tr><th>N</th><td>2</td><td>1</td><td>1</td><td>1</td><td>2</td><td>3</td></tr><tr><th>O</th><td>3</td><td>2</td><td>2</td><td>2</td><td>2</td><td>3</td></tr><tr><th>W</th><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr><tr><th>Y</th><td>5</td><td>4</td><td>4</td><td>4</td><td>4</td><td class="fin">3</td></tr></table></div>
+<p>The first row and column count 0 to 5. The bottom-right box is 3.</p>
+<p class="ans">The edit distance from SNOWY to SUNNY is 3. One way: insert U after S (SUNOWY), replace O with N (SUNNWY), delete W (SUNNY). That is 3 changes.</p></div>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer the <b>week 5 practice questions</b> (in the Study Desk, Week 5, Questions) out loud in the chat, using only the cheatsheet. For example: "2.3: B, because I looked at [DP-4]".</p></section>
+<footer>Built from the Week 5 lecture "Dynamic Programming II: LIS and Edit Distance" (the four steps, the LIS table for 5 2 8 6 3 6 9 7, the edit distance recurrence and the SNOWY and SUNNY alignment) and the Week 5 lab with its solutions. 3 November 2026.</footer>
+</div>

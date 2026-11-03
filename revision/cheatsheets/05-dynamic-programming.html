@@ -1,0 +1,150 @@
+<title>Week 5 DP Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: one narrow study column, like a single A4 strip; each sheet line is a row that opens to a plain-English note. */
+:root {
+  --paper: #f7f8f6; --card: #ffffff; --ink: #1d232b; --muted: #5b6672;
+  --rule: #dde2e6; --accent: #1f5fa8; --accent-soft: #e6eef8; --note: #f1f5f0; --note-edge: #6c9a5e;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #14181d; --card: #1b2027; --ink: #e6e9ec; --muted: #9aa5b1;
+  --rule: #2c333c; --accent: #7fb0ea; --accent-soft: #1e2a3a; --note: #18211a; --note-edge: #86b877; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.how { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+h2 { font-size: 17px; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.id { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+details { border-top: 1px solid var(--rule); }
+details:first-of-type { border-top: 0; }
+summary { cursor: pointer; padding: 7px 0 7px 22px; position: relative; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; position: absolute; left: 2px; top: 6px; font-family: var(--mono); color: var(--accent); font-weight: 600; }
+details[open] > summary::before { content: "−"; }
+.plain { background: var(--note); border-left: 3px solid var(--note-edge); padding: 10px 12px; margin: 0 0 10px 22px; border-radius: 0 6px 6px 0; font-size: 15px; display: flex; flex-direction: column; gap: 6px; }
+.plain p { margin: 0; }
+.plain .eg { font-family: var(--mono); font-size: 13.5px; }
+code, .m { font-family: var(--mono); font-size: .92em; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 10px 4px 0; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); font-weight: 400; }
+footer { color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .plain { animation: in .15s ease-out; } @keyframes in { from { opacity: .4 } to { opacity: 1 } } }
+.id { white-space: nowrap; }
+[hidden] { display: none !important; }
+.modes { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; align-self: flex-start; }
+.modes button { border: 0; border-radius: 0; background: var(--card); }
+.modes button + button { border-left: 1px solid var(--rule); }
+.modes button[aria-checked="true"] { background: var(--accent); color: var(--card); font-weight: 700; }
+body.paper .plain, body.paper details:not([open]) .plain { display: none; }
+body.paper summary, body.full summary { cursor: default; }
+body.paper summary::before { content: "•"; }
+body.full summary::before { content: "•"; }
+body.paper section { gap: 0; }
+body.paper summary { padding-block: 4px; }
+body.paper .topic { font-size: 18px; }
+.topic { font-family: var(--display); font-size: 21px; margin-top: 10px; text-wrap: balance; }
+.vers { display:flex; flex-wrap:wrap; gap:8px 14px; font-size:14px; }
+a { color: var(--accent); }
+</style>
+
+<style>.sx { display: block; font-size: 14px; color: var(--muted); font-style: italic; margin-top: 3px; line-height: 1.45; }</style>
+<style>
+:root { --cu: #1f5fa8; --cw: #b5590f; --cv: #2f7d3a; --cu-bg: #e6eef8; --cw-bg: #fbeee2; --cv-bg: #e7f3e8; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --cu: #8bb8ee; --cw: #f0a868; --cv: #8fd19a; --cu-bg: #1e2a3a; --cw-bg: #33251a; --cv-bg: #1a2b1d; } }
+:root[data-theme="dark"] { --cu: #8bb8ee; --cw: #f0a868; --cv: #8fd19a; --cu-bg: #1e2a3a; --cw-bg: #33251a; --cv-bg: #1a2b1d; }
+.cu, .cw, .cv { font-weight: 700; padding: 0 3px; border-radius: 3px; }
+.cu { color: var(--cu); background: var(--cu-bg); } .cw { color: var(--cw); background: var(--cw-bg); } .cv { color: var(--cv); background: var(--cv-bg); }
+</style>
+
+<style>.grid td, .grid th { text-align: center; padding: 2px 7px; border: 1px solid var(--rule); }</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 cheatsheet, Week 5, version 1</div>
+  <h1>Dynamic programming, LIS and edit distance</h1>
+  <div class="meta"><span class="pill">about 5 exam questions</span><span class="pill">12 marks</span><span class="pill">Calculator: not needed</span></div>
+  <div class="modes" role="radiogroup" aria-label="View">
+    <button type="button" role="radio" data-mode="paper" id="m-paper">Paper</button>
+    <button type="button" role="radio" data-mode="full" id="m-full">Everything shown</button>
+    <button type="button" role="radio" data-mode="toggle" id="m-toggle">Tap to explain</button>
+  </div>
+  <p class="how" id="modeHelp"></p>
+  <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
+  <div class="vers"><span>Older versions:</span><span>none yet (this is the first)</span></div>
+</header>
+<div class="topic">Section 1: what DP is</div>
+<section id="DP-1"><h2><span class="id">[DP-1]</span> DP idea, and DP compared with divide and conquer</h2>
+<details open><summary><b>DP</b> solves small subproblems first, stores each answer in a <b>table</b>, and reuses them. Use it when there are <b>overlapping subproblems</b> and <b>optimal substructure</b>.</summary><div class="plain"><p>Overlapping means the same small problem is needed many times. Optimal substructure means the best big answer is made of best small answers, like every piece of a shortest path being a shortest path.</p></div></details>
+<details open><summary><b>D&amp;C</b>: subproblems independent, top down. <b>DP</b>: subproblems overlap, table filled <b>bottom up</b>. Four steps: name the subproblems, base case, recurrence, fill the table.<span class="sx">Example: Bellman-Ford and Floyd-Warshall are DP algorithms. Merge sort is D&amp;C.</span></summary><div class="plain"><p>The base case is the smallest problem you can answer at once. The recurrence is the rule that builds a bigger answer out of table entries already filled in.</p></div></details>
+</section>
+<div class="topic">Section 2: Longest increasing subsequence (LIS)</div>
+<section id="DP-2"><h2><span class="id">[DP-2]</span> Subsequence and increasing</h2>
+<details open><summary>A <b>subsequence</b> keeps the <b>original order</b> but may skip numbers. <b>Increasing</b> means each number is strictly bigger than the one before (equal does not count).<span class="sx">Example: in 6, 1, 7, 2, 8, 3 the list 1, 2, 3 is fine, but 7, 6, 8 is not a subsequence because 6 comes before 7.</span></summary><div class="plain"><p>The numbers do not have to sit next to each other. There can be several different longest ones of the same length.</p></div></details>
+</section>
+<section id="DP-3"><h2><span class="id">[DP-3]</span> Fill in the L values</h2>
+<details open><summary><b>L(i)</b> is the longest increasing run that <b>ends at</b> position i. Go left to right. For each number, look at the <b>smaller numbers to its left</b>. None: L = 1. Otherwise L = the biggest of their L values, plus 1.<span class="sx">Example: 5, 2, 8, 6, 3, 6, 9, 7 gives L = 1, 1, 2, 2, 2, 3, 4, 4. For 9: the smaller numbers to its left have L values up to 3, so 3 + 1 = 4.</span></summary><div class="plain"><p>You are adding this number onto the end of the best increasing run that finishes at a smaller earlier number.</p></div></details>
+</section>
+<section id="DP-4"><h2><span class="id">[DP-4]</span> LIS length</h2>
+<details open><summary>The LIS length is the <b>biggest L</b> in the row, not the last one.<span class="sx">Example: L = 1, 1, 2, 2, 3, 4, 4, 5, 6, 3 has LIS length 6, even though the last L is 3.</span></summary><div class="plain"><p>The LIS can end anywhere, so you take the best ending point.</p></div></details>
+</section>
+<section id="DP-5"><h2><span class="id">[DP-5]</span> Rebuild an LIS, and running time</h2>
+<details open><summary>Start at a biggest L. Step left to a <b>smaller</b> number with L <b>one less</b>. Repeat down to L = 1, then read it backwards.<span class="sx">Example: 9 (L 4), then 6 (L 3), then 3 (L 2), then 2 (L 1). Reversed: 2, 3, 6, 9.</span></summary><div class="plain"><p>An option is a valid LIS if it keeps the original order, is strictly increasing, and its length equals the biggest L. The P row (predecessors) just records each step back.</p></div></details>
+<details open><summary>Time <b>O(n²)</b> (each number looks back at all earlier ones). Space <b>O(n)</b>. Keeping the P row does not change either.</summary><div class="plain"><p>A loop inside a loop over n numbers is n times n. The table is just one row of n numbers.</p></div></details>
+</section>
+<div class="topic">Section 3: Edit distance</div>
+<section id="DP-6"><h2><span class="id">[DP-6]</span> What edit distance is</h2>
+<details open><summary>The <b>smallest number of changes</b> to turn word 1 into word 2. Insert, delete and replace cost 1 each. A match costs 0. Word 1 goes <b>down the side</b>, word 2 <b>across the top</b>, each with an extra empty row or column.<span class="sx">Example: CAT to CUT is 1 (replace A with U).</span></summary><div class="plain"><p>Each box is the edit distance between the start of word 1 up to that row and the start of word 2 up to that column.</p></div></details>
+</section>
+<section id="DP-7"><h2><span class="id">[DP-7]</span> Base case: first row and column</h2>
+<details open><summary>The first row and the first column count up <b>0, 1, 2, 3, …</b> to the word's length.<span class="sx">Example: SITTING across the top gives 0, 1, 2, 3, 4, 5, 6, 7 (8 boxes).</span></summary><div class="plain"><p>Turning nothing into 3 letters takes 3 inserts. Turning 3 letters into nothing takes 3 deletes.</p></div></details>
+</section>
+<section id="DP-8"><h2><span class="id">[DP-8]</span> Fill one box (colour key: up, left, diagonal)</h2>
+<details open><summary>1. Read off <span class='cu'>up</span>, <span class='cw'>left</span> and <span class='cv'>diagonal</span> (up and to the left). 2. Work out <span class='cu'>up</span> + 1, <span class='cw'>left</span> + 1, and <span class='cv'>diagonal</span> + 0 if the two letters are the <b>same</b> or + 1 if <b>different</b>. 3. Write the <b>smallest</b>.<span class="sx">Example: up 3, left 2, diagonal 2, letters different: 4, 3, 3, so the box is 3. Same letters: just copy the diagonal.</span></summary><div class="plain"><p>Up plus 1 is a delete, left plus 1 is an insert, and the diagonal is a match (free) or a replace (cost 1). The row letter is the letter of word 1 on that row, and the column letter is the letter of word 2 on that column.</p></div></details>
+</section>
+<section id="DP-9"><h2><span class="id">[DP-9]</span> Answer, edit sequence, and running time</h2>
+<details open><summary>The edit distance is the <b>bottom-right box</b>. An edit list is optimal if it has that many changes and really makes word 2.<span class="sx">Example: SNOWY to SUNNY is 3: insert U, replace O with N, delete W.</span></summary><div class="plain"><p>For very short words you can often count the changes directly, then check against the options.</p></div></details>
+<details open><summary>The table has (m + 1) times (n + 1) boxes. Time <b>O(mn)</b> and space <b>O(mn)</b>.<span class="sx">Example: SUNDAY and SATURDAY: 7 times 9 = 63 boxes.</span></summary><div class="plain"><p>Each box only looks at 3 neighbours, so it is a fixed amount of work per box.</p></div></details>
+</section>
+<footer>Condensed from the Week 5 fast lesson, which was built from the Week 5 lecture (Dynamic Programming II) and the Week 5 lab with its solutions. Version 1, 3 November 2026.</footer>
+</div>
+<script>
+const help = {
+  paper: "Paper view: just the lines, exactly what the printed sheet will show. Practise with this one for the exam.",
+  full: "Everything shown: every line with its plain-English explanation, reason and example underneath. Nothing to tap.",
+  toggle: "Tap to explain: just the lines, and tapping a line opens its explanation."
+};
+const all = () => document.querySelectorAll('details');
+function setMode(m) {
+  document.body.classList.remove('paper', 'full', 'toggle'); document.body.classList.add(m);
+  document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-checked', b.dataset.mode === m));
+  document.getElementById('modeHelp').textContent = help[m];
+  document.getElementById('toggleTools').hidden = m !== 'toggle';
+  all().forEach(d => d.open = (m !== 'toggle'));
+  try { localStorage.setItem('sheet-mode', m); } catch (e) {}
+}
+document.querySelectorAll('summary').forEach(s => s.addEventListener('click', e => { if (!document.body.classList.contains('toggle')) e.preventDefault(); }));
+document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+document.getElementById('openAll').addEventListener('click', () => all().forEach(d => d.open = true));
+document.getElementById('closeAll').addEventListener('click', () => all().forEach(d => d.open = false));
+let start = 'paper'; try { start = localStorage.getItem('sheet-mode') || 'paper'; } catch (e) {}
+setMode(help[start] ? start : 'paper');
+</script>
+

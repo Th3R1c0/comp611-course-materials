@@ -1,0 +1,33 @@
+<script>
+const DATA = {{DATA}};
+const TOTAL = DATA.reduce((n,t)=>n+t.qs.length,0); document.getElementById('total').textContent = `0 / ${TOTAL} checked`;
+const root = document.getElementById('topics'); let checked = 0;
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+DATA.forEach((t, ti) => {
+  const s = document.createElement('section');
+  s.innerHTML = `<h2><span class="id">${t.label}</span> ${esc(t.name)} <span class="score" id="sc${ti}"></span></h2><div class="score">Sheet: ${t.refs}</div>` + (t.fig ? `<img class="fig" alt="Graph for this section" src="${t.fig}"><p class="score" style="margin:4px 0 0">${esc(t.figcap)}</p>` : '');
+  let right = 0, done = 0;
+  t.qs.forEach(q => {
+    const d = document.createElement('div'); d.className = 'q';
+    const name = 'q' + q.id.replace('.', '_');
+    d.innerHTML = `<div><span class="qn">${q.id}</span>${esc(q.p)}</div>` + (q.code ? `<pre>${esc(q.code)}</pre>` : '') +
+      `<div class="opts">` + q.opts.map((o, i) => `<label><input type="radio" name="${name}" id="${name}_${i}" value="${i}"><span class="L">${'ABCD'[i]}.</span><span>${esc(o)}</span></label>`).join('') + `</div>` +
+      `<div class="row"><button type="button">Check</button><span class="verdict"></span></div><div class="plain" hidden></div>`;
+    const btn = d.querySelector('button'), v = d.querySelector('.verdict'), ex = d.querySelector('.plain');
+    btn.addEventListener('click', () => {
+      const sel = d.querySelector('input:checked');
+      if (!sel) { v.className = 'verdict'; v.textContent = 'Pick an option first.'; return; }
+      const labels = d.querySelectorAll('.opts label'); labels.forEach(l => l.classList.remove('right', 'wrong'));
+      const ok = +sel.value === q.ans;
+      labels[q.ans].classList.add('right'); if (!ok) labels[+sel.value].classList.add('wrong');
+      v.className = 'verdict ' + (ok ? 'ok' : 'no'); v.textContent = ok ? 'Correct' : 'Not quite: the answer is ' + 'ABCD'[q.ans];
+      ex.innerHTML = `<p>${esc(q.ex)}</p><p class="score">See ${q.refs}</p>`; ex.hidden = false;
+      if (!btn.dataset.done) { btn.dataset.done = 1; done++; checked++; if (ok) right++;
+        document.getElementById('sc' + ti).textContent = `${right}/${done}`;
+        document.getElementById('total').textContent = `${checked} / ${TOTAL} checked`; }
+    });
+    s.appendChild(d);
+  });
+  root.appendChild(s);
+});
+</script>

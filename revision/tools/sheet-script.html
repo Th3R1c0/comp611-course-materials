@@ -1,0 +1,23 @@
+<script>
+const help = {
+  paper: "Paper view: just the lines, exactly what the printed sheet will show. Practise with this one for the exam.",
+  full: "Everything shown: every line with its plain-English explanation, reason and example underneath. Nothing to tap.",
+  toggle: "Tap to explain: just the lines, and tapping a line opens its explanation."
+};
+const all = () => document.querySelectorAll('details');
+function setMode(m) {
+  document.body.classList.remove('paper', 'full', 'toggle'); document.body.classList.add(m);
+  document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-checked', b.dataset.mode === m));
+  document.getElementById('modeHelp').textContent = help[m];
+  document.getElementById('toggleTools').hidden = m !== 'toggle';
+  all().forEach(d => d.open = (m !== 'toggle'));
+  try { localStorage.setItem('sheet-mode', m); } catch (e) {}
+}
+document.querySelectorAll('summary').forEach(s => s.addEventListener('click', e => { if (!document.body.classList.contains('toggle')) e.preventDefault(); }));
+document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+document.getElementById('openAll').addEventListener('click', () => all().forEach(d => d.open = true));
+document.getElementById('closeAll').addEventListener('click', () => all().forEach(d => d.open = false));
+let start = 'paper'; try { start = localStorage.getItem('sheet-mode') || 'paper'; } catch (e) {}
+setMode(help[start] ? start : 'paper');
+</script>
+
