@@ -1,0 +1,118 @@
+<title>Week 8 Flow Lesson</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{STYLE}}
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611, Week 8, Flow networks (2 sections on one page)</div>
+  <h1>Flow networks and maximum flow: fast steps</h1>
+  <p class="how">About 4 exam questions and 10 marks. The steps are always the same: check a flow, add up a cut, or trace paths and take the smallest number. The cheatsheet ([FN-1] to [FN-8]) is this page, condensed.</p>
+  <div class="meta"><span class="pill">about 4 exam questions, 10 marks</span><span class="pill">Calculator: not needed</span></div>
+</header>
+
+<section><h2><span class="id">1A</span> Plain English: what a flow network is</h2>
+<ol class="steps">
+<li>Think of water pipes. A <b>flow network</b> is a directed graph (one-way arrows) where each edge is a pipe. Water starts at the <b>source</b> s and ends at the <b>sink</b> t.</li>
+<li>Each pipe has a <b>capacity</b>, written c(u, v): the most it can carry. The <b>flow</b>, written f(u, v), is how much it actually carries. A label like <b>3/5</b> means flow 3 out of capacity 5.</li>
+<li>A flow is <b>valid</b> only if two rules hold. <b>Capacity rule:</b> no pipe carries more than its capacity (3/5 is fine, 6/5 is not). <b>Conservation rule:</b> at every vertex except s and t, the water in equals the water out. Nothing is stored or created in the middle.</li>
+<li>The <b>size</b> (or value) of a flow, written |f|, is the total flow <b>leaving s</b>. It always equals the total flow arriving at t.</li>
+<li>A <b>cut</b> splits the vertices into a left side that contains s and a right side that contains t. Its <b>capacity</b> is the sum of the capacities of the edges going <b>from left to right</b>. Edges going right to left are <b>not counted</b>.</li>
+<li><b>Max-flow min-cut theorem:</b> the biggest possible flow equals the smallest cut capacity. So if you can find a cut, its capacity is an upper limit on the flow, and the smallest cut is exactly the maximum flow.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">1B</span> Fast steps for basic flow questions</h2>
+<p><b>Case A: "Is this a valid flow?"</b></p>
+<ol class="steps">
+<li>Capacity check: look at every label. If any flow is bigger than its capacity (like 3/2), it is <b>not valid</b>.</li>
+<li>Conservation check: for each middle vertex (not s, not t), add the flows on arrows coming <b>in</b>, then add the flows on arrows going <b>out</b>. If any vertex has in different from out, it is <b>not valid</b>.</li>
+<li>If both checks pass, it is valid.</li>
+</ol>
+<p><b>Case B: "What is the size (value) of the flow?"</b> Add the flows on the edges <b>leaving s</b>. Check it against the flows entering t; they should match.</p>
+<p><b>Case C: "What is the capacity of this cut?"</b></p>
+<ol class="steps">
+<li>Write down the left side (with s) and the right side (with t).</li>
+<li>Find every edge that starts on the left and ends on the right. Ignore edges going right to left, and ignore edges that stay on one side.</li>
+<li>Add their <b>capacities</b> (the second number in a label like 3/5, not the flow).</li>
+</ol>
+<p><b>Case D: "What is the minimum cut?" or "What is the maximum flow?"</b> They are the same number. For a small graph, try the obvious cuts (just s on the left; everything except t on the left; the narrow middle) and take the smallest. Or run Ford-Fulkerson (section 2).</p>
+</section>
+
+<section><h2><span class="id">1C</span> Worked examples (basics)</h2>
+{{IMG:w8-lesson-final.png|Flow network S, A, C, B, D, T with flow over capacity labels}}
+<p class="figcap">The week 8 lab network with its final flow. Each label is flow/capacity. A label next to the start of an arrow belongs to that arrow (2/2 is A to D, 3/3 is C to B).</p>
+<div class="ex"><h3>Example: is it valid, and what is its size? (Cases A and B)</h3>
+<div class="calc">Capacity: every flow is at most its capacity (3/5, 7/8, 1/1, 2/2, 3/3, 4/4, 4/6, 6/7). Pass.
+Conservation:
+  A: in 3. Out 1 + 2 = 3. Same.
+  C: in 7. Out 3 + 4 = 7. Same.
+  B: in 1 + 3 = 4. Out 4. Same.
+  D: in 2 + 4 = 6. Out 6. Same.
+Size: leaving S is 3 + 7 = 10. Entering T is 4 + 6 = 10. Matches.</div>
+<p class="ans">Valid, with size 10.</p></div>
+<div class="ex"><h3>Example: capacity of three cuts (Cases C and D)</h3>
+<div class="calc">Left {S}: edges S to A (5) and S to C (8). Capacity 5 + 8 = 13.
+Left {S, A, C}: edges A to B (1), A to D (2), C to B (3), C to D (4). Capacity 1 + 2 + 3 + 4 = 10.
+Left {S, A, B}: edges S to C (8), A to D (2), B to T (6). Capacity 8 + 2 + 6 = 16.
+   C to B goes from right to left, so it is NOT counted.</div>
+<p class="ans">The smallest is 10, which equals the flow of 10 above. So the max flow is 10 and the minimum cut is left {S, A, C}.</p></div>
+</section>
+
+<div class="topic">Section 2: Ford-Fulkerson, residual networks and Edmonds-Karp</div>
+<section><h2><span class="id">2A</span> Plain English: how Ford-Fulkerson finds the max flow</h2>
+<ol class="steps">
+<li>Start with zero flow everywhere.</li>
+<li>Find any route from s to t that still has room on every edge. This route is called an <b>augmenting path</b>.</li>
+<li>The most you can push along it is its <b>bottleneck</b>: the <b>smallest</b> spare room on the route, like the narrowest pipe.</li>
+<li>Push that much, update the spare room, and repeat. Stop when no route with room is left. The flow you have is the maximum.</li>
+<li>The spare room is kept in the <b>residual network</b>. For an edge with flow f and capacity c, it has a <b>forward edge</b> with room c minus f, and a <b>reverse edge</b> (pointing backwards) with room f. The reverse edge lets a later path <b>undo</b> some earlier flow if that earlier choice was bad. Edges with room 0 are left out.</li>
+<li><b>Edmonds-Karp</b> is Ford-Fulkerson where each augmenting path is found with <b>BFS</b>, so it always picks a path with the <b>fewest edges</b>.</li>
+<li>When it stops, the vertices you can still reach from s in the residual network form the left side of a <b>minimum cut</b>.</li>
+</ol>
+</section>
+
+<section><h2><span class="id">2B</span> Fast steps for Ford-Fulkerson question types</h2>
+<p><b>Case E: "What are the residual capacities of edge u to v?"</b> Forward edge u to v: capacity minus flow. Reverse edge v to u: the flow. Example: a label 3/5 gives forward 2 and reverse 3. A full edge like 4/4 gives forward 0 (so it disappears) and reverse 4.</p>
+<p><b>Case F: "What is the bottleneck of this augmenting path?"</b> Write the residual room of each edge on the path and take the <b>smallest</b>.</p>
+<p><b>Case G: "Trace Ford-Fulkerson" or "What is the flow after k paths?"</b></p>
+<ol class="steps">
+<li>Make a table: path, room on each edge, bottleneck, total flow so far.</li>
+<li>For each path: bottleneck is the smallest room. Add it to the total. Then take it off the room of every edge on the path (and add it to their reverse edges).</li>
+<li>Stop when no path from s to t has room left on every edge. The total is the max flow.</li>
+</ol>
+<p><b>Case H: "Find the minimum cut from the final residual network."</b> Start at s and follow only edges that still have room. Every vertex you reach goes on the left. The cut edges are the original edges from the left to the right, and they are all full.</p>
+<p><b>Case I: "Running time?"</b></p>
+<div class="tbl"><table>
+<tr><th>Algorithm</th><th>How it picks a path</th><th>Time (n vertices, m edges, max flow value f*)</th></tr>
+<tr><td>Ford-Fulkerson</td><td>any path</td><td><b>O(m times f*)</b>, depends on the flow value</td></tr>
+<tr><td>Edmonds-Karp</td><td>BFS, fewest edges</td><td><b>O(n m²)</b>, does not depend on the capacities</td></tr>
+</table></div>
+<p><b>Why</b> Ford-Fulkerson depends on f*: each path adds at least 1, so there can be up to f* paths, and each costs O(m) to find.</p>
+<p><b>Case J: "Bipartite matching as max flow."</b> A <b>matching</b> pairs up items from two groups (like workers and jobs) so no item is used twice. Turn it into a flow network: add s with an edge to every item on the left, add t with an edge from every item on the right, and give <b>every edge capacity 1</b>. The max flow equals the size of the biggest matching.</p>
+</section>
+
+<section><h2><span class="id">2C</span> Worked examples (Ford-Fulkerson)</h2>
+{{IMG:w8-lesson-net.png|Flow network with capacities only}}
+<p class="figcap">The same network before any flow, showing capacities only.</p>
+<div class="ex"><h3>Example: trace Ford-Fulkerson (Cases F and G)</h3>
+<div class="tbl"><table>
+<tr><th>Path</th><th>Room on each edge</th><th>Bottleneck (smallest)</th><th>Total flow</th></tr>
+<tr><td>S, A, B, T</td><td>5, 1, 6</td><td>1</td><td>1</td></tr>
+<tr><td>S, A, D, T</td><td>4 (5 minus 1 used), 2, 7</td><td>2</td><td>3</td></tr>
+<tr><td>S, C, B, T</td><td>8, 3, 5 (6 minus 1 used)</td><td>3</td><td>6</td></tr>
+<tr><td>S, C, D, T</td><td>5 (8 minus 3 used), 4, 5 (7 minus 2 used)</td><td>4</td><td>10</td></tr>
+</table></div>
+<p>Now every edge from A and C to B and D is full, so no path has room. Stop.</p>
+<p class="ans">Max flow is 10.</p></div>
+<div class="ex"><h3>Example: residual capacities after the first path (Case E)</h3>
+<div class="calc">After S, A, B, T with 1 unit:
+S to A is 1/5: forward room 5 − 1 = 4, reverse A to S room 1.
+A to B is 1/1: forward room 0 (it disappears), reverse B to A room 1.
+B to T is 1/6: forward room 5, reverse T to B room 1.</div></div>
+<div class="ex"><h3>Example: minimum cut from the end (Case H)</h3>
+<p>At the end, S to A still has room 2 and S to C still has room 1, so A and C are reachable. Every edge out of A and C is full, so nothing else is reachable.</p>
+<p class="ans">Left side {S, A, C}. Cut edges A to B, A to D, C to B, C to D, with capacity 1 + 2 + 3 + 4 = 10, which equals the max flow.</p></div>
+</section>
+
+<section><h2><span class="id">Next</span> Your turn</h2><p class="how" style="margin:0">Answer the <b>week 8 practice questions</b> (Study Desk, Week 8, Questions) out loud in the chat, using only the cheatsheet. For example: "2.2: A, because I looked at [FN-5]".</p></section>
+<footer>Built from the Week 8 lecture "Flow Networks and Maximum Flow" (definitions, cuts, the max-flow min-cut theorem, Ford-Fulkerson, Edmonds-Karp and bipartite matching) and the Week 8 lab with its solutions (question 3 is the network used here). 3 November 2026.</footer>
+</div>

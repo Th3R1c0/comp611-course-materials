@@ -1,0 +1,20 @@
+// Final max flow 10, min cut edges in red, left side S A C green
+digraph G {
+  layout=neato; overlap=false; splines=true; pad=0.25; inputscale=1;
+  node [shape=circle, style=filled, fillcolor="#ffffff", fontname="Helvetica", fontsize=15, width=0.5, fixedsize=true];
+  edge [fontname="Helvetica", fontsize=13, color="#555555", arrowsize=0.8];
+  S [pos="0,70" fillcolor="#e7f3e8"];
+  A [pos="144.0,140" fillcolor="#e7f3e8"];
+  C [pos="144.0,0" fillcolor="#e7f3e8"];
+  B [pos="288.0,140"];
+  D [pos="288.0,0"];
+  T [pos="432.0,70"];
+  S -> A [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">3/5</FONT></TD></TR></TABLE>>];
+  S -> C [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">7/8</FONT></TD></TR></TABLE>>];
+  A -> B [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="#b3412e">1/1</FONT></TD></TR></TABLE>>, color="#b3412e", penwidth=2.2];
+  A -> D [taillabel=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="#b3412e">2/2</FONT></TD></TR></TABLE>>, color="#b3412e", penwidth=2.2, labeldistance=3.2, labelangle=-28];
+  C -> B [taillabel=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="#b3412e">3/3</FONT></TD></TR></TABLE>>, color="#b3412e", penwidth=2.2, labeldistance=3.2, labelangle=28];
+  C -> D [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="#b3412e">4/4</FONT></TD></TR></TABLE>>, color="#b3412e", penwidth=2.2];
+  B -> T [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">4/6</FONT></TD></TR></TABLE>>];
+  D -> T [label=<<TABLE BORDER="0" BGCOLOR="white" CELLPADDING="1"><TR><TD><FONT COLOR="black">6/7</FONT></TD></TR></TABLE>>];
+}

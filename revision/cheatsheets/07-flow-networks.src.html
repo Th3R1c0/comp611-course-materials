@@ -1,0 +1,48 @@
+<title>Week 8 Flow Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+{{SHEETSTYLE}}
+<style>.grid td, .grid th { text-align: center; padding: 2px 7px; border: 1px solid var(--rule); }</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">COMP611 cheatsheet, Week 8, version 1</div>
+  <h1>Flow networks and maximum flow</h1>
+  <div class="meta"><span class="pill">about 4 exam questions</span><span class="pill">10 marks</span><span class="pill">Calculator: not needed</span></div>
+  <div class="modes" role="radiogroup" aria-label="View">
+    <button type="button" role="radio" data-mode="paper" id="m-paper">Paper</button>
+    <button type="button" role="radio" data-mode="full" id="m-full">Everything shown</button>
+    <button type="button" role="radio" data-mode="toggle" id="m-toggle">Tap to explain</button>
+  </div>
+  <p class="how" id="modeHelp"></p>
+  <div class="tools" id="toggleTools"><button id="openAll" type="button">Expand all</button><button id="closeAll" type="button">Collapse all</button></div>
+  <div class="vers"><span>Older versions:</span><span>none yet (this is the first)</span></div>
+</header>
+<div class="topic">Section 1: valid flows, size and cuts</div>
+<section id="FN-1"><h2><span class="id">[FN-1]</span> Valid flow: two rules</h2>
+<details open><summary>A label <b>3/5</b> means flow 3, capacity 5. <b>Capacity rule:</b> flow is never more than capacity. <b>Conservation:</b> at every vertex except s and t, total in equals total out.<span class="sx">Example: B has in 1 + 3 = 4 and out 4, so it passes. A label 3/2 breaks the capacity rule.</span></summary><div class="plain"><p>s is the source (where flow starts) and t is the sink (where it ends). They are the only vertices allowed to have in different from out.</p></div></details>
+</section>
+<section id="FN-2"><h2><span class="id">[FN-2]</span> Size (value) of a flow</h2>
+<details open><summary>|f| = add the flows on the edges <b>leaving s</b>. It equals the flow entering t.<span class="sx">Example: S to A is 3 and S to C is 7, so |f| = 10.</span></summary><div class="plain"><p>Use the first number of each label (the flow), not the capacity.</p></div></details>
+</section>
+<section id="FN-3"><h2><span class="id">[FN-3]</span> Capacity of a cut</h2>
+<details open><summary>Left side has s, right side has t. Add the <b>capacities</b> of edges going <b>left to right</b> only. Edges going right to left are <b>not counted</b>.<span class="sx">Example: left {S, A, B}: S to C 8, A to D 2, B to T 6, so 16. C to B goes right to left, so skip it.</span></summary><div class="plain"><p>A cut is a set of pipes that, if removed, would stop all flow from s to t.</p></div></details>
+</section>
+<section id="FN-4"><h2><span class="id">[FN-4]</span> Max-flow min-cut</h2>
+<details open><summary>Every flow is at most every cut. <b>Max flow = min cut capacity.</b> A flow and a cut with the same number prove both are best.<span class="sx">Example: flow 10 and cut {S, A, C} with capacity 10, so the max flow is 10.</span></summary><div class="plain"><p>For a small graph, try the obvious cuts (just s on the left, everything but t on the left, the narrow middle) and take the smallest.</p></div></details>
+</section>
+<div class="topic">Section 2: Ford-Fulkerson, residual networks, Edmonds-Karp</div>
+<section id="FN-5"><h2><span class="id">[FN-5]</span> Residual network</h2>
+<details open><summary>For an edge with flow f and capacity c: <b>forward room = c minus f</b>, and a <b>reverse edge with room f</b>. Room 0 means the edge is left out.<span class="sx">Example: 1/3 gives forward 2, reverse 1. A full edge 4/4 gives forward 0 (gone), reverse 4.</span></summary><div class="plain"><p>The reverse edge lets a later path undo flow sent earlier, so a bad first choice can be fixed.</p></div></details>
+</section>
+<section id="FN-6"><h2><span class="id">[FN-6]</span> Ford-Fulkerson steps</h2>
+<details open><summary>1. Start at zero flow. 2. Find a path s to t with room on every edge (an <b>augmenting path</b>). 3. <b>Bottleneck = smallest room</b> on it. 4. Add it to the total and take it off each edge's room. 5. Repeat until no path is left.<span class="sx">Example: rooms 7, 4, 5 give bottleneck 4. Paths 1, 2, 3, 4 on the lab network give totals 1, 3, 6, 10.</span></summary><div class="plain"><p>Keep a table: path, room on each edge, bottleneck, total so far. Remember to use the room left, not the original capacity, on later paths.</p></div></details>
+</section>
+<section id="FN-7"><h2><span class="id">[FN-7]</span> Minimum cut from the end</h2>
+<details open><summary>When it stops, the vertices you can still reach from s using edges with room form the <b>left side</b>. The cut edges are the full edges from left to right, and their capacities add up to the max flow.<span class="sx">Example: S reaches A and C only, so the cut is A to B, A to D, C to B, C to D: 1 + 2 + 3 + 4 = 10.</span></summary><div class="plain"><p>If a question gives the final residual network, just follow edges with room from s.</p></div></details>
+</section>
+<section id="FN-8"><h2><span class="id">[FN-8]</span> Running times, Edmonds-Karp, bipartite matching</h2>
+<details open><summary><div class='tbl'><table><tr><th>Algorithm</th><th>Path choice</th><th>Time</th></tr><tr><td>Ford-Fulkerson</td><td>any path</td><td>O(m times f*)</td></tr><tr><td>Edmonds-Karp</td><td>BFS, fewest edges</td><td>O(n m²)</td></tr></table></div></summary><div class="plain"><p>n is vertices, m is edges, f* is the max flow value. Ford-Fulkerson depends on the flow value because each path might only add 1.</p></div></details>
+<details open><summary><b>Bipartite matching:</b> add s joined to every left item, every right item joined to t, <b>every capacity 1</b>. Max flow = biggest matching.<span class="sx">Example: 4 workers and 4 jobs, max flow 3 means at most 3 pairs can be made.</span></summary><div class="plain"><p>Capacity 1 stops any worker or job being used twice.</p></div></details>
+</section>
+<footer>Condensed from the Week 8 fast lesson, which was built from the Week 8 lecture (Flow Networks and Maximum Flow) and the Week 8 lab with its solutions. Version 1, 3 November 2026.</footer>
+</div>
+{{SHEETJS}}
