@@ -1,0 +1,15 @@
+digraph G {
+  graph [rankdir=TB, nodesep=0.2, ranksep=0.5, fontname="Helvetica", bgcolor="white"];
+  node [shape=box, style="rounded,filled", fillcolor="#cfe3f5", fontname="Helvetica", fontsize=13];
+  edge [color="#555555", arrowsize=0.6];
+  r [label="job size 27"];
+  a1 [label="size 9"]; a2 [label="size 9"];
+  b1 [label="size 3"]; b2 [label="size 3"]; b3 [label="size 3"]; b4 [label="size 3"];
+  node [fillcolor="#fff2a8", width=0.3];
+  c1 [label="1"]; c2 [label="1"]; c3 [label="1"]; c4 [label="1"]; c5 [label="1"]; c6 [label="1"]; c7 [label="1"]; c8 [label="1"];
+  r -> {a1 a2}; a1 -> {b1 b2}; a2 -> {b3 b4}; b1 -> {c1 c2}; b2 -> {c3 c4}; b3 -> {c5 c6}; b4 -> {c7 c8};
+  node [shape=plaintext, style="", fontsize=13];
+  l0 [label="level 0: 1 box, size 27"]; l1 [label="level 1: 2 boxes, size 27÷3 = 9"]; l2 [label="level 2: 2×2 = 4 boxes, size 9÷3 = 3"]; l3 [label="level 3: 2×2×2 = 8 boxes, size 1 (base case, stop)"];
+  {rank=same; r; l0} {rank=same; a1; a2; l1} {rank=same; b1; b2; b3; b4; l2} {rank=same; c1; c2; c3; c4; c5; c6; c7; c8; l3}
+  r -> l0 [style=invis]; a2 -> l1 [style=invis]; b4 -> l2 [style=invis]; c8 -> l3 [style=invis];
+}

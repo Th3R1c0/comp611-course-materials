@@ -60,87 +60,98 @@ footer { color: var(--muted); font-size: 13px; }
 a { color: var(--accent); }
 </style>
 
+<style>
+:root { --ca:#1f5fa8; --cb:#b35400; --ck:#2e7d32; --cp:#7b3fa6; --ci:#b3412e; --cyb:#e8f1e4; --cnb:#eceff2; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ca:#7fb0ea; --cb:#f0a35e; --ck:#86c98a; --cp:#c49be0; --ci:#ec8a77; --cyb:#1d2a1e; --cnb:#232a32; } }
+:root[data-theme="dark"] { --ca:#7fb0ea; --cb:#f0a35e; --ck:#86c98a; --cp:#c49be0; --ci:#ec8a77; --cyb:#1d2a1e; --cnb:#232a32; }
+.va,.vb,.vk,.vp,.vi { font-weight:700; }
+.va{color:var(--ca)} .vb{color:var(--cb)} .vk{color:var(--ck)} .vp{color:var(--cp)} .vi{color:var(--ci)}
+.cy,.cn { display:inline-block; font-size:12px; font-weight:700; padding:1px 7px; border-radius:4px; margin-right:4px; font-family:var(--body); }
+.cy { background:var(--cyb); color:var(--ck); } .cn { background:var(--cnb); color:var(--muted); }
+.key { font-size:14px; color:var(--muted); }
+.calc { white-space: pre-wrap; }
+</style>
 <div class="wrap">
 <header>
   <div class="eyebrow">COMP611 · Week 2 · Section 3 of 3</div>
   <h1>The Master Theorem: fast steps</h1>
   <p class="how">For each question type: what it means in plain English, the fast steps, and worked examples. The cheatsheet ([DC-…] entries) is this same page, condensed.</p>
   <div class="meta"><span class="pill">4 exam questions</span><span class="pill">about 10 marks</span></div>
+<p class="key">Colour key: <span class="va">a</span> = number of calls, <span class="vb">b</span> = what n is divided by, <span class="vk">k</span> = power of f(n), <span class="vp">p</span> = log_b a, <span class="vi">i</span> = level number.</p>
 </header>
 
 <div class="topic" style="font-family:var(--display);font-size:22px;margin-top:12px">Topic 4 · The Master Theorem (sheet [DC-8] to [DC-10])</div>
 <section><h2><span class="id">4A</span> Fast steps: "Which case applies, and what is T(n)?"</h2>
+<p><span class="cy">Calculator: yes</span> for step 2 only.</p>
 <ol class="steps">
-<li><b>Read off a, b and f(n)</b> from T(n) = a T(n/b) + f(n). a = number of calls (at least 1), b = how much smaller (more than 1), f(n) = the extra work.</li>
-<li><b>Work out p = log_b a</b> ("what power of b gives a?"). Use the table below, or on the calculator: log(a) ÷ log(b).</li>
-<li><b>Find the power of f(n)</b>: n² → 2, n → 1, √n → 0.5, 1 (a constant) → 0.</li>
-<li><b>Compare the power of f with p:</b>
-<br><b>f's power smaller than p → Case 1 → T(n) = Θ(n^p)</b> (the leaves win)
-<br><b>equal → Case 2 → T(n) = Θ(n^p × log n)</b> (every level costs the same)
-<br><b>f's power bigger than p → Case 3 → T(n) = Θ(f(n))</b> (the top wins)</li>
-<li><b>Case 3 only:</b> also check the "regularity condition": a × f(n/b) must be at most c × f(n) with c less than 1. For f = n^k this is a ÷ bᵏ, so just check that a ÷ bᵏ is less than 1. (For ordinary powers of n it always is in Case 3.)</li>
-<li><b>Why:</b> n^p is the total work of all the leaves at the bottom of the recursion tree, and f(n) is the work at the top. Whichever is bigger decides the answer. If they are equal, every level costs the same, so you multiply by the number of levels, log n.</li>
+<li><b>Step 1: read off <span class="va">a</span>, <span class="vb">b</span> and f(n)</b> from T(n) = <span class="va">a</span>T(n/<span class="vb">b</span>) + f(n). <span class="va">a</span> is the number of calls (at least 1), <span class="vb">b</span> is what n is divided by (more than 1), and f(n) is the extra work.</li>
+<li><b>Step 2: work out <span class="vp">p</span></b>. On the calculator, type <b>log <span class="va">a</span> ÷ log <span class="vb">b</span></b>. This is the fastest way. (Or look it up in the match table [DC-M] on the cheatsheet.)</li>
+<li><b>Step 3: find <span class="vk">k</span>, the power of f(n).</b> The power of n² is 2, the power of n is 1, the power of the square root of n is 0.5, and a constant like 1 has power 0.</li>
+<li><b>Step 4: compare <span class="vk">k</span> with <span class="vp">p</span>.</b>
+<br>If <span class="vk">k</span> is <b>smaller</b> than <span class="vp">p</span>, it is <b>Case 1</b> and T(n) = Θ(n^<span class="vp">p</span>). The leaves win.
+<br>If they are <b>equal</b>, it is <b>Case 2</b> and T(n) = Θ(n^<span class="vp">p</span> × log n). Every level costs the same.
+<br>If <span class="vk">k</span> is <b>bigger</b>, it is <b>Case 3</b> and T(n) = Θ(f(n)). The top wins.</li>
+<li><b>Case 3 only:</b> also check the regularity condition. On the calculator, type <span class="va">a</span> ÷ <span class="vb">b</span>^<span class="vk">k</span>. If the answer is less than 1, it holds. (For ordinary powers of n it always does in Case 3.)</li>
+<li><b>Why:</b> n^<span class="vp">p</span> is the total work of all the leaves at the bottom of the recursion tree, and f(n) is the work at the top. Whichever is bigger decides the answer. If they are equal, every level costs the same, so you multiply by the number of levels, log n.</li>
 </ol>
-<div class="tbl"><table><tr><th>log value</th><th>=</th><th>because</th></tr>
-<tr><td>log₂ 1, log₃ 1 (any log of 1)</td><td>0</td><td>anything to the power 0 is 1</td></tr>
-<tr><td>log₂ 2, log₃ 3 (log_b of b)</td><td>1</td><td>b¹ = b</td></tr>
-<tr><td>log₂ 4</td><td>2</td><td>2 × 2 = 4</td></tr>
-<tr><td>log₂ 8</td><td>3</td><td>2 × 2 × 2 = 8</td></tr>
-<tr><td>log₂ 16</td><td>4</td><td>2⁴ = 16</td></tr>
-<tr><td>log₃ 9</td><td>2</td><td>3 × 3 = 9</td></tr>
-<tr><td>log₃ 27</td><td>3</td><td>3³ = 27</td></tr>
-<tr><td>log₄ 2</td><td>0.5</td><td>square root of 4 is 2</td></tr>
-<tr><td>log₄ 16</td><td>2</td><td>4 × 4 = 16</td></tr>
-<tr><td>log₂ 3</td><td>≈ 1.585</td><td>between log₂2 = 1 and log₂4 = 2</td></tr>
-<tr><td>log₂ 7</td><td>≈ 2.807</td><td>between 2 and 3</td></tr>
-<tr><td>log₅ 3</td><td>≈ 0.682</td><td>calculator: log 3 ÷ log 5</td></tr></table></div>
 </section>
 
 <section><h2><span class="id">4B</span> Worked examples, one per case</h2>
-<div class="ex"><h3>Case 1: T(n) = 8T(n/2) + n² (lecture example 1)</h3>
-<div class="calc">a = 8, b = 2, f(n) = n²
-p = log₂ 8 = 3
-power of f = 2, which is smaller than 3 → Case 1</div>
+<div class="ex"><h3>Case 1: T(n) = 8T(n/2) + n² (lecture example 1)</h3><p><span class="cy">Calculator: yes</span></p>
+<div class="calc">Step 1  a = <span class="va">8</span>, b = <span class="vb">2</span>, f(n) = n²
+Step 2  p = log <span class="va">8</span> ÷ log <span class="vb">2</span> = <span class="vp">3</span>  (calculator)
+Step 3  k = <span class="vk">2</span>  (the power of f)
+Step 4  <span class="vk">2</span> is smaller than <span class="vp">3</span>, so Case 1</div>
 <p class="ans">T(n) = Θ(n³)</p></div>
-<div class="ex"><h3>Case 2: T(n) = 2T(n/2) + n (merge sort)</h3>
-<div class="calc">a = 2, b = 2, f(n) = n
-p = log₂ 2 = 1
-power of f = 1, equal to 1 → Case 2</div>
+
+<div class="ex"><h3>Case 2: T(n) = 2T(n/2) + n (merge sort)</h3><p><span class="cy">Calculator: yes</span></p>
+<div class="calc">Step 1  a = <span class="va">2</span>, b = <span class="vb">2</span>, f(n) = n
+Step 2  p = log <span class="va">2</span> ÷ log <span class="vb">2</span> = <span class="vp">1</span>  (calculator)
+Step 3  k = <span class="vk">1</span>  (the power of f)
+Step 4  <span class="vk">1</span> equals <span class="vp">1</span>, so Case 2</div>
 <p class="ans">T(n) = Θ(n¹ × log n) = Θ(n log n)</p></div>
-<div class="ex"><h3>Case 2 with p = 0: T(n) = T(n/2) + 1 (binary search)</h3>
-<div class="calc">a = 1, b = 2, f(n) = 1
-p = log₂ 1 = 0
-power of f = 0 (a constant is n⁰), equal → Case 2</div>
+
+<div class="ex"><h3>Case 2 with p = 0: T(n) = T(n/2) + 1 (binary search)</h3><p><span class="cy">Calculator: yes</span></p>
+<div class="calc">Step 1  a = <span class="va">1</span>, b = <span class="vb">2</span>, f(n) = 1 (a constant)
+Step 2  p = log <span class="va">1</span> ÷ log <span class="vb">2</span> = <span class="vp">0</span>  (calculator)
+Step 3  k = <span class="vk">0</span>  (the power of f)
+Step 4  <span class="vk">0</span> equals <span class="vp">0</span>, so Case 2</div>
 <p class="ans">T(n) = Θ(n⁰ × log n) = Θ(log n)</p></div>
-<div class="ex"><h3>Case 3: T(n) = 7T(n/2) + n³ (lab 2)</h3>
-<div class="calc">a = 7, b = 2, f(n) = n³
-p = log₂ 7 ≈ 2.807
-power of f = 3, bigger → Case 3
-regularity: a ÷ bᵏ = 7 ÷ 2³ = 7/8, less than 1 ✓</div>
+
+<div class="ex"><h3>Case 3: T(n) = 7T(n/2) + n³ (lab 2)</h3><p><span class="cy">Calculator: yes</span></p>
+<div class="calc">Step 1  a = <span class="va">7</span>, b = <span class="vb">2</span>, f(n) = n³
+Step 2  p = log <span class="va">7</span> ÷ log <span class="vb">2</span> = <span class="vp">2.807</span>  (calculator)
+Step 3  k = <span class="vk">3</span>  (the power of f)
+Step 4  <span class="vk">3</span> is bigger than <span class="vp">2.807</span>, so Case 3
+Step 5  regularity: type <span class="va">7</span> ÷ <span class="vb">2</span>^<span class="vk">3</span> = 0.875, less than 1 ✓</div>
 <p class="ans">T(n) = Θ(n³)</p></div>
-<div class="ex"><h3>Decimal p: T(n) = 3T(n/2) + n (Karatsuba)</h3>
-<div class="calc">a = 3, b = 2, f(n) = n
-p = log₂ 3 ≈ 1.585
-power of f = 1, smaller → Case 1</div>
+
+<div class="ex"><h3>Decimal p: T(n) = 3T(n/2) + n (Karatsuba)</h3><p><span class="cy">Calculator: yes</span></p>
+<div class="calc">Step 1  a = <span class="va">3</span>, b = <span class="vb">2</span>, f(n) = n
+Step 2  p = log <span class="va">3</span> ÷ log <span class="vb">2</span> = <span class="vp">1.585</span>  (calculator)
+Step 3  k = <span class="vk">1</span>  (the power of f)
+Step 4  <span class="vk">1</span> is smaller than <span class="vp">1.585</span>, so Case 1</div>
 <p class="ans">T(n) = Θ(n^1.585), written Θ(n^(log₂ 3))</p></div>
+
 </section>
 
 <section><h2><span class="id">4C</span> When the Master Theorem does NOT apply</h2>
+<p><span class="cn">No calculator needed</span></p>
 <ol class="steps">
 <li><b>f(n) is only a log away from n^p</b>, for example f(n) = n log n or n ÷ log n when p = 1. A log is too small a difference: the cases need a whole power of n (or a decimal power) between them. This is a "gap" between the cases.</li>
 <li>The shape is wrong: a is less than 1, b is not more than 1, the number of calls depends on n, or f(n) is negative.</li>
 <li>Case 3 looks right but the regularity condition fails.</li>
-<li><b>Course answers:</b> the lecture and class examples say T(n) = 2T(n/2) + n log n → "Master Theorem does not apply". If a question mentions the <b>extended</b> Case 2 (the logᵏ n version), its answer is Θ(n log² n). The lab solution gives both.</li>
-<li><b>Trap:</b> f(n) = log² n (log n times log n) with p = 0.682 (lab 2 (e)) <b>does</b> apply: any log grows slower than any power, so it counts as smaller → Case 1 → Θ(n^0.682).</li>
+<li><b>Course answers:</b> the lecture and class examples say T(n) = 2T(n/2) + n log n as "Master Theorem does not apply". If a question mentions the <b>extended</b> Case 2 (the logᵏ n version), its answer is Θ(n log² n). The lab solution gives both.</li>
+<li><b>Trap:</b> f(n) = log² n (log n times log n) with p = 0.682 (lab 2 (e)) <b>does</b> apply: any log grows slower than any power, so it counts as smaller. That makes it Case 1, so the answer is Θ(n^0.682).</li>
 </ol>
 </section>
 
 <section><h2><span class="id">4D</span> Karatsuba: why fewer subproblems is faster</h2>
 <ol class="steps">
-<li>Multiplying two n-digit numbers the school way is like splitting each number in half and doing <b>4</b> half-size multiplications: T(n) = 4T(n/2) + Θ(n) → p = log₂ 4 = 2 → Case 1 → <b>Θ(n²)</b>.</li>
-<li>Karatsuba uses an algebra trick to need only <b>3</b>: T(n) = 3T(n/2) + Θ(n) → p = log₂ 3 ≈ 1.585 → Case 1 → <b>Θ(n^1.585)</b>.</li>
-<li><b>Why one fewer call matters so much:</b> the saving happens at every level, so the number of leaves drops from n² to n^1.585. Fewer subproblems → smaller p → smaller answer.</li>
-<li><b>Speed-up estimate:</b> divide the two step counts. For n = 10,000: n² = 100,000,000 and 10,000^1.585 ≈ 2,190,000, so Karatsuba is about 46 times faster.</li>
+<li>Multiplying two n-digit numbers the school way is like splitting each number in half and doing <b>4</b> half-size multiplications: T(n) = <span class="va">4</span>T(n/<span class="vb">2</span>) + Θ(n). p = log <span class="va">4</span> ÷ log <span class="vb">2</span> = <span class="vp">2</span>, so it is Case 1 and the answer is <b>Θ(n²)</b>.</li>
+<li>Karatsuba uses an algebra trick to need only <b>3</b>: T(n) = <span class="va">3</span>T(n/<span class="vb">2</span>) + Θ(n). p = log <span class="va">3</span> ÷ log <span class="vb">2</span>, about <span class="vp">1.585</span>, so it is Case 1 and the answer is <b>Θ(n^1.585)</b>.</li>
+<li><b>Why one fewer call matters so much:</b> the saving happens at every level, so the number of leaves drops from n² to n^1.585. Fewer subproblems give a smaller p, which gives a smaller answer.</li>
+<li><span class="cy">Calculator: yes</span> <b>Speed-up estimate</b> for n = 10,000. Step 1: type 10000^2 = 100,000,000. Step 2: type 10000^1.585, which is about 2,187,000. Step 3: divide the first by the second, which is about 46. So Karatsuba is about 46 times faster.</li>
 <li>Here n is the number of <b>digits (or bits)</b>, not the size of the number.</li>
 </ol>
 </section>

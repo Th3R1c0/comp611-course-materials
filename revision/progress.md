@@ -60,6 +60,34 @@ Weakest: topic 3 recall. Redo R2.2, R3.1, R3.3, R3.4 before topic 4.
 Sheet v1: revision/cheatsheets/02-divide-and-conquer.html (condensed from the three section lessons). Question bank: revision/practice/week2-questions.html (20 Qs), key week2-answer-key.json. Coverage check done: every question is tagged with the [DC-…] entry that answers it.
 Practice-quiz Qs reserved for week 2 final check: 26, 36, 40, 44 (not used yet).
 
+### Week 2 answers (2026-11-02)
+| Q | Result | Cause | Sheet edits |
+|---|---|---|---|
+| 1.4, 1.5 | blank, asked for powers explained | concept gap: what a power is; [DC-4] had no "build back up" shortcut (sheet unclear) | explained in chat (halve-to-0 list, then work up from 1: even square, odd square × x); consider adding to [DC-4] |
+| 2.1 | correct (D) | read 2T(n/2) as "2n": T notation (concept gap) | none yet; [DC-0] defines T |
+| 2.4 | correct (C) | wording: "n grows over n²" → loop in loop = n × n | none |
+| 3.1 | stuck: didn't know how to draw a recursion tree | lesson/sheet gap: [DC-6] assumes you can draw the tree; needs "jobs handing out jobs" story + concrete-number picture | taught in chat with figure w2-tree-2T-n3.png; fix [DC-6] in next sheet version |
+| 3.1 | correct after teaching (9 nodes, n/16) | – | – |
+
+### Sheet edits → version 2 (2026-11-02)
+- Misty asked for a worked example under the lines, so they can copy the method. Added example lines (shown on Paper view) to [DC-2], [DC-3], [DC-4] (plus the POWER shortcut: halve to 0, then work up from 1), [DC-5], [DC-6] (Misty's own 3T(n/4)+n² level-2 example), [DC-8]. Fixes 1.4/1.5 blank and 3.1 stuck.
+- [DC-6] new first line "Draw it" (1 box on top, a boxes under each, ÷ b each level). Fixes 3.1.
+- [DC-6] shortcut a ÷ bᵏ for same/shrink/grow.
+- v1 kept at revision/cheatsheets/versions/02-divide-and-conquer-v1.html.
+
+### Sheet edits → version 3 (2026-11-02)
+- [DC-6] "levels same / shrinking / growing" line + a ÷ bᵏ shortcut rewritten as full English sentences with three worked examples (same, shrink, grow). Cause: sheet unclear (Misty couldn't read the arrow shorthand). v2 kept at versions/02-divide-and-conquer-v2.html.
+| 3.5 | asked where the sheet covers it; didn't understand log_b a | sheet unclear + concept gap (logs). Taught "divide a by b until 1, count steps" | v4 |
+
+### Sheet edits → version 4 (2026-11-02)
+- New match table [DC-M]: a, b → p = log_b a → leaves n^p (also the Case 1 answer). Replaces the [DC-8] log table so Misty looks up instead of working out logs (Misty asked for all combinations to match in the exam). [DC-6] and [DC-8] point to it. v3 kept at versions/02-divide-and-conquer-v3.html.
+
+### Sheet edits → version 5 (2026-11-02)
+- Misty: "why do you always use arrows, use English". Every sheet line, all three lessons and the question explanations rewritten in plain English sentences, with no arrows, dots or "e.g." shorthand. Examples now start "Example:". v4 kept at versions/02-divide-and-conquer-v4.html.
+
+### Sheet edits → version 6 (2026-11-02)
+- Skill changes 31–32 (Misty): every substituted value is colour-coded (a blue, b orange, k green, p purple, level i red) with a colour key [DC-K]; numbered steps in worked examples; every entry labelled "Calculator: yes" or "No calculator needed"; calculator-first methods (log a ÷ log b for p, a ÷ b^k for level check and regularity, x^n to check POWER, n^2 ÷ n^1.585 for speed-up). v5 kept at versions/02-divide-and-conquer-v5.html.
+
 ## 03 Graphs, BFS and Dijkstra (started 2026-11-02)
 
 Sheet v1: revision/cheatsheets/03-graphs-bfs-dijkstra.html (condensed from the three section lessons). Question bank: revision/practice/week3-questions.html (20 Qs, new graphs in revision/figures/w3-q-*.dot), key week3-answer-key.json. Coverage check done: every question is tagged with the [GR-…] entry that answers it. Traces were checked by running BFS and Dijkstra in Python.
